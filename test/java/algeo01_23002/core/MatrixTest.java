@@ -8,8 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
 
-import static org.junit.jupiter.api.Assertions.assertArrayEquals;
-import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.*;
 
 public class MatrixTest {
     private Matrix matrix;
@@ -38,7 +37,7 @@ public class MatrixTest {
 
     @Test
     public void testPrintMatrix() {
-        // Capture the output of printMatrix
+//        5// Capture the output of printMatrix
         ByteArrayOutputStream outputStream = new ByteArrayOutputStream();
         PrintStream printStream = new PrintStream(outputStream);
         PrintStream originalOut = System.out;
@@ -71,6 +70,29 @@ public class MatrixTest {
     @Test
     public void testSubtractionMatrix() {
 
+    }
+    @Test
+    public void testMultiplicationMatrix() {
+        // Arrange: Create two matrices with known values
+        Matrix matrix1 = new Matrix(2, 3);
+        matrix1.getData()[0] = new double[]{1, 2, 3};
+        matrix1.getData()[1] = new double[]{4, 5, 6};
+
+        Matrix matrix2 = new Matrix(3, 2);
+        matrix2.getData()[0] = new double[]{7, 8};
+        matrix2.getData()[1] = new double[]{9, 10};
+        matrix2.getData()[2] = new double[]{11, 12};
+
+        // Expected result of the multiplication
+        Matrix expected = new Matrix(2, 2);
+        expected.getData()[0] = new double[]{58, 64};
+        expected.getData()[1] = new double[]{139, 154};
+
+        // Act: Perform the multiplication
+        Matrix result = matrix1.multiplication(matrix2);
+
+        // Assert: Check if the result matches the expected matrix
+        assertEquals(expected, result, "Matrix multiplication result is incorrect.");
     }
     @Test
     public void testScalarMultiplicationMatrix() {

@@ -52,6 +52,35 @@ public class Matrix {
       }
     }
   }
+  public Matrix multiplication(Matrix other) {
+    int otherCols = other.getCols();
+    int otherRows = other.getRows();
+    Matrix temp = new Matrix(rows, otherCols);
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < otherCols; j++) {
+        for (int k = 0; k < cols; k++) {
+          temp.getData()[i][j] += data[i][k] * other.getData()[k][j];
+        }
+      }
+    }
+    return temp;
+  }
+
+
+  public void swapRow(int row1, int row2){
+    double[] temp = new double[cols];
+    temp = data[row1];
+    data[row1] = data[row2];
+    data[row2] = temp;
+  }
+
+  public void swapCol(int col1, int col2){
+    for(int i = 0; i < rows; i++){
+      double temp = data[i][col1];
+      data[i][col1] = data[i][col2];
+      data[i][col2] = temp;
+    }
+  }
 
   // Input and Output
   public void inputMatrix(){

@@ -1,4 +1,6 @@
 package algeo01_23002.core;
+import java.io.File;
+import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Scanner;
 
@@ -114,6 +116,26 @@ public class Matrix {
       }
       System.out.println();
     }
+  }
+
+  public void fileParser(String fileName){
+    try{
+      File file = new File(fileName);
+      Scanner scanner = new Scanner(file);
+      int row = 0;
+      while (scanner.hasNextLine() && row < rows) {
+        String line = scanner.nextLine();
+        String[] value = line.split(" ");
+        for (int col = 0; col < value.length && col < cols; col++) {
+          data[row][col] = Double.parseDouble(value[col]);
+        }
+        row++;
+      }
+      scanner.close();
+    } catch (FileNotFoundException e) {
+      System.err.println("File not found: " + fileName);
+    }
+
   }
 
   @Override

@@ -8,6 +8,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.PrintStream;
 import java.lang.reflect.Field;
 
+
 import static org.junit.jupiter.api.Assertions.*;
 
 public class MatrixTest {
@@ -142,6 +143,20 @@ public class MatrixTest {
         assertArrayEquals(expectedData, getMatrixData(matrix));
     }
 
+    @Test
+    public void testFileParser(){
+
+        Matrix matrix1 = new Matrix(3,3);
+        matrix1.fileParser("test/java/algeo01_23002/core/FileTest.txt");
+
+        double[][] expectedData = {
+                {1,2,3},
+                {4,5,6},
+                {7,8,9}
+        };
+
+        assertArrayEquals(expectedData, matrix1.getData(), "Parsed matrix is incorrect");
+    }
     //  Helper
     private double[][] getMatrixData(Matrix matrix) {
     try {

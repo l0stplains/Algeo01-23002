@@ -21,12 +21,16 @@ public class Matrix {
   public double[][] getData() { return data; }
 
   // Operations
-  public void transpose() {
-    for (int i = 0; i < rows; i++) {
-      for (int j = 0; j < cols; j++) {
-        data[i][j] = data[j][i];
+  public void transpose() { //Possible error due to mutable array
+    Matrix matrixTransposed = new Matrix(cols, rows);
+    for (int i = 0; i < cols; i++) {
+      for (int j = 0; j < rows; j++) {
+        matrixTransposed.data[i][j] = data[j][i];
       }
     }
+    this.data = matrixTransposed.data;
+    this.rows = matrixTransposed.rows;
+    this.cols = matrixTransposed.cols;
   }
 
   public void addition(Matrix other) {

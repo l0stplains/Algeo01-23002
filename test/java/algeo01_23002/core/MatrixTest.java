@@ -67,18 +67,58 @@ public class MatrixTest {
 
         matrix.inputMatrix();
 
+        matrix.addition(matrix);
+        double[][] expectedData = {
+                {2.0, 4.0, 6.0},
+                {8.0, 10.0, 12.0}
+        };
+        assertArrayEquals(expectedData, getMatrixData(matrix));
+
     }
     @Test
     public void testSubtractionMatrix() {
+        String input = "1.0 2.0 3.0\n4.0 5.0 6.0\n";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
 
+        matrix.inputMatrix();
+
+        matrix.subtraction(matrix);
+        double[][] expectedData = {
+                {0.0, 0.0, 0.0},
+                {0.0, 0.0, 0.0}
+        };
+        assertArrayEquals(expectedData, getMatrixData(matrix));
     }
     @Test
     public void testScalarMultiplicationMatrix() {
+        String input = "1.0 2.0 3.0\n4.0 5.0 6.0\n";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
 
+        matrix.inputMatrix();
+
+        matrix.scalarMultiplication(3);
+        double[][] expectedData = {
+                {3.0, 6.0, 9.0},
+                {12.0, 15.0, 18.0}
+        };
+        assertArrayEquals(expectedData, getMatrixData(matrix));
     }
     @Test
     public void testTransposeMatrix() {
+        String input = "1.0 2.0 3.0\n4.0 5.0 6.0\n";
+        System.setIn(new ByteArrayInputStream(input.getBytes()));
 
+        matrix.inputMatrix();
+
+        matrix.transpose(); // Test mutable for transpose
+        matrix.addition(matrix);
+
+        double[][] expectedData = {
+                {2.0,8.0},
+                {4.0,10.0},
+                {6.0,12.0}
+        };
+        assertArrayEquals(expectedData, getMatrixData(matrix));
     }
 
     //  Helper

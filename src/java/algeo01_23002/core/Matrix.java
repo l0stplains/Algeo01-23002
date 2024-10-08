@@ -82,6 +82,23 @@ public class Matrix {
     }
   }
 
+
+
+  public void swapRow(int row1, int row2){
+    double[] temp = new double[cols];
+    temp = data[row1];
+    data[row1] = data[row2];
+    data[row2] = temp;
+  }
+
+  public void swapCol(int col1, int col2){
+    for(int i = 0; i < rows; i++){
+      double temp = data[i][col1];
+      data[i][col1] = data[i][col2];
+      data[i][col2] = temp;
+    }
+  }
+
   // Input and Output
   public void inputMatrix(){
     if (rows == 0 || cols == 0) {

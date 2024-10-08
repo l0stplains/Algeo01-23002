@@ -90,26 +90,25 @@ public class MatrixTest {
     }
     @Test
     public void testMultiplicationMatrix() {
-        // Arrange: Create two matrices with known values
+        String input1 = "1.0 2.0 3.0\n4.0 5.0 6.0\n";
+        System.setIn(new ByteArrayInputStream(input1.getBytes()));
         Matrix matrix1 = new Matrix(2, 3);
-        matrix1.getData()[0] = new double[]{1, 2, 3};
-        matrix1.getData()[1] = new double[]{4, 5, 6};
+        matrix1.inputMatrix();
 
+        String input2 = "7.0 8.0\n9.0 10.0\n11.0 12.0\n";
+        System.setIn(new ByteArrayInputStream(input2.getBytes()));
         Matrix matrix2 = new Matrix(3, 2);
-        matrix2.getData()[0] = new double[]{7, 8};
-        matrix2.getData()[1] = new double[]{9, 10};
-        matrix2.getData()[2] = new double[]{11, 12};
+        matrix2.inputMatrix();
 
-        // Expected result of the multiplication
-        Matrix expected = new Matrix(2, 2);
-        expected.getData()[0] = new double[]{58, 64};
-        expected.getData()[1] = new double[]{139, 154};
 
-        // Act: Perform the multiplication
+        double[][] expected = {
+                {58, 64},
+                {139, 154}
+        };
+
         Matrix result = matrix1.multiplication(matrix2);
 
-        // Assert: Check if the result matches the expected matrix
-        assertEquals(expected, result, "Matrix multiplication result is incorrect.");
+        assertArrayEquals(expected, result.getData(), "Matrix multiplication result is incorrect.");
     }
     @Test
     public void testScalarMultiplicationMatrix() {

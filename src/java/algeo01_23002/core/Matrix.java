@@ -13,7 +13,7 @@ public class Matrix {
   // Constructor
   public Matrix(int rows, int cols) {
     if(rows <= 0 || cols <= 0) {
-      throw new IllegalArgumentException("Invalid matrix size");
+      throw new IllegalArgumentException("Invalid matrix size. Rows and columns must be positive.");
     }
     this.rows = rows;
     this.cols = cols;
@@ -48,6 +48,7 @@ public class Matrix {
   }
 
   public void add(Matrix other) {
+    validateDimensions(other);
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < cols; j++) {
         data[i][j] = data[i][j] + other.data[i][j];
@@ -56,6 +57,7 @@ public class Matrix {
   }
 
   public void subtract(Matrix other) {
+    validateDimensions(other);
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < cols; j++) {
         data[i][j] = data[i][j] - other.data[i][j];
@@ -72,6 +74,9 @@ public class Matrix {
   }
 
   public Matrix multiplyByMatrix(Matrix other) {
+    if(other.cols != rows){
+      throw new IllegalArgumentException("Matrix multiplication could not be performed (dimension incompatible)");
+    }
     int otherCols = other.getCols();
     Matrix temp = new Matrix(rows, otherCols);
     for (int i = 0; i < rows; i++) {
@@ -85,18 +90,22 @@ public class Matrix {
   }
 
   public void multiplyRowByScalar(int row, int scalar) {
+    validateRowIndex(row);
     for(int i = 0; i < cols; i++){
       data[row][i] = data[row][i] * scalar;
     }
   }
 
   public void multiplyColByScalar(int col, int scalar) {
+    validateColIndex(col);
     for(int i = 0; i < rows; i++){
       data[i][col] = data[i][col] * scalar;
     }
   }
 
   public void swapRow(int row1, int row2){
+    validateRowIndex(row1);
+    validateRowIndex(row2);
     double[] temp;
     temp = data[row1];
     data[row1] = data[row2];
@@ -104,6 +113,8 @@ public class Matrix {
   }
 
   public void swapCol(int col1, int col2){
+    validateColIndex(col1);
+    validateColIndex(col2);
     for(int i = 0; i < rows; i++){
       double temp = data[i][col1];
       data[i][col1] = data[i][col2];
@@ -116,6 +127,9 @@ public class Matrix {
     Scanner scanner = new Scanner(System.in);
     for(int i = 0; i < rows; i++){
       String[] rowValues = scanner.nextLine().split(" ");
+      if (rowValues.length != cols) {
+        throw new IllegalArgumentException("Input row has incorrect number of columns.");
+      }
       for(int j = 0; j < cols; j++){
         data[i][j] = Double.parseDouble(rowValues[j]);
       }
@@ -135,6 +149,24 @@ public class Matrix {
     try{
       File file = new File(fileName);
       Scanner scanner = new Scanner(file);
+
+      // Validate dimensions in the file
+      int fileRows = 0;
+      int fileCols = 0;
+      if (scanner.hasNextLine()) {
+        String[] firstLine = scanner.nextLine().split(" ");
+        fileCols = firstLine.length;
+        fileRows = (int) scanner.tokens().count() / fileCols + 1;
+        scanner.close();
+        scanner = new Scanner(file); // Reopen scanner to reset its position
+      }
+
+      // Check dimension match
+      if (fileRows != this.rows || fileCols != this.cols) {
+        throw new IllegalArgumentException("File matrix dimensions (" + fileRows + "x" + fileCols +
+                ") do not match the initialized matrix (" + this.rows + "x" + this.cols + ").");
+      }
+
       int row = 0;
       while (scanner.hasNextLine() && row < rows) {
         String line = scanner.nextLine();
@@ -149,6 +181,25 @@ public class Matrix {
       System.err.println("File not found: " + fileName);
     }
 
+  }
+
+  // Utility Methods
+  private void validateRowIndex(int row) {
+    if (row < 0 || row >= rows) {
+      throw new IllegalArgumentException("Row index " + row + " out of bounds.");
+    }
+  }
+
+  private void validateColIndex(int col) {
+    if (col < 0 || col >= cols) {
+      throw new IllegalArgumentException("Column index " + col + " out of bounds.");
+    }
+  }
+
+  private void validateDimensions(Matrix other) {
+    if (this.rows != other.rows || this.cols != other.cols) {
+      throw new IllegalArgumentException("Matrix dimensions do not match.");
+    }
   }
 
   @Override

@@ -12,6 +12,9 @@ public class Matrix {
 
   // Constructor
   public Matrix(int rows, int cols) {
+    if(rows <= 0 || cols <= 0) {
+      throw new IllegalArgumentException("Invalid matrix size");
+    }
     this.rows = rows;
     this.cols = cols;
     this.data = new double[rows][cols];
@@ -21,6 +24,15 @@ public class Matrix {
   public int getRows() { return rows; }
   public int getCols() { return cols; }
   public double[][] getData() { return data; }
+
+  public void setData(double[][] data) {
+    if(data.length == 0 || data[0].length == 0){
+      throw new IllegalArgumentException("Matrix is empty!");
+    }
+    this.data = data;
+    this.rows = data.length;
+    this.cols = data[0].length;
+  }
 
   // Operations
   public void transpose() { //Possible error due to mutable array
@@ -58,6 +70,7 @@ public class Matrix {
       }
     }
   }
+
   public Matrix multiplication(Matrix other) {
     int otherCols = other.getCols();
     int otherRows = other.getRows();
@@ -70,6 +83,18 @@ public class Matrix {
       }
     }
     return temp;
+  }
+
+  public void multiplyRowByScalar(int row, int scalar) {
+    for(int i = 0; i < cols; i++){
+      data[row][i] = data[row][i] * scalar;
+    }
+  }
+
+  public void multiplyColByScalar(int col, int scalar) {
+    for(int i = 0; i < rows; i++){
+      data[i][col] = data[i][col] * scalar;
+    }
   }
 
   public void swapRow(int row1, int row2){
@@ -89,16 +114,6 @@ public class Matrix {
 
   // Input and Output
   public void inputMatrix(){
-    if (rows == 0 || cols == 0) {
-      Scanner scanner = new Scanner(System.in);
-      System.out.print("Masukkan ukuran matrix, baris: ");
-      this.rows = scanner.nextInt();
-      System.out.print("Masukkan ukuran matrix, kolom: ");
-      this.cols = scanner.nextInt();
-      this.data = new double[rows][cols];
-      scanner.nextLine(); // Consume newline
-    }
-
     Scanner scanner = new Scanner(System.in);
     System.out.println("Masukkan elemen matrix (dipisah spasi):");
     for(int i = 0; i < rows; i++){

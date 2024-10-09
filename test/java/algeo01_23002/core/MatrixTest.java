@@ -17,6 +17,11 @@ public class MatrixTest {
     @BeforeEach
     public void SetUp() {
         matrix = new Matrix(2,3);
+        matrix.setData(new double[][] {
+                {1.0, 2.0, 3.0},
+                {4.0, 5.0, 6.0}
+        });
+
     }
 
     //  Input / Output Test
@@ -44,11 +49,6 @@ public class MatrixTest {
         PrintStream originalOut = System.out;
         System.setOut(printStream);
 
-        String input = "1.0 2.0 3.0 \n4.0 5.0 6.0 \n";
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
-
-        // Set some data to the matrix for printing
-        matrix.inputMatrix(); // Input values here as needed
         matrix.printMatrix(); // Call the printMatrix method
 
         // Reset the standard output
@@ -62,11 +62,6 @@ public class MatrixTest {
     //  Operation Test
     @Test
     public void testAdditionMatrix() {
-        String input = "1.0 2.0 3.0\n4.0 5.0 6.0\n";
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
-
-        matrix.inputMatrix();
-
         matrix.addition(matrix);
         double[][] expectedData = {
                 {2.0, 4.0, 6.0},
@@ -77,10 +72,6 @@ public class MatrixTest {
     }
     @Test
     public void testSubtractionMatrix() {
-        String input = "1.0 2.0 3.0\n4.0 5.0 6.0\n";
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
-
-        matrix.inputMatrix();
 
         matrix.subtraction(matrix);
         double[][] expectedData = {
@@ -113,10 +104,6 @@ public class MatrixTest {
     }
     @Test
     public void testScalarMultiplicationMatrix() {
-        String input = "1.0 2.0 3.0\n4.0 5.0 6.0\n";
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
-
-        matrix.inputMatrix();
 
         matrix.scalarMultiplication(3);
         double[][] expectedData = {
@@ -127,10 +114,6 @@ public class MatrixTest {
     }
     @Test
     public void testTransposeMatrix() {
-        String input = "1.0 2.0 3.0\n4.0 5.0 6.0\n";
-        System.setIn(new ByteArrayInputStream(input.getBytes()));
-
-        matrix.inputMatrix();
 
         matrix.transpose(); // Test mutable for transpose
         matrix.addition(matrix);
@@ -157,6 +140,59 @@ public class MatrixTest {
 
         assertArrayEquals(expectedData, matrix1.getData(), "Parsed matrix is incorrect");
     }
+
+    // Test multiplyRowByScalar
+    @Test
+    public void testMultiplyRowByScalar() {
+
+        matrix.multiplyRowByScalar(0, 2);
+
+        double[][] expectedData = {
+                {2.0, 4.0, 6.0},
+                {4.0, 5.0, 6.0}
+        };
+        assertArrayEquals(expectedData, getMatrixData(matrix), "Result of multiplying row by scalar is incorrect.");
+    }
+
+    // Test multiplyColumnByScalar
+    @Test
+    public void testMultiplyColByScalar() {
+
+        matrix.multiplyColByScalar(1, 3);
+
+        double[][] expectedData = {
+                {1.0, 6.0, 3.0},
+                {4.0, 15.0, 6.0}
+        };
+        assertArrayEquals(expectedData, getMatrixData(matrix), "Result of multiplying column by scalar is incorrect.");
+    }
+
+    // Test swapRow
+    @Test
+    public void testSwapRow() {
+
+        matrix.swapRow(0, 1);
+
+        double[][] expectedData = {
+                {4.0, 5.0, 6.0},
+                {1.0, 2.0, 3.0}
+        };
+        assertArrayEquals(expectedData, getMatrixData(matrix), "Result of swapping rows is incorrect.");
+    }
+
+    // Test swapCol
+    @Test
+    public void testSwapCol() {
+
+        matrix.swapCol(0, 2);
+
+        double[][] expectedData = {
+                {3.0, 2.0, 1.0},
+                {6.0, 5.0, 4.0}
+        };
+        assertArrayEquals(expectedData, getMatrixData(matrix), "Result of swapping columns is incorrect.");
+    }
+
     //  Helper
     private double[][] getMatrixData(Matrix matrix) {
     try {

@@ -15,7 +15,7 @@ public class MatrixTest {
     private Matrix matrix;
 
     @BeforeEach
-    public void SetUp() {
+    public void setUp() {
         matrix = new Matrix(2,3);
         matrix.setData(new double[][] {
                 {1.0, 2.0, 3.0},
@@ -61,8 +61,8 @@ public class MatrixTest {
 
     //  Operation Test
     @Test
-    public void testAdditionMatrix() {
-        matrix.addition(matrix);
+    public void testAddMatrix() {
+        matrix.add(matrix);
         double[][] expectedData = {
                 {2.0, 4.0, 6.0},
                 {8.0, 10.0, 12.0}
@@ -71,9 +71,9 @@ public class MatrixTest {
 
     }
     @Test
-    public void testSubtractionMatrix() {
+    public void testSubtractMatrix() {
 
-        matrix.subtraction(matrix);
+        matrix.subtract(matrix);
         double[][] expectedData = {
                 {0.0, 0.0, 0.0},
                 {0.0, 0.0, 0.0}
@@ -81,7 +81,7 @@ public class MatrixTest {
         assertArrayEquals(expectedData, getMatrixData(matrix));
     }
     @Test
-    public void testMultiplicationMatrix() {
+    public void testMultiplyByMatrixMatrix() {
         String input1 = "1.0 2.0 3.0\n4.0 5.0 6.0\n";
         System.setIn(new ByteArrayInputStream(input1.getBytes()));
         Matrix matrix1 = new Matrix(2, 3);
@@ -98,14 +98,14 @@ public class MatrixTest {
                 {139, 154}
         };
 
-        Matrix result = matrix1.multiplication(matrix2);
+        Matrix result = matrix1.multiplyByMatrix(matrix2);
 
         assertArrayEquals(expected, result.getData(), "Matrix multiplication result is incorrect.");
     }
     @Test
-    public void testScalarMultiplicationMatrix() {
+    public void testMultiplyByScalarMatrix() {
 
-        matrix.scalarMultiplication(3);
+        matrix.multiplyByScalar(3);
         double[][] expectedData = {
                 {3.0, 6.0, 9.0},
                 {12.0, 15.0, 18.0}
@@ -116,7 +116,7 @@ public class MatrixTest {
     public void testTransposeMatrix() {
 
         matrix.transpose(); // Test mutable for transpose
-        matrix.addition(matrix);
+        matrix.add(matrix);
 
         double[][] expectedData = {
                 {2.0,8.0},
@@ -127,10 +127,10 @@ public class MatrixTest {
     }
 
     @Test
-    public void testFileParser(){
+    public void testInputMatrixFromFile(){
 
         Matrix matrix1 = new Matrix(3,3);
-        matrix1.fileParser("test/java/algeo01_23002/core/FileTest.txt");
+        matrix1.inputMatrixFromFile("test/java/algeo01_23002/core/FileTest.txt");
 
         double[][] expectedData = {
                 {1,2,3},

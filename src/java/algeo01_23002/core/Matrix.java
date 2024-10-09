@@ -47,7 +47,7 @@ public class Matrix {
     this.cols = matrixTransposed.cols;
   }
 
-  public void addition(Matrix other) {
+  public void add(Matrix other) {
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < cols; j++) {
         data[i][j] = data[i][j] + other.data[i][j];
@@ -55,7 +55,7 @@ public class Matrix {
     }
   }
 
-  public void subtraction(Matrix other) {
+  public void subtract(Matrix other) {
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < cols; j++) {
         data[i][j] = data[i][j] - other.data[i][j];
@@ -63,7 +63,7 @@ public class Matrix {
     }
   }
 
-  public void scalarMultiplication(int scalar) {
+  public void multiplyByScalar(int scalar) {
     for(int i = 0; i < rows; i++) {
       for(int j = 0; j < cols; j++) {
         data[i][j] = data[i][j] * scalar;
@@ -71,9 +71,8 @@ public class Matrix {
     }
   }
 
-  public Matrix multiplication(Matrix other) {
+  public Matrix multiplyByMatrix(Matrix other) {
     int otherCols = other.getCols();
-    int otherRows = other.getRows();
     Matrix temp = new Matrix(rows, otherCols);
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < otherCols; j++) {
@@ -98,7 +97,7 @@ public class Matrix {
   }
 
   public void swapRow(int row1, int row2){
-    double[] temp = new double[cols];
+    double[] temp;
     temp = data[row1];
     data[row1] = data[row2];
     data[row2] = temp;
@@ -115,7 +114,6 @@ public class Matrix {
   // Input and Output
   public void inputMatrix(){
     Scanner scanner = new Scanner(System.in);
-    System.out.println("Masukkan elemen matrix (dipisah spasi):");
     for(int i = 0; i < rows; i++){
       String[] rowValues = scanner.nextLine().split(" ");
       for(int j = 0; j < cols; j++){
@@ -133,7 +131,7 @@ public class Matrix {
     }
   }
 
-  public void fileParser(String fileName){
+  public void inputMatrixFromFile(String fileName){
     try{
       File file = new File(fileName);
       Scanner scanner = new Scanner(file);
@@ -157,9 +155,8 @@ public class Matrix {
   public boolean equals(Object obj) {
     if (this == obj)
       return true;
-    if (!(obj instanceof Matrix))
+    if (!(obj instanceof Matrix other))
       return false;
-    Matrix other = (Matrix) obj;
     return Arrays.deepEquals(this.data, other.data);
   }
 }

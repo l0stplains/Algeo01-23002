@@ -1,4 +1,4 @@
-package algeo01_23002.solver;
+package algeo01_23002.solvers;
 
 public class LinearSystemSolverTest {
 }

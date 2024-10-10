@@ -1,4 +1,4 @@
-package algeo01_23002.mathmodel;
+package algeo01_23002.mathmodels;
 
 public class Regression {
 

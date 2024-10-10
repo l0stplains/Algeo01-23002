@@ -1,4 +1,4 @@
-package algeo01_23002.core;
+package algeo01_23002.types;
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;

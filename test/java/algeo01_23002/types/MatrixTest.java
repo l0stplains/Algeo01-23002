@@ -1,4 +1,4 @@
-package algeo01_23002.core;
+package algeo01_23002.types;
 
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
@@ -130,7 +130,7 @@ public class MatrixTest {
     public void testInputMatrixFromFile(){
 
         Matrix matrix1 = new Matrix(3,3);
-        matrix1.inputMatrixFromFile("test/java/algeo01_23002/core/FileTest.txt");
+        matrix1.inputMatrixFromFile("test/resources/FileTest.txt");
 
         double[][] expectedData = {
                 {1,2,3},

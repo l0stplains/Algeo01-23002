@@ -148,7 +148,7 @@ public class Matrix {
 
   public Matrix getRowEchelonForm (){
     double[][] mat = data;
-    for (int iterasi=0; iterasi<rows; iterasi++){
+    for (int iterasi=0; iterasi<cols; iterasi++){
       for (int row=iterasi; row<rows; row++){
         if (row == iterasi){ //step 1: make leading 1
           if (isAllZero(mat[row]) && row < rows - 1){ //if all cols in that row is zero
@@ -185,7 +185,7 @@ public class Matrix {
   public Matrix getReducedRowEchelonForm() {
     double[][] mat = this.getRowEchelonForm().getData();//get forward phase from  row echelon form
 
-    for (int iterasi = rows-1; iterasi>=0; iterasi--){ // do the backward phase
+    for (int iterasi = cols-1; iterasi>=0; iterasi--){ // do the backward phase
       for (int i=iterasi-1; i>=0;i--){
         double multiplier = mat[i][iterasi];
         for(int col = cols-1; col>=0; col--){

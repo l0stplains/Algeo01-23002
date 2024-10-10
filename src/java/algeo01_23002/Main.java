@@ -6,10 +6,10 @@ import algeo01_23002.solvers.LinearSystemSolver;
 public class Main {
 
     public static void main(String[] args) {
-        Matrix matrix = new Matrix(3,4);
+        Matrix matrix = new Matrix(5,4);
         matrix.inputMatrix();
 
-        Matrix res = LinearSystemSolver.gaussJordanElimination(matrix);
+        Matrix res = LinearSystemSolver.gaussianElimination(matrix);
         res.printMatrix();
     }
 

@@ -17,15 +17,15 @@ public class LinearSystemSolver {
         double[][] data = matrix.getData();
 
         boolean isManySolutions = false;
-        if (isAllZero(data[rows-1])) { //if last row contains all zero
+        if (isAllZero(data[rows-1]) && rows < cols) { //if last row contains all zero
             isManySolutions = true; // then there are many solutions
         }
 
         double[][] result = new double[1][cols-1]; //initialize array to save the result
         if (!isManySolutions){ //if there is only one solution
-            result[0][cols-2] = data[rows-1][cols-1]; //data of last row and lat column for last variable
 
-            for (int row = rows-2; row >= 0; row--){
+            result[0][cols-2] = data[rows-1][cols-1]; //data of last row and lat column for last variable
+            for (int row = cols-2 ; row >= 0; row--){ //backward elimination
                 result[0][row] = data[row][cols - 1];
                 for (int col = cols-2; col>row; col--){
                     result[0][row] -= data[row][col]*result[0][col];

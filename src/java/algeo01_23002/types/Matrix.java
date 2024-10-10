@@ -138,6 +138,39 @@ public class Matrix {
   // ==================================
   // Matrix Transformation
   // ==================================
+  public double getDeterminantWithCofactor(){
+    return getDeterminantWithCofactor(this);
+  }
+
+  public double getDeterminantWithCofactor(Matrix matrix){
+    if(!(matrix.isSquare())){
+      throw new IllegalArgumentException("Determinant could not be calculated (dimension incompatible)");
+    }
+
+    if(matrix.rows == 2){
+      return (matrix.data[0][0] * matrix.data[1][1]) - (matrix.data[1][0] * matrix.data[0][1]);
+    }
+
+    Matrix temp = new Matrix(matrix.rows-1, matrix.cols-1);
+    double determinant = 0;
+
+    for(int i = 0; i < matrix.cols; i++){
+      int row = 0;
+      for(int j = 1; j < matrix.rows; j++) {
+        int col = 0;
+        for (int k = 0; k < matrix.cols; k++) {
+          if (k != i) {
+            temp.data[row][col] = matrix.data[j][k];
+            col += 1;
+          }
+        }
+        row += 1;
+      }
+      determinant += matrix.data[0][i] * getDeterminantWithCofactor(temp) * (i % 2 == 0 ? 1 : -1);
+    }
+    return determinant;
+  }
+
   private static boolean isAllZero(double[] row){
     int len = row.length;
     for (int i = 0; i < len; i++){
@@ -201,6 +234,10 @@ public class Matrix {
   // =================================
   // Matrix Properties
   // =================================
+
+  private boolean isSquare(){
+    return rows == cols;
+  }
 
   private void validateRowIndex(int row) {
     if (row < 0 || row >= rows) {

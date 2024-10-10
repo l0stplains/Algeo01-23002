@@ -141,6 +141,20 @@ public class MatrixTest {
         assertArrayEquals(expectedData, matrix1.getData(), "Parsed matrix is incorrect");
     }
 
+    @Test
+    // testGetDeterminantWithCofactor
+    public void testGetDeterminantWithCofactor(){
+
+        Matrix matrix1 = new Matrix(3,3);
+        matrix1.inputMatrixFromFile("test/resources/FileTest.txt");
+
+        double determinant = matrix1.getDeterminantWithCofactor();
+
+        double expectedValue = 0;
+
+        assertEquals(expectedValue,determinant);
+    }
+
     // Test multiplyRowByScalar
     @Test
     public void testMultiplyRowByScalar() {

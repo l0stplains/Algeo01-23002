@@ -138,8 +138,65 @@ public class Matrix {
   // ==================================
   // Matrix Transformation
   // ==================================
+  private static boolean isAllZero(double[] row){
+    int len = row.length;
+    for (int i = 0; i < len; i++){
+      if (row[i] != 0) return false;
+    }
+    return true;
+  }
+
+  public Matrix getRowEchelonForm (){
+    double[][] mat = data;
+    for (int iterasi=0; iterasi<rows; iterasi++){
+      for (int row=iterasi; row<rows; row++){
+        if (row == iterasi){ //step 1: make leading 1
+          if (isAllZero(mat[row]) && row < rows - 1){ //if all cols in that row is zero
+            for (int col=0; col<cols; col++){ //swap with next row that not all zero
+              double temp = mat[row][col];
+              mat[row][col] = mat[row+1][col];
+              mat[row+1][col] = temp;
+            }
+          }
+
+          double pivot = mat[row][row];
+          if (pivot !=0){ // if the pivot is not zero
+            for (int col=0; col<cols; col++) { //then divide all cols in that row eith zero
+              mat[row][col] /= pivot;
+            }
+          }
 
 
+        } else {//step 2: make 0 below leading 1
+          double multiplier = mat[row][iterasi];
+
+          for (int col=0; col<cols; col++) {
+            mat[row][col] -= multiplier*mat[iterasi][col];
+          }
+        }
+      }
+    }
+
+    Matrix matrix = new Matrix(rows, cols);
+    matrix.setData(mat);
+    return matrix;
+  }
+
+  public Matrix getReducedRowEchelonForm() {
+    double[][] mat = this.getRowEchelonForm().getData();//get forward phase from  row echelon form
+
+    for (int iterasi = rows-1; iterasi>=0; iterasi--){ // do the backward phase
+      for (int i=iterasi-1; i>=0;i--){
+        double multiplier = mat[i][iterasi];
+        for(int col = cols-1; col>=0; col--){
+          mat[i][col] -= multiplier*mat[iterasi][col];
+        }
+      }
+    }
+    Matrix matrix = new Matrix(rows, cols);
+    matrix.setData(mat);
+    return matrix;
+  }
 
   // =================================
   // Matrix Properties

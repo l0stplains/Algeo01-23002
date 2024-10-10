@@ -11,6 +11,7 @@ public class Matrix {
   private int cols;
 
   // Constructor
+  // ================================
   public Matrix(int rows, int cols) {
     if(rows <= 0 || cols <= 0) {
       throw new IllegalArgumentException("Invalid matrix size. Rows and columns must be positive.");
@@ -20,11 +21,14 @@ public class Matrix {
     this.data = new double[rows][cols];
   }
 
-  // Selector
+  // Getters
+  // ================================
   public int getRows() { return rows; }
   public int getCols() { return cols; }
   public double[][] getData() { return data; }
 
+  // Setters
+  // ================================
   public void setData(double[][] data) {
     if(data.length == 0 || data[0].length == 0){
       throw new IllegalArgumentException("Matrix is empty!");
@@ -34,18 +38,9 @@ public class Matrix {
     this.cols = data[0].length;
   }
 
-  // Operations
-  public void transpose() { //Possible error due to mutable array
-    Matrix matrixTransposed = new Matrix(cols, rows);
-    for (int i = 0; i < cols; i++) {
-      for (int j = 0; j < rows; j++) {
-        matrixTransposed.data[i][j] = data[j][i];
-      }
-    }
-    this.data = matrixTransposed.data;
-    this.rows = matrixTransposed.rows;
-    this.cols = matrixTransposed.cols;
-  }
+  // =================================
+  // Matrix Operations
+  // =================================
 
   public void add(Matrix other) {
     validateDimensions(other);
@@ -103,6 +98,18 @@ public class Matrix {
     }
   }
 
+  public void transpose() { //Possible error due to mutable array
+    Matrix matrixTransposed = new Matrix(cols, rows);
+    for (int i = 0; i < cols; i++) {
+      for (int j = 0; j < rows; j++) {
+        matrixTransposed.data[i][j] = data[j][i];
+      }
+    }
+    this.data = matrixTransposed.data;
+    this.rows = matrixTransposed.rows;
+    this.cols = matrixTransposed.cols;
+  }
+
   public void swapRow(int row1, int row2){
     validateRowIndex(row1);
     validateRowIndex(row2);
@@ -122,7 +129,53 @@ public class Matrix {
     }
   }
 
-  // Input and Output
+  // ==================================
+  // Matrix Calculation
+  // ==================================
+
+
+
+  // ==================================
+  // Matrix Transformation
+  // ==================================
+
+
+
+  // =================================
+  // Matrix Properties
+  // =================================
+
+  private void validateRowIndex(int row) {
+    if (row < 0 || row >= rows) {
+      throw new IllegalArgumentException("Row index " + row + " out of bounds.");
+    }
+  }
+
+  private void validateColIndex(int col) {
+    if (col < 0 || col >= cols) {
+      throw new IllegalArgumentException("Column index " + col + " out of bounds.");
+    }
+  }
+
+  private void validateDimensions(Matrix other) {
+    if (this.rows != other.rows || this.cols != other.cols) {
+      throw new IllegalArgumentException("Matrix dimensions do not match.");
+    }
+  }
+
+  // =================================
+  // Utility Methods
+  // =================================
+
+  public void printMatrix() {
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        System.out.print(data[i][j] + " ");
+      }
+      System.out.println();
+    }
+  }
+
   public void inputMatrix(){
     Scanner scanner = new Scanner(System.in);
     for(int i = 0; i < rows; i++){
@@ -133,15 +186,6 @@ public class Matrix {
       for(int j = 0; j < cols; j++){
         data[i][j] = Double.parseDouble(rowValues[j]);
       }
-    }
-  }
-
-  public void printMatrix() {
-    for (int i = 0; i < rows; i++) {
-      for (int j = 0; j < cols; j++) {
-        System.out.print(data[i][j] + " ");
-      }
-      System.out.println();
     }
   }
 
@@ -181,25 +225,6 @@ public class Matrix {
       System.err.println("File not found: " + fileName);
     }
 
-  }
-
-  // Utility Methods
-  private void validateRowIndex(int row) {
-    if (row < 0 || row >= rows) {
-      throw new IllegalArgumentException("Row index " + row + " out of bounds.");
-    }
-  }
-
-  private void validateColIndex(int col) {
-    if (col < 0 || col >= cols) {
-      throw new IllegalArgumentException("Column index " + col + " out of bounds.");
-    }
-  }
-
-  private void validateDimensions(Matrix other) {
-    if (this.rows != other.rows || this.cols != other.cols) {
-      throw new IllegalArgumentException("Matrix dimensions do not match.");
-    }
   }
 
   @Override

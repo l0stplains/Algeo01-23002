@@ -68,6 +68,30 @@ public class Matrix {
     }
   }
 
+  public void multiplyByScalar(double scalar) {
+    for(int i = 0; i < rows; i++) {
+      for(int j = 0; j < cols; j++) {
+        data[i][j] = data[i][j] * scalar;
+      }
+    }
+  }
+
+  public void divideByScalar(int scalar) {
+    for(int i = 0; i < rows; i++) {
+      for(int j = 0; j < cols; j++) {
+        data[i][j] = data[i][j] / scalar;
+      }
+    }
+  }
+
+  public void divideByScalar(double scalar) {
+    for(int i = 0; i < rows; i++) {
+      for(int j = 0; j < cols; j++) {
+        data[i][j] = data[i][j] / scalar;
+      }
+    }
+  }
+
   public Matrix multiplyByMatrix(Matrix other) {
     if(other.cols != rows){
       throw new IllegalArgumentException("Matrix multiplication could not be performed (dimension incompatible)");
@@ -91,7 +115,22 @@ public class Matrix {
     }
   }
 
+
+  public void multiplyRowByScalar(int row, double scalar) {
+    validateRowIndex(row);
+    for(int i = 0; i < cols; i++){
+      data[row][i] = data[row][i] * scalar;
+    }
+  }
+
   public void multiplyColByScalar(int col, int scalar) {
+    validateColIndex(col);
+    for(int i = 0; i < rows; i++){
+      data[i][col] = data[i][col] * scalar;
+    }
+  }
+
+  public void multiplyColByScalar(int col, double scalar) {
     validateColIndex(col);
     for(int i = 0; i < rows; i++){
       data[i][col] = data[i][col] * scalar;
@@ -229,6 +268,47 @@ public class Matrix {
     Matrix matrix = new Matrix(rows, cols);
     matrix.setData(mat);
     return matrix;
+  }
+
+  public Matrix getAdjoint(){
+    Matrix result = new Matrix(rows, cols);
+    Matrix temp = new Matrix(rows - 1, cols - 1);
+    for(int i = 0; i < rows; i++){
+      for(int j = 0; j < cols; j++){
+        int row = 0;
+        for(int k = 0; k < rows; k++){
+          if(k == i){
+            continue;
+          }
+          int col = 0;
+          for(int l = 0; l < cols; l++){
+            if(l == j){
+              continue;
+            }
+              temp.data[row][col] = this.data[k][l];
+              col++;
+          }
+          row++;
+        }
+        result.data[i][j] = getDeterminantWithCofactor(temp);
+      }
+    }
+    for(int i = 0; i < rows; i++){
+      for(int j = 0; j < cols; j++){
+        if((i + j) % 2 == 1){
+          result.data[i][j] *= -1;
+        }
+      }
+    }
+    return result;
+  }
+
+  public Matrix getInverseWithAdjoint(){
+    Matrix adjoint =  getAdjoint();
+    adjoint.transpose();
+    double determinant = getDeterminantWithCofactor();
+    adjoint.divideByScalar(determinant);
+    return adjoint;
   }
 
   // =================================

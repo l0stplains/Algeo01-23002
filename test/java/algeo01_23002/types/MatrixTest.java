@@ -155,6 +155,55 @@ public class MatrixTest {
         assertEquals(expectedValue,determinant);
     }
 
+    // Test getAdjoint
+    @Test
+    public void testGetAdjoint(){
+        Matrix matrix1 = new Matrix(3,3);
+        double[][] initialData = {
+                {1.0,2.0,3.0},
+                {4.0,5.0,6.0},
+                {7.0,8.0,9.0}
+        };
+
+        matrix1.setData(initialData);
+
+        double[][] expectedData = {
+                {-3.0,6.0,-3.0},
+                {6.0,-12.0,6.0},
+                {-3.0,6.0,-3.0}
+        };
+
+        Matrix adjoint = matrix1.getAdjoint();
+
+        assertArrayEquals(expectedData, adjoint.getData(), "Adjoint matrix is incorrect");
+
+    }
+
+    // Test getInverseWithAdjoint
+    @Test
+    public void testGetInverseWithAdjoint(){
+        Matrix matrix1 = new Matrix(3,3);
+
+        double[][] initialData = {
+                {1.0, 8.0, 5.0},
+                {1.0, 9.0, 6.0},
+                {1.0, 3.0, 5.0}
+        };
+
+        matrix1.setData(initialData);
+
+        double[][] expectedData = {
+                {5.4, -5.0, 0.6},
+                {0.2, 0.0, -0.2},
+                {-1.2, 1.0, 0.2}
+        };
+
+        Matrix result = matrix1.getInverseWithAdjoint();
+
+        assertArrayEquals(expectedData, result.getData(), "Adjoint matrix is incorrect");
+    }
+
+
     // Test multiplyRowByScalar
     @Test
     public void testMultiplyRowByScalar() {

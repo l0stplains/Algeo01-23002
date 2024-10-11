@@ -62,7 +62,7 @@ public class MatrixTest {
     //  Operation Test
     @Test
     public void testAddMatrix() {
-        matrix.add(matrix);
+        matrix = matrix.add(matrix);
         double[][] expectedData = {
                 {2.0, 4.0, 6.0},
                 {8.0, 10.0, 12.0}
@@ -73,7 +73,7 @@ public class MatrixTest {
     @Test
     public void testSubtractMatrix() {
 
-        matrix.subtract(matrix);
+        matrix = matrix.subtract(matrix);
         double[][] expectedData = {
                 {0.0, 0.0, 0.0},
                 {0.0, 0.0, 0.0}
@@ -105,7 +105,7 @@ public class MatrixTest {
     @Test
     public void testMultiplyByScalarMatrix() {
 
-        matrix.multiplyByScalar(3);
+        matrix = matrix.multiplyByScalar(3);
         double[][] expectedData = {
                 {3.0, 6.0, 9.0},
                 {12.0, 15.0, 18.0}
@@ -115,8 +115,8 @@ public class MatrixTest {
     @Test
     public void testTransposeMatrix() {
 
-        matrix.transpose(); // Test mutable for transpose
-        matrix.add(matrix);
+        matrix = matrix.transpose(); // Test mutable for transpose
+        matrix = matrix.add(matrix);
 
         double[][] expectedData = {
                 {2.0,8.0},
@@ -208,7 +208,7 @@ public class MatrixTest {
     @Test
     public void testMultiplyRowByScalar() {
 
-        matrix.multiplyRowByScalar(0, 2);
+        matrix = matrix.multiplyRowByScalar(0, 2);
 
         double[][] expectedData = {
                 {2.0, 4.0, 6.0},
@@ -221,7 +221,7 @@ public class MatrixTest {
     @Test
     public void testMultiplyColByScalar() {
 
-        matrix.multiplyColByScalar(1, 3);
+        matrix = matrix.multiplyColByScalar(1, 3);
 
         double[][] expectedData = {
                 {1.0, 6.0, 3.0},
@@ -234,7 +234,7 @@ public class MatrixTest {
     @Test
     public void testSwapRow() {
 
-        matrix.swapRow(0, 1);
+        matrix = matrix.swapRow(0, 1);
 
         double[][] expectedData = {
                 {4.0, 5.0, 6.0},
@@ -247,7 +247,7 @@ public class MatrixTest {
     @Test
     public void testSwapCol() {
 
-        matrix.swapCol(0, 2);
+        matrix = matrix.swapCol(0, 2);
 
         double[][] expectedData = {
                 {3.0, 2.0, 1.0},

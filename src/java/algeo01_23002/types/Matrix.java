@@ -1,4 +1,6 @@
 package algeo01_23002.types;
+import org.checkerframework.checker.units.qual.A;
+
 import java.io.File;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
@@ -42,54 +44,66 @@ public class Matrix {
   // Matrix Operations
   // =================================
 
-  public void add(Matrix other) {
+  public Matrix add(Matrix other) {
     validateDimensions(other);
+    Matrix result = this.getCopy();
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < cols; j++) {
-        data[i][j] = data[i][j] + other.data[i][j];
+        result.data[i][j] = data[i][j] + other.data[i][j];
       }
     }
+    return result;
   }
 
-  public void subtract(Matrix other) {
+  public Matrix subtract(Matrix other) {
     validateDimensions(other);
+    Matrix result = this.getCopy();
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < cols; j++) {
-        data[i][j] = data[i][j] - other.data[i][j];
+        result.data[i][j] = data[i][j] - other.data[i][j];
       }
     }
+    return result;
   }
 
-  public void multiplyByScalar(int scalar) {
+  public Matrix multiplyByScalar(int scalar) {
+    Matrix result = this.getCopy();
     for(int i = 0; i < rows; i++) {
       for(int j = 0; j < cols; j++) {
-        data[i][j] = data[i][j] * scalar;
+        result.data[i][j] = data[i][j] * scalar;
       }
     }
+    return result;
   }
 
-  public void multiplyByScalar(double scalar) {
+  public Matrix multiplyByScalar(double scalar) {
+    Matrix result = this.getCopy();
     for(int i = 0; i < rows; i++) {
       for(int j = 0; j < cols; j++) {
-        data[i][j] = data[i][j] * scalar;
+        result.data[i][j] = data[i][j] * scalar;
       }
     }
+    return result;
   }
 
-  public void divideByScalar(int scalar) {
+  public Matrix divideByScalar(int scalar) {
+    Matrix result = this.getCopy();
     for(int i = 0; i < rows; i++) {
       for(int j = 0; j < cols; j++) {
-        data[i][j] = data[i][j] / scalar;
+        result.data[i][j] = data[i][j] / scalar;
       }
     }
+    return result;
   }
 
-  public void divideByScalar(double scalar) {
+  public Matrix divideByScalar(double scalar) {
+    Matrix result = this.getCopy();
     for(int i = 0; i < rows; i++) {
       for(int j = 0; j < cols; j++) {
-        data[i][j] = data[i][j] / scalar;
+        result.data[i][j] = data[i][j] / scalar;
       }
     }
+    return result;
   }
 
   public Matrix multiplyByMatrix(Matrix other) {
@@ -97,75 +111,83 @@ public class Matrix {
       throw new IllegalArgumentException("Matrix multiplication could not be performed (dimension incompatible)");
     }
     int otherCols = other.getCols();
-    Matrix temp = new Matrix(rows, otherCols);
+    Matrix result = new Matrix(rows, otherCols);
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < otherCols; j++) {
         for (int k = 0; k < cols; k++) {
-          temp.getData()[i][j] += data[i][k] * other.getData()[k][j];
+          result.getData()[i][j] += data[i][k] * other.getData()[k][j];
         }
       }
     }
-    return temp;
+    return result;
   }
 
-  public void multiplyRowByScalar(int row, int scalar) {
+  public Matrix multiplyRowByScalar(int row, int scalar) {
+    Matrix result = this.getCopy();
     validateRowIndex(row);
     for(int i = 0; i < cols; i++){
-      data[row][i] = data[row][i] * scalar;
+      result.data[row][i] = data[row][i] * scalar;
     }
+    return result;
   }
 
 
-  public void multiplyRowByScalar(int row, double scalar) {
+  public Matrix multiplyRowByScalar(int row, double scalar) {
+    Matrix result = this.getCopy();
     validateRowIndex(row);
     for(int i = 0; i < cols; i++){
-      data[row][i] = data[row][i] * scalar;
+      result.data[row][i] = data[row][i] * scalar;
     }
+    return result;
   }
 
-  public void multiplyColByScalar(int col, int scalar) {
+  public Matrix multiplyColByScalar(int col, int scalar) {
+    Matrix result = this.getCopy();
     validateColIndex(col);
     for(int i = 0; i < rows; i++){
-      data[i][col] = data[i][col] * scalar;
+      result.data[i][col] = data[i][col] * scalar;
     }
+    return result;
   }
 
-  public void multiplyColByScalar(int col, double scalar) {
+  public Matrix multiplyColByScalar(int col, double scalar) {
+    Matrix result = this.getCopy();
     validateColIndex(col);
     for(int i = 0; i < rows; i++){
-      data[i][col] = data[i][col] * scalar;
+      result.data[i][col] = data[i][col] * scalar;
     }
+    return result;
   }
 
-  public void transpose() { //Possible error due to mutable array
-    Matrix matrixTransposed = new Matrix(cols, rows);
-    for (int i = 0; i < cols; i++) {
-      for (int j = 0; j < rows; j++) {
-        matrixTransposed.data[i][j] = data[j][i];
+  public Matrix transpose() { //Possible error due to mutable array
+    Matrix result = new Matrix(this.cols, this.rows);
+    for (int i = 0; i < this.cols; i++) {
+      for (int j = 0; j < this.rows; j++) {
+        result.data[i][j] = data[j][i];
       }
     }
-    this.data = matrixTransposed.data;
-    this.rows = matrixTransposed.rows;
-    this.cols = matrixTransposed.cols;
-  }
+    return result;
+ }
 
-  public void swapRow(int row1, int row2){
+  public Matrix swapRow(int row1, int row2){
+    Matrix result = this.getCopy();
     validateRowIndex(row1);
     validateRowIndex(row2);
-    double[] temp;
-    temp = data[row1];
-    data[row1] = data[row2];
-    data[row2] = temp;
+    result.data[row1] = data[row2];
+    result.data[row2] = data[row1];
+
+    return result;
   }
 
-  public void swapCol(int col1, int col2){
+  public Matrix swapCol(int col1, int col2){
+    Matrix result = this.getCopy();
     validateColIndex(col1);
     validateColIndex(col2);
     for(int i = 0; i < rows; i++){
-      double temp = data[i][col1];
-      data[i][col1] = data[i][col2];
-      data[i][col2] = temp;
+      result.data[i][col1] = data[i][col2];
+      result.data[i][col2] = data[i][col1];
     }
+    return result;
   }
 
   // ==================================
@@ -331,11 +353,8 @@ public class Matrix {
   }
 
   public Matrix getInverseWithAdjoint(){
-    Matrix adjoint =  getAdjoint();
-    adjoint.transpose();
-    double determinant = getDeterminantWithCofactor();
-    adjoint.divideByScalar(determinant);
-    return adjoint;
+    Matrix result = getAdjoint().transpose().divideByScalar(this.getDeterminantWithCofactor());
+    return result;
   }
 
   // =================================
@@ -367,6 +386,14 @@ public class Matrix {
   // =================================
   // Utility Methods
   // =================================
+
+  public Matrix getCopy() {
+    Matrix copyMatrix = new Matrix(this.rows, this.cols);
+    for (int i = 0; i < this.rows; i++) {
+      System.arraycopy(this.data[i], 0, copyMatrix.data[i], 0, this.cols);
+    }
+    return copyMatrix;
+  }
 
   public void printMatrix() {
     for (int i = 0; i < rows; i++) {

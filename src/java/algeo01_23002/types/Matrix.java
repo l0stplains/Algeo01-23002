@@ -220,51 +220,78 @@ public class Matrix {
 
   public Matrix getRowEchelonForm (){
     double[][] mat = data;
+    int[] indexOfLeadingOne = new int[rows];
     for (int iterasi=0; iterasi<cols; iterasi++){
       for (int row=iterasi; row<rows; row++){
         if (row == iterasi){ //step 1: make leading 1
-          if (isAllZero(mat[row]) && row < rows - 1){ //if all cols in that row is zero
-            for (int col=0; col<cols; col++){ //swap with next row that not all zero
-              double temp = mat[row][col];
-              mat[row][col] = mat[row+1][col];
-              mat[row+1][col] = temp;
+          indexOfLeadingOne[row] = cols;
+          if(!isAllZero(mat[row])){
+            double pivot = 0;
+            for (int col=0; col<cols; col++){//searching for pivot that !=0
+              if (mat[row][col] != 0){
+                pivot = mat[row][col];
+                indexOfLeadingOne[row] = col;
+                break;
+              }
             }
-          }
 
-          double pivot = mat[row][row];
-          if (pivot !=0){ // if the pivot is not zero
-            for (int col=0; col<cols; col++) { //then divide all cols in that row eith zero
+            for (int col=0; col<cols; col++) { //divide all cols in that row eith zero
               mat[row][col] /= pivot;
             }
+          } else {
+            break;
           }
-
-
-        } else {//step 2: make 0 below leading 1
-          double multiplier = mat[row][iterasi];
-
-          for (int col=0; col<cols; col++) {
-            mat[row][col] -= multiplier*mat[iterasi][col];
+        }
+        else {//step 2: make 0 below leading 1 col
+            double multiplier = mat[row][indexOfLeadingOne[iterasi]];
+            for (int col=0; col<cols; col++) {
+              mat[row][col] -= multiplier*mat[iterasi][col];
           }
         }
       }
     }
+    //sorting rows of matrix using bubble sort
+    for (int i=0; i<rows-1; i++){
+      for (int j=i+1; j<rows-1; j++){
+        if (indexOfLeadingOne[i] > indexOfLeadingOne[j]){
+          int temp = indexOfLeadingOne[i];
+          indexOfLeadingOne[i] = indexOfLeadingOne[j];
+          indexOfLeadingOne[j] = temp;
 
+          for (int col=0; col<cols; col++){//swap row
+            double temp1 = mat[i][col];
+            mat[i][col] = mat[j][col];
+            mat[j][col] = temp1;
+          }
+        }
+      }
+    }
     Matrix matrix = new Matrix(rows, cols);
     matrix.setData(mat);
     return matrix;
   }
 
   public Matrix getReducedRowEchelonForm() {
-    double[][] mat = this.getRowEchelonForm().getData();//get forward phase from  row echelon form
+    double[][] mat = data;
 
-    for (int iterasi = cols-1; iterasi>=0; iterasi--){ // do the backward phase
-      for (int i=iterasi-1; i>=0;i--){
-        double multiplier = mat[i][iterasi];
-        for(int col = cols-1; col>=0; col--){
-          mat[i][col] -= multiplier*mat[iterasi][col];
+    for (int iterasi=0; iterasi<cols; iterasi++){
+      //step 1: make leading 1
+      if (iterasi < rows - 1 && isAllZero(mat[iterasi])){ //if all cols in that row is zero
+        for (int col=0; col<cols; col++){ //swap with next row that not all zero
+          double temp = mat[iterasi][col];
+          mat[iterasi][col] = mat[iterasi+1][col];
+          mat[iterasi+1][col] = temp;
+        }
+      }
+
+      double pivot = mat[iterasi][iterasi];
+      if (pivot !=0){ // if the pivot is not zero
+        for (int col=0; col<cols; col++) { //then divide all cols in that row with itself
+          mat[iterasi][col] /= pivot;
         }
       }
     }
+
     Matrix matrix = new Matrix(rows, cols);
     matrix.setData(mat);
     return matrix;

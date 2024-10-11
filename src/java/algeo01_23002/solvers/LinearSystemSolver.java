@@ -17,7 +17,7 @@ public class LinearSystemSolver {
         double[][] data = matrix.getData();
 
         boolean isManySolutions = false;
-        if (isAllZero(data[rows-1]) && rows < cols) { //if last row contains all zero
+        if ((isAllZero(data[rows-1]) && rows < cols) || rows < cols - 1) { //if last row contains all zero but the rows
             isManySolutions = true; // then there are many solutions
         }
 

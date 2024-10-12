@@ -44,10 +44,9 @@ public class LinearSystemSolver {
         matrix.getRowEchelonForm();
         double[][] data = matrix.getData();
 
-        boolean isManySolutions = false;
-        if ((isAllZero(data[rows-1]) && rows < cols) || rows < cols - 1) { //if last row contains all zero but the rows
-            isManySolutions = true; // then there are many solutions
-        }
+        boolean isManySolutions = (isAllZero(data[rows - 1]) && rows < cols) || rows < cols - 1;
+        //if last row contains all zero but the rows
+        // then there are many solutions
 
 
         if (!isManySolutions){ //if there is only one solution
@@ -150,20 +149,112 @@ public class LinearSystemSolver {
         return resultParametrik;
     }
 
-    public static Matrix gaussJordanElimination(Matrix matrix) {
+    public static String[][] gaussJordanElimination(Matrix matrix) {
+        String[][] resultParametrik;
         int rows = matrix.getRows();
         int cols = matrix.getCols();
 
-        matrix.getReducedRowEchelonForm();
+        matrix.getRowEchelonForm();
         double[][] data = matrix.getData();
 
-        double[][] result = new double[1][cols-1]; //initialize array to save the result
+        boolean isManySolutions = (isAllZero(data[rows - 1]) && rows < cols) || rows < cols - 1;
+        //if last row contains all zero but the rows
+        // then there are many solutions
 
-        for (int col=0; col < cols-1; col++){
-            result[0][col] = data[col][cols-1];
+
+        if (!isManySolutions){ //if there is only one solution
+
+            double[][] result = new double[1][cols-1]; //initialize array to save the result
+
+            for(int row=0; row<rows; row++){
+                result[0][row] = data[row][cols-1];
+            }
+
+            //move the result to resultParametrik that has type String
+            resultParametrik = new String[1][cols-1];
+
+            for (int j = 0; j < cols-1; j++) {
+                resultParametrik[0][j] = String.valueOf(result[0][j]);
+            }
+
+        } else { // if there are many solutions
+
+            //get the index of last row that not all zero and count how many zero rows
+            int countZeroRows = 0;
+            int idxlastRowNotZero = rows-1; // this is used as starting row in backward elimination
+            for (int row = rows-1; row >= 0; row--){
+                if (isAllZero(data[row])){
+                    countZeroRows++;
+                } else {
+                    idxlastRowNotZero = row;
+                    break;
+                }
+            }
+
+            //count how many parameter is needed
+            int countParameter = (rows - 1) - countZeroRows;
+
+            //make result array
+            //index 0 of result array is used to store constant and the rest is used to store the coefficient of parameter
+            double[][] result = new double[cols-1][countParameter+1];
+
+            //initiate the result array with null mark (-999999999 for constant, and 0 for parameter's coefficient)
+            for(int i=0; i<cols-1; i++){
+                result[i][0] = -999999999;
+            }
+            for (int i=0; i<cols-1; i++){
+                for(int j=1; j<=countParameter; j++){
+                    result[i][j] = 0;
+                }
+            }
+
+
+            int parameter = 1; //initiate parameter index
+
+            //iterate through all rows starting from last row that not all zero
+            for (int row = idxlastRowNotZero; row >= 0; row--){
+                //find leading one index
+                int indexOfLeadingOne = cols;
+                for(int col=0; col < cols; col++){
+                    if (data[row][col] == 1){
+                        indexOfLeadingOne = col;
+                        break;
+                    }
+                }
+
+                //find solution by iterating through cols in a certain row
+                result[indexOfLeadingOne][0] = data[row][cols-1];
+                for (int col = indexOfLeadingOne+1; col < cols-1; col++){
+
+                    if (isNULL(result[col])) { //if the result of a variable is null, assign parameter
+                        result[col][0] = 0;
+                        result[col][parameter] = 1;
+                        parameter++;
+                    }
+                    result[indexOfLeadingOne] = substractArray(result[indexOfLeadingOne], multArrayWithConst(result[col], data[row][col]));
+                }
+
+            }
+
+            //move the result to resultParametrik that has type String
+            resultParametrik = new String[cols-1][countParameter+1];
+
+            //for constant, just move result to resultParametrik
+            for (int i=0; i<resultParametrik.length; i++){
+                resultParametrik[i][0] = String.valueOf(result[i][0]);
+            }
+
+            //for parametric's coefficient, append result with a character first, then assign it to resultParametrik
+            for (int i=0; i<resultParametrik.length; i++) {
+                int ascii = 113+countParameter;
+                for (int j = 1; j < resultParametrik[0].length; j++) {
+                    resultParametrik[i][j] = String.valueOf(result[i][j]) + String.valueOf((char) ascii); //append result with ascii character
+                    ascii--;
+                }
+
+            }
         }
-        Matrix resultMatrix = new Matrix(1, cols-1); //matrix of the result (one dimension)
-        resultMatrix.setData(result);
-        return resultMatrix;
+
+        return resultParametrik;
     }
 }

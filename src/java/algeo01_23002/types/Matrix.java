@@ -1,5 +1,4 @@
 package algeo01_23002.types;
-import org.checkerframework.checker.units.qual.A;
 
 import java.io.File;
 import java.io.FileNotFoundException;
@@ -294,27 +293,36 @@ public class Matrix {
   }
 
   public Matrix getReducedRowEchelonForm() {
-    double[][] mat = data;
 
-    for (int iterasi=0; iterasi<cols; iterasi++){
-      //step 1: make leading 1
-      if (iterasi < rows - 1 && isAllZero(mat[iterasi])){ //if all cols in that row is zero
-        for (int col=0; col<cols; col++){ //swap with next row that not all zero
-          double temp = mat[iterasi][col];
-          mat[iterasi][col] = mat[iterasi+1][col];
-          mat[iterasi+1][col] = temp;
-        }
-      }
+    Matrix matrix = new Matrix(rows, cols);
+    matrix.setData(data);
+    matrix.getRowEchelonForm();
 
-      double pivot = mat[iterasi][iterasi];
-      if (pivot !=0){ // if the pivot is not zero
-        for (int col=0; col<cols; col++) { //then divide all cols in that row with itself
-          mat[iterasi][col] /= pivot;
+    double[][] mat = matrix.getData();
+
+    for(int iterasi = rows-1; iterasi >=0; iterasi--){
+      if (!isAllZero(mat[iterasi])) {
+        int pivot = 0;
+        for (int row = iterasi; row >= 0; row--) {
+          if (row == iterasi) {
+
+            for (int col = 0; col < cols; col++) {
+              if (mat[row][col] == 1) {
+                pivot = col;
+                break;
+              }
+            }
+          } else {
+            double multiplier = mat[row][pivot];
+            for (int col = 0; col < cols; col++) {
+              mat[row][col] -= multiplier * mat[iterasi][col];
+            }
+          }
         }
       }
     }
 
-    Matrix matrix = new Matrix(rows, cols);
+
     matrix.setData(mat);
     return matrix;
   }

@@ -1,6 +1,8 @@
 package algeo01_23002.solvers;
 import algeo01_23002.types.Matrix;
 
+import java.util.AbstractMap;
+
 public class LinearSystemSolver {
     private static boolean isAllZero(double[] row){
         int len = row.length;
@@ -256,5 +258,29 @@ public class LinearSystemSolver {
         }
 
         return resultParametrik;
+    }
+
+    public static Matrix cramersRule(Matrix matrix, Matrix constant){
+
+        // Cramer's rule can be used IF MATRIX is SQUARE and CONSTANT have same LENGTH as MATRIX
+        if(!(matrix.isSquare() && matrix.getRows() == constant.getCols())){
+            throw new IllegalArgumentException("Solution could not be calculated (dimension incompatible)");
+        }
+        double actualDeterminant = matrix.getDeterminantWithCofactor(); // Can be change with rowReduction methode
+        if(actualDeterminant == 0){
+            throw new IllegalArgumentException("Solution could not be calculated");
+        }
+        double tempDeterminant;
+        Matrix solutions = new Matrix(1, matrix.getCols());
+
+        for(int i = 0; i < constant.getCols(); i++){
+            Matrix temp = matrix.getCopy();
+            for(int j = 0; j < matrix.getCols(); j++){
+                temp.getData()[j][i] = constant.getData()[0][j]; // fill the columns with constant
+            }
+            tempDeterminant = temp.getDeterminantWithCofactor();
+            solutions.getData()[0][i] = tempDeterminant / actualDeterminant;
+        }
+        return solutions;
     }
 }

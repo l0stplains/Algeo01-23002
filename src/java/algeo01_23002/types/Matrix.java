@@ -369,7 +369,7 @@ public class Matrix {
   // Matrix Properties
   // =================================
 
-  private boolean isSquare(){
+  public boolean isSquare(){
     return rows == cols;
   }
 

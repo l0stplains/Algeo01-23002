@@ -231,42 +231,97 @@ public class Matrix {
     return determinant;
   }
 
-  private static boolean isAllZero(double[] row){
-    int len = row.length;
-    for (int i = 0; i < len; i++){
-      if (row[i] != 0) return false;
+  public double getDeterminantWithRowReduction(){
+    if(!(this.isSquare())){
+      throw new IllegalArgumentException("Determinant could not be calculated (dimension incompatible)");
     }
-    return true;
-  }
+    Matrix matrix = this.getCopy();
 
-  public Matrix getRowEchelonForm (){
-    double[][] mat = data;
+    boolean isSwap = false;
     int[] indexOfLeadingOne = new int[rows];
+    double determinant = 1;
+
     for (int iterasi=0; iterasi<cols; iterasi++){
       for (int row=iterasi; row<rows; row++){
         if (row == iterasi){ //step 1: make leading 1
           indexOfLeadingOne[row] = cols;
-          if(!isAllZero(mat[row])){
+          if(!isAllZero(matrix.data[row])){
             double pivot = 0;
             for (int col=0; col<cols; col++){//searching for pivot that !=0
-              if (mat[row][col] != 0){
-                pivot = mat[row][col];
+              if (matrix.data[row][col] != 0){
+                pivot = matrix.data[row][col];
+                determinant *= pivot;
                 indexOfLeadingOne[row] = col;
                 break;
               }
             }
-
-            for (int col=0; col<cols; col++) { //divide all cols in that row eith zero
-              mat[row][col] /= pivot;
+            for (int col = 0; col < cols; col++) { //divide all cols in that row with pivot
+              matrix.data[row][col] = Math.round((matrix.data[row][col] / pivot) * 10000.0) / 10000.0;
             }
           } else {
             break;
           }
         }
         else {//step 2: make 0 below leading 1 col
-            double multiplier = mat[row][indexOfLeadingOne[iterasi]];
+          double multiplier = matrix.data[row][indexOfLeadingOne[iterasi]];
+          for (int col=0; col<cols; col++) {
+            matrix.data[row][col] -= multiplier*matrix.data[iterasi][col];
+          }
+        }
+      }
+    }
+    //sorting rows of matrix using bubble sort
+    for (int i=0; i<rows-1; i++){
+      for (int j=i+1; j<rows-1; j++){
+        if (indexOfLeadingOne[i] > indexOfLeadingOne[j]){
+          int temp = indexOfLeadingOne[i];
+          isSwap = !isSwap;
+          indexOfLeadingOne[i] = indexOfLeadingOne[j];
+          indexOfLeadingOne[j] = temp;
+
+          for (int col=0; col<cols; col++){//swap row
+            double temp1 = matrix.data[i][col];
+            matrix.data[i][col] = matrix.data[j][col];
+            matrix.data[j][col] = temp1;
+          }
+        }
+      }
+    }
+    determinant = Math.round(determinant * 1000.0)/1000.0;
+
+    return (isSwap? determinant * -1 : determinant);
+
+  }
+
+  public Matrix getRowEchelonForm (){
+
+    Matrix matrix = this.getCopy();
+    int[] indexOfLeadingOne = new int[rows];
+
+    for (int iterasi=0; iterasi<cols; iterasi++){
+      for (int row=iterasi; row<rows; row++){
+        if (row == iterasi){ //step 1: make leading 1
+          indexOfLeadingOne[row] = cols;
+          if(!isAllZero(matrix.data[row])){
+            double pivot = 0;
+            for (int col=0; col<cols; col++){//searching for pivot that !=0
+              if (matrix.data[row][col] != 0){
+                pivot = matrix.data[row][col];
+                indexOfLeadingOne[row] = col;
+                break;
+              }
+            }
+            for (int col = 0; col < cols; col++) { //divide all cols in that row with pivot
+                matrix.data[row][col] = Math.round((matrix.data[row][col] / pivot) * 10000.0) / 10000.0;
+            }
+          } else {
+            break;
+          }
+        }
+        else {//step 2: make 0 below leading 1 col
+            double multiplier = matrix.data[row][indexOfLeadingOne[iterasi]];
             for (int col=0; col<cols; col++) {
-              mat[row][col] -= multiplier*mat[iterasi][col];
+              matrix.data[row][col] -= multiplier*matrix.data[iterasi][col];
           }
         }
       }
@@ -280,51 +335,44 @@ public class Matrix {
           indexOfLeadingOne[j] = temp;
 
           for (int col=0; col<cols; col++){//swap row
-            double temp1 = mat[i][col];
-            mat[i][col] = mat[j][col];
-            mat[j][col] = temp1;
+            double temp1 = matrix.data[i][col];
+            matrix.data[i][col] = matrix.data[j][col];
+            matrix.data[j][col] = temp1;
           }
         }
       }
     }
-    Matrix matrix = new Matrix(rows, cols);
-    matrix.setData(mat);
+
     return matrix;
   }
 
   public Matrix getReducedRowEchelonForm() {
 
-    Matrix matrix = new Matrix(rows, cols);
-    matrix.setData(data);
-    matrix.getRowEchelonForm();
-
-    double[][] mat = matrix.getData();
+    Matrix matrix = this.getCopy();
+    Matrix matrixReduced = matrix.getRowEchelonForm();
 
     for(int iterasi = rows-1; iterasi >=0; iterasi--){
-      if (!isAllZero(mat[iterasi])) {
+      if (!isAllZero(matrixReduced.data[iterasi])) {
         int pivot = 0;
         for (int row = iterasi; row >= 0; row--) {
           if (row == iterasi) {
 
             for (int col = 0; col < cols; col++) {
-              if (mat[row][col] == 1) {
+              if (matrixReduced.data[row][col] == 1) {
                 pivot = col;
                 break;
               }
             }
           } else {
-            double multiplier = mat[row][pivot];
+            double multiplier = matrixReduced.data[row][pivot];
             for (int col = 0; col < cols; col++) {
-              mat[row][col] -= multiplier * mat[iterasi][col];
+              matrixReduced.data[row][col] -= multiplier * matrixReduced.data[iterasi][col];
             }
           }
         }
       }
     }
-
-
-    matrix.setData(mat);
-    return matrix;
+    return matrixReduced;
   }
 
   public Matrix getAdjoint(){
@@ -371,6 +419,14 @@ public class Matrix {
 
   public boolean isSquare(){
     return rows == cols;
+  }
+
+  private static boolean isAllZero(double[] row){
+    int len = row.length;
+    for (int i = 0; i < len; i++){
+      if (row[i] != 0) return false;
+    }
+    return true;
   }
 
   private void validateRowIndex(int row) {

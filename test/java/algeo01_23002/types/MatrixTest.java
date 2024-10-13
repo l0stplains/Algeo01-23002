@@ -256,6 +256,71 @@ public class MatrixTest {
         assertArrayEquals(expectedData, getMatrixData(matrix), "Result of swapping columns is incorrect.");
     }
 
+    // Test getDeterminantWithRowReduction
+    @Test
+    public void testGetDeterminantWithRowReduction(){
+        Matrix matrix1 = new Matrix(4,4);
+        double[][] initialData = {
+                {3.0,6.0,9.0,3.0},
+                {-1.0,0.0,1.0,0},
+                {1.0,3.0,2.0,-1},
+                {-1.0,-2.0,-2.0,1}
+        };
+
+        matrix1.setData(initialData);
+        double determinant = matrix1.getDeterminantWithRowReduction();
+
+        double expectedValue = -21;
+
+        assertEquals(expectedValue,determinant);
+    }
+
+    // Test getRowEchelonForm
+    @Test
+    public void testGetRowEchelonForm(){
+        Matrix matrix1 = new Matrix(3,4);
+        double[][] initialData = {
+                {1.0,1.0,2.0,4.0},
+                {2.0,-1.0,1.0,2.0},
+                {1.0,2.0,3.0,7.0}
+        };
+
+        matrix1.setData(initialData);
+        Matrix result = matrix1.getRowEchelonForm();
+        //result.printMatrix();
+
+        double[][] expectedValue = {
+                {1.0,1.0,2.0,4.0},
+                {0.0,1.0,1.0,2.0},
+                {0.0,0.0,0.0,1.0}
+        };
+
+        assertArrayEquals(expectedValue,result.getData());
+    }
+
+    // Test getRowEchelonForm
+    @Test
+    public void testGetReducedRowEchelonForm(){
+        Matrix matrix1 = new Matrix(3,4);
+        double[][] initialData = {
+                {2.0,3.0,-1.0,5.0},
+                {4.0,4.0,-3.0,3.0},
+                {-2.0,3.0,-1.0,1.0}
+        };
+
+        matrix1.setData(initialData);
+        Matrix result = matrix1.getReducedRowEchelonForm();
+        //result.printMatrix();
+
+        double[][] expectedValue = {
+                {1.0,0.0,0.0,1.0},
+                {0.0,1.0,0.0,2.0},
+                {0.0,0.0,1.0,3.0}
+        };
+
+        assertArrayEquals(expectedValue,result.getData());
+    }
+
     //  Helper
     private double[][] getMatrixData(Matrix matrix) {
     try {

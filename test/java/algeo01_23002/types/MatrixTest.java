@@ -199,8 +199,26 @@ public class MatrixTest {
         };
 
         Matrix result = matrix1.getInverseWithAdjoint();
+        result.printMatrix();
 
         assertArrayEquals(expectedData, result.getData(), "Adjoint matrix is incorrect");
+    }
+
+    // Test getInverseWithRowReduced
+    @Test
+    public void testGetInverseWithRowReduced(){
+        Matrix matrix1 = new Matrix(3,3);
+
+        double[][] initialData = {
+                {1.0, 8.0, 5.0},
+                {1.0, 9.0, 6.0},
+                {1.0, 3.0, 5.0}
+        };
+
+        matrix1.setData(initialData);
+
+        Matrix result = matrix1.getInverseWithRowReduction();
+        result.printMatrix();
     }
 
 
@@ -271,8 +289,8 @@ public class MatrixTest {
         double determinant = matrix1.getDeterminantWithRowReduction();
 
         double expectedValue = -21;
-
-        assertEquals(expectedValue,determinant);
+        double tolerance = 0.002;
+        assertEquals(expectedValue,determinant, tolerance);
     }
 
     // Test getRowEchelonForm

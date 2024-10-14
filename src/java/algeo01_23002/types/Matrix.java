@@ -226,7 +226,7 @@ public class Matrix {
         }
         row += 1;
       }
-      determinant += matrix.data[0][i] * getDeterminantWithCofactor(temp) * (i % 2 == 0 ? 1 : -1);
+      determinant += this.adjustPrecision(matrix.data[0][i] * getDeterminantWithCofactor(temp) * (i % 2 == 0 ? 1 : -1));
     }
     return determinant;
   }
@@ -395,7 +395,7 @@ public class Matrix {
           }
           row++;
         }
-        result.data[i][j] = getDeterminantWithCofactor(temp);
+        result.data[i][j] = temp.getDeterminantWithCofactor(); // tried to use row reduction method but got wrong answer for some case
       }
     }
     for(int i = 0; i < rows; i++){
@@ -405,12 +405,42 @@ public class Matrix {
         }
       }
     }
-    return result;
+    return result.transpose().getValidatedMatrixPrecision();
   }
 
   public Matrix getInverseWithAdjoint(){
-    Matrix result = getAdjoint().transpose().divideByScalar(this.getDeterminantWithCofactor());
-    return result;
+    if(!isSquare()) {
+      throw new IllegalArgumentException("getInverseWithAdjoint: Matrix is not square");
+    }
+    return getAdjoint().divideByScalar(this.getDeterminantWithRowReduction());
+  }
+
+  public Matrix getInverseWithRowReduction(){
+    if(!isSquare()) {
+      throw new IllegalArgumentException("getInverseWithRowReduction: Matrix is not square");
+    }
+    Matrix augmentedIdentity = new Matrix(rows, cols * 2);
+
+    for(int i = 0; i < rows; i++){
+      for(int j = 0; j < cols; j++){
+        augmentedIdentity.data[i][j] = this.data[i][j];
+      }
+    }
+    // Augment the identity to the matrix
+    for(int i = 0; i < rows; i++){
+      augmentedIdentity.data[i][i + cols] = 1;
+    }
+
+    Matrix reducedMatrix = augmentedIdentity.getReducedRowEchelonForm();
+    Matrix result = new Matrix(rows, cols);
+    for(int i = 0; i < rows; i++){
+      for(int j = 0; j < cols; j++){
+        result.data[i][j] = reducedMatrix.data[i][j + cols];
+      }
+    }
+
+    return result.getValidatedMatrixPrecision();
+
   }
 
   // =================================
@@ -457,6 +487,23 @@ public class Matrix {
       System.arraycopy(this.data[i], 0, copyMatrix.data[i], 0, this.cols);
     }
     return copyMatrix;
+  }
+
+  private double adjustPrecision(double value) {
+    if (Math.round(value * 10000) != value * 10000) {
+      return (double) Math.round(value * 10000) / 10000;
+    }
+    return value;
+  }
+
+  private Matrix getValidatedMatrixPrecision() {
+    Matrix result = new Matrix(this.rows, this.cols);
+    for (int i = 0; i < this.rows; i++) {
+      for (int j = 0; j < this.cols; j++) {
+        result.data[i][j] = adjustPrecision(this.data[i][j]);
+      }
+    }
+    return result;
   }
 
   public void printMatrix() {

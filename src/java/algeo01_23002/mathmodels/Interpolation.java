@@ -29,7 +29,7 @@ public class Interpolation {
 
     public static Matrix bicubicSplineInterpolation (){
         Matrix X = new Matrix(16,16);
-        double[][] data = X.getData();
+        double[][] data = X.getAllData();
         int x, y;
         for(int row = 0; row <=15; row++){
             if (row % 4 == 0){
@@ -66,7 +66,7 @@ public class Interpolation {
 
 
         }
-        X.setData(data);
+        X.setAllData(data);
         return X;
     }
 }

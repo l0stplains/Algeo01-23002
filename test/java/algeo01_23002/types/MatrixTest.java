@@ -17,7 +17,7 @@ public class MatrixTest {
     @BeforeEach
     public void setUp() {
         matrix = new Matrix(2,3);
-        matrix.setData(new double[][] {
+        matrix.setAllData(new double[][] {
                 {1.0, 2.0, 3.0},
                 {4.0, 5.0, 6.0}
         });
@@ -100,7 +100,7 @@ public class MatrixTest {
 
         Matrix result = matrix1.multiplyByMatrix(matrix2);
 
-        assertArrayEquals(expected, result.getData(), "Matrix multiplication result is incorrect.");
+        assertArrayEquals(expected, result.getAllData(), "Matrix multiplication result is incorrect.");
     }
     @Test
     public void testMultiplyByScalarMatrix() {
@@ -138,7 +138,7 @@ public class MatrixTest {
                 {7,8,9}
         };
 
-        assertArrayEquals(expectedData, matrix1.getData(), "Parsed matrix is incorrect");
+        assertArrayEquals(expectedData, matrix1.getAllData(), "Parsed matrix is incorrect");
     }
 
     @Test
@@ -165,7 +165,7 @@ public class MatrixTest {
                 {7.0,8.0,9.0}
         };
 
-        matrix1.setData(initialData);
+        matrix1.setAllData(initialData);
 
         double[][] expectedData = {
                 {-3.0,6.0,-3.0},
@@ -175,7 +175,7 @@ public class MatrixTest {
 
         Matrix adjoint = matrix1.getAdjoint();
 
-        assertArrayEquals(expectedData, adjoint.getData(), "Adjoint matrix is incorrect");
+        assertArrayEquals(expectedData, adjoint.getAllData(), "Adjoint matrix is incorrect");
 
     }
 
@@ -190,7 +190,7 @@ public class MatrixTest {
                 {1.0, 3.0, 5.0}
         };
 
-        matrix1.setData(initialData);
+        matrix1.setAllData(initialData);
 
         double[][] expectedData = {
                 {5.4, -5.0, 0.6},
@@ -201,7 +201,7 @@ public class MatrixTest {
         Matrix result = matrix1.getInverseWithAdjoint();
         result.printMatrix();
 
-        assertArrayEquals(expectedData, result.getData(), "Adjoint matrix is incorrect");
+        assertArrayEquals(expectedData, result.getAllData(), "Inverse matrix is incorrect");
     }
 
     // Test getInverseWithRowReduced
@@ -215,10 +215,18 @@ public class MatrixTest {
                 {1.0, 3.0, 5.0}
         };
 
-        matrix1.setData(initialData);
+        matrix1.setAllData(initialData);
+
+        double[][] expectedData = {
+                {5.4, -5.0, 0.6},
+                {0.2, 0.0, -0.2},
+                {-1.2, 1.0, 0.2}
+        };
 
         Matrix result = matrix1.getInverseWithRowReduction();
         result.printMatrix();
+
+        assertArrayEquals(expectedData, result.getAllData(), "Inverse matrix is incorrect");
     }
 
 
@@ -285,7 +293,7 @@ public class MatrixTest {
                 {-1.0,-2.0,-2.0,1}
         };
 
-        matrix1.setData(initialData);
+        matrix1.setAllData(initialData);
         double determinant = matrix1.getDeterminantWithRowReduction();
 
         double expectedValue = -21;
@@ -303,7 +311,7 @@ public class MatrixTest {
                 {1.0,2.0,3.0,7.0}
         };
 
-        matrix1.setData(initialData);
+        matrix1.setAllData(initialData);
         Matrix result = matrix1.getRowEchelonForm();
         //result.printMatrix();
 
@@ -313,7 +321,7 @@ public class MatrixTest {
                 {0.0,0.0,0.0,1.0}
         };
 
-        assertArrayEquals(expectedValue,result.getData());
+        assertArrayEquals(expectedValue,result.getAllData());
     }
 
     // Test getRowEchelonForm
@@ -326,7 +334,7 @@ public class MatrixTest {
                 {-2.0,3.0,-1.0,1.0}
         };
 
-        matrix1.setData(initialData);
+        matrix1.setAllData(initialData);
         Matrix result = matrix1.getReducedRowEchelonForm();
         //result.printMatrix();
 
@@ -336,7 +344,7 @@ public class MatrixTest {
                 {0.0,0.0,1.0,3.0}
         };
 
-        assertArrayEquals(expectedValue,result.getData());
+        assertArrayEquals(expectedValue,result.getAllData());
     }
 
     //  Helper

@@ -1,8 +1,6 @@
 package algeo01_23002.solvers;
 import algeo01_23002.types.Matrix;
 
-import java.util.AbstractMap;
-
 public class LinearSystemSolver {
     private static boolean isAllZero(double[] row){
         int len = row.length;
@@ -40,11 +38,11 @@ public class LinearSystemSolver {
 
     public static String[][] gaussianElimination (Matrix matrix){
         String[][] resultParametrik;
-        int rows = matrix.getRows();
-        int cols = matrix.getCols();
+        int rows = matrix.getRowsCount();
+        int cols = matrix.getColsCount();
 
         matrix.getRowEchelonForm();
-        double[][] data = matrix.getData();
+        double[][] data = matrix.getAllData();
 
         boolean isManySolutions = (isAllZero(data[rows - 1]) && rows < cols) || rows < cols - 1;
         //if last row contains all zero but the rows
@@ -153,11 +151,11 @@ public class LinearSystemSolver {
 
     public static String[][] gaussJordanElimination(Matrix matrix) {
         String[][] resultParametrik;
-        int rows = matrix.getRows();
-        int cols = matrix.getCols();
+        int rows = matrix.getRowsCount();
+        int cols = matrix.getColsCount();
 
         matrix.getRowEchelonForm();
-        double[][] data = matrix.getData();
+        double[][] data = matrix.getAllData();
 
         boolean isManySolutions = (isAllZero(data[rows - 1]) && rows < cols) || rows < cols - 1;
         //if last row contains all zero but the rows
@@ -263,7 +261,7 @@ public class LinearSystemSolver {
     public static Matrix cramersRule(Matrix matrix, Matrix constant){
 
         // Cramer's rule can be used IF MATRIX is SQUARE and CONSTANT have same LENGTH as MATRIX
-        if(!(matrix.isSquare() && matrix.getRows() == constant.getCols())){
+        if(!(matrix.isSquare() && matrix.getRowsCount() == constant.getColsCount())){
             throw new IllegalArgumentException("Solution could not be calculated (dimension incompatible)");
         }
         double actualDeterminant = matrix.getDeterminantWithCofactor(); // Can be change with rowReduction methode
@@ -271,16 +269,38 @@ public class LinearSystemSolver {
             throw new IllegalArgumentException("Solution could not be calculated");
         }
         double tempDeterminant;
-        Matrix solutions = new Matrix(1, matrix.getCols());
+        Matrix solutions = new Matrix(1, matrix.getColsCount());
 
-        for(int i = 0; i < constant.getCols(); i++){
+        for(int i = 0; i < constant.getColsCount(); i++){
             Matrix temp = matrix.getCopy();
-            for(int j = 0; j < matrix.getCols(); j++){
-                temp.getData()[j][i] = constant.getData()[0][j]; // fill the columns with constant
+            for(int j = 0; j < matrix.getColsCount(); j++){
+                temp.getAllData()[j][i] = constant.getAllData()[0][j]; // fill the columns with constant
             }
             tempDeterminant = temp.getDeterminantWithCofactor();
-            solutions.getData()[0][i] = tempDeterminant / actualDeterminant;
+            solutions.getAllData()[0][i] = tempDeterminant / actualDeterminant;
         }
         return solutions;
+    }
+
+    public Matrix inverseMethod(Matrix matrix){
+        Matrix equationVariables = new Matrix(matrix.getRowsCount(), matrix.getColsCount() - 1);
+        if(!equationVariables.isSquare()){
+            throw new IllegalArgumentException("inverseMethod() : Solution could not be calculated (wrong dimension for inverse method)");
+        }
+        Matrix equationResult = new Matrix(matrix.getRowsCount(), 1);
+
+        // Fill the equation matrix
+        for(int i = 0; i < matrix.getRowsCount(); i++){
+            for(int j = 0; j < matrix.getColsCount(); j++){
+                if(j == matrix.getColsCount() - 1){
+                    equationResult.setData(i, 0, matrix.getData(i, j));
+                } else {
+                    equationVariables.setData(i, j, matrix.getData(i, j));
+                }
+            }
+        }
+        Matrix result = equationVariables.getInverseWithRowReduction().multiplyByMatrix(equationResult);
+
+        return result;
     }
 }

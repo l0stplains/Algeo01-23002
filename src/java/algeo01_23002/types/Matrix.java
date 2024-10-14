@@ -24,19 +24,42 @@ public class Matrix {
 
   // Getters
   // ================================
-  public int getRows() { return rows; }
-  public int getCols() { return cols; }
-  public double[][] getData() { return data; }
+  public int getRowsCount() { return rows; }
+  public int getColsCount() { return cols; }
+  public double[] getRow(final int row) {return data[row];}
+  public double[] getCol(final int col) {
+    double[] colData = new double[this.rows];
+    for(int i = 0; i < this.rows; i++) {
+      colData[i] = data[i][col];
+    }
+    return colData;
+  }
+  public double[][] getAllData() { return data; }
+  public double getData(int row, int col) { return data[row][col]; }
 
   // Setters
   // ================================
-  public void setData(double[][] data) {
+  public void setAllData(double[][] data) {
     if(data.length == 0 || data[0].length == 0){
       throw new IllegalArgumentException("Matrix is empty!");
     }
     this.data = data;
     this.rows = data.length;
     this.cols = data[0].length;
+  }
+
+  public void setData(int row, int col, double value) {
+    this.data[row][col] = value;
+  }
+
+  public void setRow(int row, double[] rowData) {
+    this.data[row] = rowData;
+  }
+
+  public void setCol(int col, double[] colData) {
+    for(int i = 0; i < this.rows; i++) {
+      this.data[i][col] = colData[i];
+    }
   }
 
   // =================================
@@ -106,19 +129,19 @@ public class Matrix {
   }
 
   public Matrix multiplyByMatrix(Matrix other) {
-    if(other.cols != rows){
+    if(this.cols != other.rows){
       throw new IllegalArgumentException("Matrix multiplication could not be performed (dimension incompatible)");
     }
-    int otherCols = other.getCols();
+    int otherCols = other.getColsCount();
     Matrix result = new Matrix(rows, otherCols);
     for (int i = 0; i < rows; i++) {
       for (int j = 0; j < otherCols; j++) {
         for (int k = 0; k < cols; k++) {
-          result.getData()[i][j] += data[i][k] * other.getData()[k][j];
+          result.getAllData()[i][j] += data[i][k] * other.getAllData()[k][j];
         }
       }
     }
-    return result;
+    return result.getValidatedMatrixPrecision();
   }
 
   public Matrix multiplyRowByScalar(int row, int scalar) {
@@ -490,13 +513,22 @@ public class Matrix {
   }
 
   private double adjustPrecision(double value) {
-    if (Math.round(value * 10000) != value * 10000) {
-      return (double) Math.round(value * 10000) / 10000;
+    int decimalPlaces = 3;
+    // Scale factor for decimal places, e.g., 100.0 for 2 decimal places, 1000.0 for 3 decimal places
+    double scaleFactor = Math.pow(10, decimalPlaces);
+
+    // Round the value to the specified number of decimal places
+    double adjusted = Math.round(value * scaleFactor) / scaleFactor;
+
+    // If the result is very close to an integer, round it to the nearest integer
+    if (Math.abs(adjusted - Math.round(adjusted)) < 2 * Math.pow(10, -1 * decimalPlaces)) {
+      adjusted = Math.round(adjusted);
     }
-    return value;
+
+    return adjusted;
   }
 
-  private Matrix getValidatedMatrixPrecision() {
+  public Matrix getValidatedMatrixPrecision() {
     Matrix result = new Matrix(this.rows, this.cols);
     for (int i = 0; i < this.rows; i++) {
       for (int j = 0; j < this.cols; j++) {

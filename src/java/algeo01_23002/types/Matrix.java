@@ -15,7 +15,7 @@ public class Matrix {
   // ================================
   public Matrix(int rows, int cols) {
     if(rows <= 0 || cols <= 0) {
-      throw new IllegalArgumentException("Invalid matrix size. Rows and columns must be positive.");
+      throw new IllegalArgumentException("Matrix() : Invalid matrix size. Rows and columns must be positive.");
     }
     this.rows = rows;
     this.cols = cols;
@@ -41,7 +41,7 @@ public class Matrix {
   // ================================
   public void setAllData(double[][] data) {
     if(data.length == 0 || data[0].length == 0){
-      throw new IllegalArgumentException("Matrix is empty!");
+      throw new IllegalArgumentException("setAllData() : Matrix is empty!");
     }
     this.data = data;
     this.rows = data.length;
@@ -130,7 +130,7 @@ public class Matrix {
 
   public Matrix multiplyByMatrix(Matrix other) {
     if(this.cols != other.rows){
-      throw new IllegalArgumentException("Matrix multiplication could not be performed (dimension incompatible)");
+      throw new IllegalArgumentException("multiplyByMatrix() : Matrix multiplication could not be performed (dimension incompatible)");
     }
     int otherCols = other.getColsCount();
     Matrix result = new Matrix(rows, otherCols);
@@ -227,7 +227,7 @@ public class Matrix {
 
   public double getDeterminantWithCofactor(Matrix matrix){
     if(!(matrix.isSquare())){
-      throw new IllegalArgumentException("Determinant could not be calculated (dimension incompatible)");
+      throw new IllegalArgumentException("getDeterminantWithCofactor() : Determinant could not be calculated (dimension incompatible)");
     }
 
     if(matrix.rows == 2){
@@ -256,7 +256,7 @@ public class Matrix {
 
   public double getDeterminantWithRowReduction(){
     if(!(this.isSquare())){
-      throw new IllegalArgumentException("Determinant could not be calculated (dimension incompatible)");
+      throw new IllegalArgumentException("getDeterminantWithRowReduction : Determinant could not be calculated (dimension incompatible)");
     }
     Matrix matrix = this.getCopy();
 
@@ -433,14 +433,14 @@ public class Matrix {
 
   public Matrix getInverseWithAdjoint(){
     if(!isSquare()) {
-      throw new IllegalArgumentException("getInverseWithAdjoint: Matrix is not square");
+      throw new IllegalArgumentException("getInverseWithAdjoint(): Matrix is not square");
     }
     return getAdjoint().divideByScalar(this.getDeterminantWithRowReduction());
   }
 
   public Matrix getInverseWithRowReduction(){
     if(!isSquare()) {
-      throw new IllegalArgumentException("getInverseWithRowReduction: Matrix is not square");
+      throw new IllegalArgumentException("getInverseWithRowReduction() : Matrix is not square");
     }
     Matrix augmentedIdentity = new Matrix(rows, cols * 2);
 
@@ -484,19 +484,19 @@ public class Matrix {
 
   private void validateRowIndex(int row) {
     if (row < 0 || row >= rows) {
-      throw new IllegalArgumentException("Row index " + row + " out of bounds.");
+      throw new IllegalArgumentException("validateRowIndex() : Row index " + row + " out of bounds.");
     }
   }
 
   private void validateColIndex(int col) {
     if (col < 0 || col >= cols) {
-      throw new IllegalArgumentException("Column index " + col + " out of bounds.");
+      throw new IllegalArgumentException("validateColIndex() : Column index " + col + " out of bounds.");
     }
   }
 
   private void validateDimensions(Matrix other) {
     if (this.rows != other.rows || this.cols != other.cols) {
-      throw new IllegalArgumentException("Matrix dimensions do not match.");
+      throw new IllegalArgumentException("validateDimensions() : Matrix dimensions do not match.");
     }
   }
 

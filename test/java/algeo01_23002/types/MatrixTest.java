@@ -204,9 +204,9 @@ public class MatrixTest {
         assertArrayEquals(expectedData, result.getAllData(), "Inverse matrix is incorrect");
     }
 
-    // Test getInverseWithRowReduced
+    // Test getInverseWithRowReduction
     @Test
-    public void testGetInverseWithRowReduced(){
+    public void testGetInverseWithRowReduction(){
         Matrix matrix1 = new Matrix(3,3);
 
         double[][] initialData = {

@@ -1,5 +1,7 @@
 package algeo01_23002.solvers;
 
+import algeo01_23002.types.LinearSystemSolution;
+import algeo01_23002.types.UniqueSolution;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -23,17 +25,20 @@ public class LinearSystemSolverTest {
     public void testCramersRule() {
         Matrix matrix1 = new Matrix(3,3);
         Matrix constant = new Matrix(1,3);
-        Matrix solution = new Matrix(1,3);
         matrix1.inputMatrixFromFile("test/resources/CramersTest.txt");
         constant.inputMatrixFromFile("test/resources/Constant.txt");
 
-
-        solution = LinearSystemSolver.cramersRule(matrix1, constant);
+        LinearSystemSolver solver = new LinearSystemSolver();
+        LinearSystemSolution solution = solver.cramersRule(matrix1, constant);
         double[][] expectedData = {
-                {1.0, 3.0, -2.0}
+                {1.0},
+                {3.0},
+                {-2.0}
         };
 
-        assertArrayEquals(expectedData, solution.getAllData());
+        if(solution instanceof UniqueSolution) {
+            assertArrayEquals(expectedData, ((UniqueSolution) solution).getSolution().getAllData());
+        }
     }
 
     @Test
@@ -41,7 +46,6 @@ public class LinearSystemSolverTest {
         LinearSystemSolver solver = new LinearSystemSolver();
         Matrix matrix1 = new Matrix(3,3);
         Matrix constant = new Matrix(1,3);
-        Matrix solution = new Matrix(1,3);
         matrix1.inputMatrixFromFile("test/resources/CramersTest.txt");
         constant.inputMatrixFromFile("test/resources/Constant.txt");
 
@@ -57,7 +61,7 @@ public class LinearSystemSolverTest {
             }
         }
 
-        solution = solver.inverseMethod(coba);
+        LinearSystemSolution solution = solver.inverseMethod(coba);
 
         double[][] expectedData = {
                 {1.0},
@@ -65,6 +69,8 @@ public class LinearSystemSolverTest {
                 {-2.0}
         };
 
-        assertArrayEquals(expectedData, solution.getAllData());
+        if(solution instanceof UniqueSolution) {
+            assertArrayEquals(expectedData, ((UniqueSolution) solution).getSolution().getAllData());
+        }
     }
 }

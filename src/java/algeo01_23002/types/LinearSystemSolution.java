@@ -6,9 +6,10 @@ public sealed abstract class LinearSystemSolution
 }
 
 // EXAMPLE ON HOW TO USE THE CLASS
+// PLEASE REMEMBER TO TYPE CAST IT FIRST
 /*
-LinearSystemSolver solver = new LinearSystemSolver();
-LinearSystemResult result = solver.solve(someMatrix);
+        LinearSystemSolver solver = new LinearSystemSolver();
+        LinearSystemSolution result = solver.solve(someMatrix);
 
         if (result instanceof NoSolution) {
             System.out.println(result); // No solution exists

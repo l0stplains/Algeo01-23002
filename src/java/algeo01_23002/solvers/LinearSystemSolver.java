@@ -1,15 +1,18 @@
 package algeo01_23002.solvers;
+import algeo01_23002.types.LinearSystemSolution;
 import algeo01_23002.types.Matrix;
+import algeo01_23002.types.ParametricSolution;
+import algeo01_23002.types.UniqueSolution;
 
 public class LinearSystemSolver {
-    private static boolean isAllZero(double[] row){
+    private boolean isAllZero(double[] row){
         int len = row.length;
         for (int i = 0; i < len; i++){
             if (row[i] != 0) return false;
         }
         return true;
     }
-    private static double[] substractArray (double[] arr1, double[] arr2){
+    private double[] substractArray (double[] arr1, double[] arr2){
         double[] res = new double[arr1.length];
         for (int i = 0; i < arr1.length; i++){
             res[i] = arr1[i] - arr2[i];
@@ -17,7 +20,7 @@ public class LinearSystemSolver {
         return res;
     }
 
-    private static double[] multArrayWithConst (double[] arr1, double k){
+    private double[] multArrayWithConst (double[] arr1, double k){
         double[] res = new double[arr1.length];
         for (int i = 0; i < arr1.length; i++){
             res[i] = arr1[i] * k;
@@ -25,7 +28,7 @@ public class LinearSystemSolver {
         return res;
     }
 
-    private static boolean isNULL(double[] row){
+    private boolean isNULL(double[] row){
         int len = row.length;
         if (row[0] != -999999999){
             return false;
@@ -36,8 +39,7 @@ public class LinearSystemSolver {
         return true;
     }
 
-    public static String[][] gaussianElimination (Matrix matrix){
-        String[][] resultParametrik;
+    public LinearSystemSolution gaussianElimination (Matrix matrix){
         int rows = matrix.getRowsCount();
         int cols = matrix.getColsCount();
 
@@ -61,15 +63,14 @@ public class LinearSystemSolver {
                 }
             }
 
-            //move the result to resultParametrik that has type String
-            resultParametrik = new String[1][cols-1];
+            Matrix resultMatrixUniqueSolution = new Matrix(1,cols-1);
+            resultMatrixUniqueSolution.setAllData(result);
 
-            for (int j = 0; j < cols-1; j++) {
-                resultParametrik[0][j] = String.valueOf(result[0][j]);
-            }
+            return new UniqueSolution(resultMatrixUniqueSolution);
 
         } else { // if there are many solutions
 
+            String[][] resultParametric;
             //get the index of last row that not all zero and count how many zero rows
             int countZeroRows = 0;
             int idxlastRowNotZero = rows-1; // this is used as starting row in backward elimination
@@ -127,30 +128,28 @@ public class LinearSystemSolver {
 
             }
 
-            //move the result to resultParametrik that has type String
-            resultParametrik = new String[cols-1][countParameter+1];
+            //move the result to resultParametric that has type String
+            resultParametric = new String[cols-1][countParameter+1];
 
-            //for constant, just move result to resultParametrik
-            for (int i=0; i<resultParametrik.length; i++){
-                resultParametrik[i][0] = String.valueOf(result[i][0]);
+            //for constant, just move result to resultParametric
+            for (int i=0; i<resultParametric.length; i++){
+                resultParametric[i][0] = String.valueOf(result[i][0]);
             }
 
-            //for parametric's coefficient, append result with a character first, then assign it to resultParametrik
-            for (int i=0; i<resultParametrik.length; i++) {
+            //for parametric coefficient, append result with a character first, then assign it to resultParametric
+            for (int i=0; i<resultParametric.length; i++) {
                 int ascii = 113+countParameter;
-                for (int j = 1; j < resultParametrik[0].length; j++) {
-                    resultParametrik[i][j] = String.valueOf(result[i][j]) + String.valueOf((char) ascii); //append result with ascii character
+                for (int j = 1; j < resultParametric[0].length; j++) {
+                    resultParametric[i][j] = String.valueOf(result[i][j]) + String.valueOf((char) ascii); //append result with ascii character
                     ascii--;
                 }
 
             }
+            return new ParametricSolution(resultParametric);
         }
-
-        return resultParametrik;
     }
 
-    public static String[][] gaussJordanElimination(Matrix matrix) {
-        String[][] resultParametrik;
+    public LinearSystemSolution gaussJordanElimination(Matrix matrix) {
         int rows = matrix.getRowsCount();
         int cols = matrix.getColsCount();
 
@@ -170,15 +169,16 @@ public class LinearSystemSolver {
                 result[0][row] = data[row][cols-1];
             }
 
-            //move the result to resultParametrik that has type String
-            resultParametrik = new String[1][cols-1];
+            //move the result to resultParametric that has type String
+            Matrix resultMatrixUniqueSolution = new Matrix(1, cols-1);
+            resultMatrixUniqueSolution.setAllData(result);
 
-            for (int j = 0; j < cols-1; j++) {
-                resultParametrik[0][j] = String.valueOf(result[0][j]);
-            }
+            return new UniqueSolution(resultMatrixUniqueSolution);
+
 
         } else { // if there are many solutions
 
+            String[][] resultParametric;
             //get the index of last row that not all zero and count how many zero rows
             int countZeroRows = 0;
             int idxlastRowNotZero = rows-1; // this is used as starting row in backward elimination
@@ -236,37 +236,36 @@ public class LinearSystemSolver {
 
             }
 
-            //move the result to resultParametrik that has type String
-            resultParametrik = new String[cols-1][countParameter+1];
+            //move the result to resultParametric that has type String
+            resultParametric = new String[cols-1][countParameter+1];
 
-            //for constant, just move result to resultParametrik
-            for (int i=0; i<resultParametrik.length; i++){
-                resultParametrik[i][0] = String.valueOf(result[i][0]);
+            //for constant, just move result to resultParametric
+            for (int i=0; i<resultParametric.length; i++){
+                resultParametric[i][0] = String.valueOf(result[i][0]);
             }
 
-            //for parametric's coefficient, append result with a character first, then assign it to resultParametrik
-            for (int i=0; i<resultParametrik.length; i++) {
+            //for parametric coefficient, append result with a character first, then assign it to resultParametric
+            for (int i=0; i<resultParametric.length; i++) {
                 int ascii = 113+countParameter;
-                for (int j = 1; j < resultParametrik[0].length; j++) {
-                    resultParametrik[i][j] = String.valueOf(result[i][j]) + String.valueOf((char) ascii); //append result with ascii character
+                for (int j = 1; j < resultParametric[0].length; j++) {
+                    resultParametric[i][j] = String.valueOf(result[i][j]) + String.valueOf((char) ascii); //append result with ascii character
                     ascii--;
                 }
 
             }
+            return new ParametricSolution(resultParametric);
         }
-
-        return resultParametrik;
     }
 
-    public static Matrix cramersRule(Matrix matrix, Matrix constant){
+    public LinearSystemSolution cramersRule(Matrix matrix, Matrix constant){
 
         // Cramer's rule can be used IF MATRIX is SQUARE and CONSTANT have same LENGTH as MATRIX
         if(!(matrix.isSquare() && matrix.getRowsCount() == constant.getColsCount())){
-            throw new IllegalArgumentException("Solution could not be calculated (dimension incompatible)");
+            throw new IllegalArgumentException("creamersRule() : Solution could not be calculated (dimension incompatible)");
         }
         double actualDeterminant = matrix.getDeterminantWithCofactor(); // Can be change with rowReduction methode
         if(actualDeterminant == 0){
-            throw new IllegalArgumentException("Solution could not be calculated");
+            throw new IllegalArgumentException("cramersRule() : Solution could not be calculated");
         }
         double tempDeterminant;
         Matrix solutions = new Matrix(1, matrix.getColsCount());
@@ -279,10 +278,10 @@ public class LinearSystemSolver {
             tempDeterminant = temp.getDeterminantWithCofactor();
             solutions.getAllData()[0][i] = tempDeterminant / actualDeterminant;
         }
-        return solutions;
+        return new UniqueSolution(solutions.transpose());
     }
 
-    public Matrix inverseMethod(Matrix matrix){
+    public LinearSystemSolution inverseMethod(Matrix matrix){
         Matrix equationVariables = new Matrix(matrix.getRowsCount(), matrix.getColsCount() - 1);
         if(!equationVariables.isSquare()){
             throw new IllegalArgumentException("inverseMethod() : Solution could not be calculated (wrong dimension for inverse method)");
@@ -301,6 +300,6 @@ public class LinearSystemSolver {
         }
         Matrix result = equationVariables.getInverseWithRowReduction().multiplyByMatrix(equationResult);
 
-        return result;
+        return new UniqueSolution(result);
     }
 }

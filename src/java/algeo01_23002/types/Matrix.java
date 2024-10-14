@@ -256,7 +256,7 @@ public class Matrix {
 
   public double getDeterminantWithRowReduction(){
     if(!(this.isSquare())){
-      throw new IllegalArgumentException("getDeterminantWithRowReduction : Determinant could not be calculated (dimension incompatible)");
+      throw new IllegalArgumentException("getDeterminantWithRowReduction() : Determinant could not be calculated (dimension incompatible)");
     }
     Matrix matrix = this.getCopy();
 

@@ -11,7 +11,7 @@ public class Main {
         matrix.inputMatrix();
 
 
-        Matrix X = Regression.multipleLinearRegression(matrix);
+        Matrix X = Regression.multipleQuadraticRegression(matrix);
         X.printMatrix();
     }
 

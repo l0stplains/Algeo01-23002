@@ -230,6 +230,10 @@ public class Matrix {
       throw new IllegalArgumentException("getDeterminantWithCofactor() : Determinant could not be calculated (dimension incompatible)");
     }
 
+    if(matrix.rows == 1){
+      return matrix.data[0][0];
+    }
+
     if(matrix.rows == 2){
       return (matrix.data[0][0] * matrix.data[1][1]) - (matrix.data[1][0] * matrix.data[0][1]);
     }
@@ -279,10 +283,10 @@ public class Matrix {
               }
             }
             for (int col = 0; col < cols; col++) { //divide all cols in that row with pivot
-              matrix.data[row][col] = Math.round((matrix.data[row][col] / pivot) * 10000.0) / 10000.0;
+              matrix.data[row][col] =matrix.data[row][col] / pivot;
             }
           } else {
-            break;
+            return 0;
           }
         }
         else {//step 2: make 0 below leading 1 col
@@ -310,7 +314,7 @@ public class Matrix {
         }
       }
     }
-    determinant = Math.round(determinant * 1000.0)/1000.0;
+    determinant = adjustPrecision(determinant);
 
     return (isSwap? determinant * -1 : determinant);
 
@@ -604,6 +608,15 @@ public class Matrix {
       return true;
     if (!(obj instanceof Matrix other))
       return false;
+    if (this.data.length != other.data.length || this.data[0].length != other.data[0].length) {
+      return false;
+    }
     return Arrays.deepEquals(this.data, other.data);
   }
+
+  @Override
+  public int hashCode() {
+    return Arrays.deepHashCode(data);
+  }
+
 }

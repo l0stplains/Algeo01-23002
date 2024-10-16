@@ -102,6 +102,11 @@ public class MatrixTest {
                             createMatrix(new double[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}),
                             createMatrix(new double[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}),
                             createMatrix(new double[][]{{2, 4, 6}, {8, 10, 12}, {14, 16, 18}})
+                    },
+                    new Object[]{"1x1 matrix",
+                            createMatrix(new double[][]{{99999999}}),
+                            createMatrix(new double[][]{{99999999}}),
+                            createMatrix(new double[][]{{199999998}}),
                     }
             );
         }
@@ -152,6 +157,11 @@ public class MatrixTest {
                             createMatrix(new double[][]{{1, 9, 6}, {1, 3, 5}, {1, 8, 2}}),
                             createMatrix(new double[][]{{0, 0, 2}, {0, 5, 2}, {1, 1, 4}}),
                             createMatrix(new double[][]{{6, 51, 44}, {5, 20, 28}, {2, 42, 26}}),
+                    },
+                    new Object[]{"3x3 matrix with 3x3 identity matrix",
+                            createMatrix(new double[][]{{1, 9, 6}, {1, 3, 5}, {1, 8, 2}}),
+                            createMatrix(new double[][]{{1, 0, 0}, {0, 1, 0}, {0, 0, 1}}),
+                            createMatrix(new double[][]{{1, 9, 6}, {1, 3, 5}, {1, 8, 2}}),
                     }
             );
         }
@@ -202,6 +212,18 @@ public class MatrixTest {
                     new Object[]{"1x8 matrix",
                             createMatrix(new double[][]{{1, 2, 3, 4, 5, 6, 7, 8}}),
                             createMatrix(new double[][]{{1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}})
+                    },
+                    new Object[]{"8x1 matrix",
+                            createMatrix(new double[][]{{1}, {2}, {3}, {4}, {5}, {6}, {7}, {8}}),
+                            createMatrix(new double[][]{{1, 2, 3, 4, 5, 6, 7, 8}}),
+                    },
+                    new Object[]{"1x1 matrix",
+                            createMatrix(new double[][]{{34}}),
+                            createMatrix(new double[][]{{34}}),
+                    },
+                    new Object[]{"3x3 symmetric matrix",
+                            createMatrix(new double[][]{{1, 7, 3}, {7, 5, 8}, {3, 8, 6}}),
+                            createMatrix(new double[][]{{1, 7, 3}, {7, 5, 8}, {3, 8, 6}}),
                     }
             );
         }
@@ -230,6 +252,14 @@ public class MatrixTest {
                             createMatrix(new double[][]{{2, 4}, {2, 9}}),
                             (double) 10,
                     },
+                    new Object[]{"2x2 matrix (3)",
+                            createMatrix(new double[][]{{1, 2}, {2, 4}}),
+                            (double) 0,
+                    },
+                    new Object[]{"3x3 matrix",
+                            createMatrix(new double[][]{{1, 2, 3}, {2, 4, 6}, {3, 6, 9}}),
+                            (double) 0,
+                    },
                     new Object[]{"4x4 matrix",
                             createMatrix(new double[][] {
                                     {3.0,6.0,9.0,3.0},
@@ -238,6 +268,27 @@ public class MatrixTest {
                                     {-1.0,-2.0,-2.0,1}
                             }),
                             (double) -21,
+                    },
+                    new Object[]{"1x1 matrix",
+                            createMatrix(new double[][] {{7}}),
+                            (double) 7,
+                    }
+            );
+        }
+
+        @ParameterizedTest(name = "Test {index}: {0}")
+        @MethodSource("getDeterminantWithCofactorErrorTestCases")
+        void errorTestGetDeterminantWithCofactor(String description, Matrix matrix) {
+            assertThrows(IllegalArgumentException.class, matrix::getDeterminantWithCofactor, "Expected getDeterminantWithCofactor() to throw IllegalArgumentException for " + description);
+        }
+
+        static Stream<Object[]> getDeterminantWithCofactorErrorTestCases() {
+            return Stream.of(
+                    new Object[]{"2x3 matrix",
+                            createMatrix(new double[][]{{1, 2, 3}, {2, 4, 6}}),
+                    },
+                    new Object[]{"2x1 matrix",
+                            createMatrix(new double[][]{{1}, {2}}),
                     }
             );
         }
@@ -266,6 +317,14 @@ public class MatrixTest {
                             createMatrix(new double[][]{{2, 4}, {2, 9}}),
                             (double) 10,
                     },
+                    new Object[]{"2x2 matrix (3)",
+                            createMatrix(new double[][]{{1, 2}, {2, 4}}),
+                            (double) 0,
+                    },
+                    new Object[]{"3x3 matrix",
+                            createMatrix(new double[][]{{1, 2, 3}, {2, 4, 6}, {3, 6, 9}}),
+                            (double) 0,
+                    },
                     new Object[]{"4x4 matrix",
                             createMatrix(new double[][] {
                                     {3.0,6.0,9.0,3.0},
@@ -274,6 +333,26 @@ public class MatrixTest {
                                     {-1.0,-2.0,-2.0,1}
                             }),
                             (double) -21,
+                    },
+                    new Object[]{"1x1 matrix",
+                            createMatrix(new double[][] {{7}}),
+                            (double) 7,
+                    }
+            );
+        }
+        @ParameterizedTest(name = "Test {index}: {0}")
+        @MethodSource("getDeterminantWithRowReductionErrorTestCases")
+        void errorTestGetDeterminantWithRowReduction(String description, Matrix matrix) {
+            assertThrows(IllegalArgumentException.class, matrix::getDeterminantWithRowReduction, "Expected getDeterminantWithRowReduction() to throw IllegalArgumentException for " + description);
+        }
+
+        static Stream<Object[]> getDeterminantWithRowReductionErrorTestCases() {
+            return Stream.of(
+                    new Object[]{"2x3 matrix",
+                            createMatrix(new double[][]{{1, 2, 3}, {2, 4, 6}}),
+                    },
+                    new Object[]{"2x1 matrix",
+                            createMatrix(new double[][]{{1}, {2}}),
                     }
             );
         }
@@ -291,6 +370,14 @@ public class MatrixTest {
 
         static Stream<Object[]> getAdjointTestCases() {
             return Stream.of(
+                    new Object[]{"1x1 matrix (1)",
+                            createMatrix(new double[][]{{99}}),
+                            createMatrix(new double[][]{{1}}),
+                    },
+                    new Object[]{"1x1 matrix (2)",
+                            createMatrix(new double[][]{{-10000000}}),
+                            createMatrix(new double[][]{{1}}),
+                    },
                     new Object[]{"3x3 matrix",
                             createMatrix(new double[][]{{1, 2, 3}, {4, 5, 6}, {7, 8, 9}}),
                             createMatrix(new double[][]{{-3, 6, -3}, {6, -12, 6}, {-3, 6, -3}})
@@ -321,6 +408,30 @@ public class MatrixTest {
                     new Object[]{"2x2 matrix",
                             createMatrix(new double[][]{{2, 9}, {2, 4}}),
                             createMatrix(new double[][]{{-0.4, 0.9}, {0.2, -0.2}}),
+                    },
+                    new Object[]{"1x1 matrix",
+                            createMatrix(new double[][]{{13523002}}),
+                            createMatrix(new double[][]{{(double) 1/13523002}}),
+                    }
+            );
+        }
+
+        @ParameterizedTest(name = "Test {index}: {0}")
+        @MethodSource("getInverseWithAdjointErrorTestCases")
+        void errorTestGetInverseWithAdjoint(String description, Matrix matrix) {
+            assertThrows(ArithmeticException.class, matrix::getInverseWithAdjoint, "Expected getInverseWithAdjoint() to throw ArithmeticException for " + description);
+        }
+
+        static Stream<Object[]> getInverseWithAdjointErrorTestCases() {
+            return Stream.of(
+                    new Object[]{"3x3 matrix",
+                            createMatrix(new double[][]{{1, 2, 3}, {2, 4, 6}, {3, 6, 9}}),
+                    },
+                    new Object[]{"2x2 matrix",
+                            createMatrix(new double[][]{{1, 2}, {2, 4}}),
+                    },
+                    new Object[]{"1x1 matrix",
+                            createMatrix(new double[][]{{0}}),
                     }
             );
         }
@@ -344,6 +455,30 @@ public class MatrixTest {
                     new Object[]{"2x2 matrix",
                             createMatrix(new double[][]{{2, 9}, {2, 4}}),
                             createMatrix(new double[][]{{-0.4, 0.9}, {0.2, -0.2}}),
+                    },
+                    new Object[]{"1x1 matrix",
+                            createMatrix(new double[][]{{13523002}}),
+                            createMatrix(new double[][]{{0}}), // rounded to zero
+                    }
+            );
+        }
+
+        @ParameterizedTest(name = "Test {index}: {0}")
+        @MethodSource("getInverseWithRowReductionErrorTestCases")
+        void errorTestGetInverseWithRowReduction(String description, Matrix matrix) {
+            assertThrows(ArithmeticException.class, matrix::getInverseWithRowReduction, "Expected getInverseWithRowReduction() to throw ArithmeticException for " + description);
+        }
+
+        static Stream<Object[]> getInverseWithRowReductionErrorTestCases() {
+            return Stream.of(
+                    new Object[]{"3x3 matrix",
+                            createMatrix(new double[][]{{1, 2, 3}, {2, 4, 6}, {3, 6, 9}}),
+                    },
+                    new Object[]{"2x2 matrix",
+                            createMatrix(new double[][]{{1, 2}, {2, 4}}),
+                    },
+                    new Object[]{"1x1 matrix",
+                            createMatrix(new double[][]{{0}}),
                     }
             );
         }

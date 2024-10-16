@@ -404,6 +404,10 @@ public class Matrix {
 
   public Matrix getAdjoint(){
     Matrix result = new Matrix(rows, cols);
+    if(rows == 1 && cols == 1){
+      result.setAllData(new double[][]{{1}});
+      return result;
+    }
     Matrix temp = new Matrix(rows - 1, cols - 1);
     for(int i = 0; i < rows; i++){
       for(int j = 0; j < cols; j++){
@@ -422,7 +426,7 @@ public class Matrix {
           }
           row++;
         }
-        result.data[i][j] = temp.getDeterminantWithCofactor(); // tried to use row reduction method but got wrong answer for some case
+        result.data[i][j] = temp.getDeterminantWithRowReduction(); // tried to use row reduction method but got wrong answer for some case
       }
     }
     for(int i = 0; i < rows; i++){
@@ -439,7 +443,12 @@ public class Matrix {
     if(!isSquare()) {
       throw new IllegalArgumentException("getInverseWithAdjoint(): Matrix is not square");
     }
-    return getAdjoint().divideByScalar(this.getDeterminantWithRowReduction());
+    double determinant = this.getDeterminantWithRowReduction();
+    if (determinant == 0) {
+      throw new ArithmeticException("getInverseWithAdjoint(): Matrix is singular (determinant is zero)");
+    }
+
+    return getAdjoint().divideByScalar(determinant);
   }
 
   public Matrix getInverseWithRowReduction(){
@@ -459,13 +468,24 @@ public class Matrix {
     }
 
     Matrix reducedMatrix = augmentedIdentity.getReducedRowEchelonForm();
+
+    // Check if the left half is the identity matrix
+    for (int i = 0; i < rows; i++) {
+      for (int j = 0; j < cols; j++) {
+        if (i == j && Math.abs(reducedMatrix.data[i][j] - 1) > 1e-10) {
+          throw new ArithmeticException("getInverseWithRowReduction(): Matrix is not invertible");
+        } else if (i != j && Math.abs(reducedMatrix.data[i][j]) > 1e-10) {
+          throw new ArithmeticException("getInverseWithRowReduction(): Matrix is not invertible");
+        }
+      }
+    }
+
     Matrix result = new Matrix(rows, cols);
     for(int i = 0; i < rows; i++){
       for(int j = 0; j < cols; j++){
         result.data[i][j] = reducedMatrix.data[i][j + cols];
       }
     }
-
     return result.getValidatedMatrixPrecision();
 
   }

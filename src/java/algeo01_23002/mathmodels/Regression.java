@@ -79,7 +79,7 @@ public class Regression {
                     val += inputPoints.getData(r, (i - 1) % k) * inputPoints.getData(r, (i - 1) % k);
                     storedVal = inputPoints.getData(r, (i - 1) % k) * inputPoints.getData(r, (i - 1) % k);
                 } else { // interaction variable
-                    for (int v = 1; v < k; v++) {
+                    for (int v = (i - 1) % k + 1; v < k; v++) {
                         val += inputPoints.getData(r, (i - 1) % k) * inputPoints.getData(r, ((i - 1) % k) + v);
                         storedVal = inputPoints.getData(r, (i - 1) % k) * inputPoints.getData(r, ((i - 1) % k) + v);
                     }
@@ -117,7 +117,7 @@ public class Regression {
             Y.setData(i,0,yVal);
         }
 
-        //   Augmented X Y
+        //  Augmented X Y
         Matrix augmentedMatrix = new Matrix(Xrows,Xrows+1);
         for (int i = 0; i < Xrows; i++) {
             for (int j = 0; j < Xrows; j++) {

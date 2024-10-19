@@ -132,7 +132,7 @@ public class LinearSystemSolver {
                 result[indexOfLeadingOne][0] = data[row][cols-1];
                 for (int col = indexOfLeadingOne+1; col < cols-1; col++){
 
-                    if (isNULL(result[col])) { //if the result of a variable is null, assign parameter
+                    if (isNULL(result[col]) && parameter < countParameter+1 ) { //if the result of a variable is null, assign parameter
                         result[col][0] = 0;
                         result[col][parameter] = 1;
                         parameter++;
@@ -168,7 +168,7 @@ public class LinearSystemSolver {
         int cols = matrix.getColsCount();
 
         matrix = matrix.getReducedRowEchelonForm();
-        matrix.printMatrix();
+
         double[][] data = matrix.getAllData();
 
         boolean isNoSolution = false;
@@ -258,7 +258,7 @@ public class LinearSystemSolver {
                 result[indexOfLeadingOne][0] = data[row][cols-1];
                 for (int col = indexOfLeadingOne+1; col < cols-1; col++){
 
-                    if (isNULL(result[col])) { //if the result of a variable is null, assign parameter
+                    if (isNULL(result[col]) && parameter < countParameter+1) { //if the result of a variable is null, assign parameter
                         result[col][0] = 0;
                         result[col][parameter] = 1;
                         parameter++;
@@ -289,23 +289,26 @@ public class LinearSystemSolver {
         }
     }
 
-    public LinearSystemSolution cramersRule(Matrix matrix, Matrix constant){
+    public LinearSystemSolution cramersRule(Matrix matrix){
+        Matrix X = new Matrix(matrix.getRowsCount(), matrix.getColsCount()-1);
+        Matrix Y = new Matrix(matrix.getRowsCount(), 1);
 
-        // Cramer's rule can be used IF MATRIX is SQUARE and CONSTANT have same LENGTH as MATRIX
-        if(!(matrix.isSquare() && matrix.getRowsCount() == constant.getColsCount())){
-            throw new IllegalArgumentException("creamersRule() : Solution could not be calculated (dimension incompatible)");
+        for(int i = 0; i < matrix.getColsCount()-1; i++){
+            X.setCol(i, matrix.getCol(i));
         }
-        double actualDeterminant = matrix.getDeterminantWithCofactor(); // Can be change with rowReduction methode
-        if(actualDeterminant == 0){
-            throw new IllegalArgumentException("cramersRule() : Solution could not be calculated");
+        Y.setCol(0, matrix.getCol(matrix.getColsCount()-1));
+
+        double actualDeterminant = X.getDeterminantWithCofactor(); // Can be change with rowReduction methode
+        if(actualDeterminant == 0 || matrix.getColsCount() < 3){
+            throw new IllegalArgumentException("cramersRule() : Solution could not be calculated, Invalid Determinant or Invallid Matrix Dimension");
         }
         double tempDeterminant;
-        Matrix solutions = new Matrix(1, matrix.getColsCount());
+        Matrix solutions = new Matrix(1, X.getRowsCount());
 
-        for(int i = 0; i < constant.getColsCount(); i++){
-            Matrix temp = matrix.getCopy();
-            for(int j = 0; j < matrix.getColsCount(); j++){
-                temp.getAllData()[j][i] = constant.getAllData()[0][j]; // fill the columns with constant
+        for(int i = 0; i < X.getColsCount(); i++){
+            Matrix temp = X.getCopy();
+            for(int j = 0; j < X.getColsCount(); j++){
+                temp.getAllData()[j][i] = Y.getAllData()[j][0]; // fill the columns with constant
             }
             tempDeterminant = temp.getDeterminantWithCofactor();
             solutions.getAllData()[0][i] = tempDeterminant / actualDeterminant;

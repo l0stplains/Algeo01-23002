@@ -15,6 +15,6 @@ public final class UniqueSolution extends LinearSystemSolution {
 
     @Override
     public String toString() {
-        return "Unique solution: " + Arrays.toString(solution.getAllData());
+        return "Unique solution: " + Arrays.deepToString(solution.getAllData()); // changed
     }
 }

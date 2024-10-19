@@ -5,7 +5,7 @@ import algeo01_23002.types.Matrix;
 
 public class Regression {
 
-    public static Matrix multipleLinearRegression (Matrix inputPoints){
+    public static LinearSystemSolution multipleLinearRegression (Matrix inputPoints){
         int n = inputPoints.getRowsCount(); //n of points
         int k = inputPoints.getColsCount() - 1; //k of variables
 
@@ -22,11 +22,8 @@ public class Regression {
             X.setData(i-1, 0, X.getData(0,i-1));
         }
         //for left edge of the X
-        for (int j = 1; j <= k; j++) {
-            for (int h=0; h<n; h++) {
-                double val = X.getData(j,0) + inputPoints.getData(h,j-1);
-                X.setData(j,0,val);
-            }
+        for(int j = 1; j <=k; j++){
+            X.setData(j, 0, X.getData(0,j)); // refactor
         }
         //for the whole X except top edge and left edge
         for (int j=1; j<=k; j++){
@@ -50,12 +47,18 @@ public class Regression {
             }
         }
 
-        Matrix b;
-        b = X.getInverseWithAdjoint().multiplyByMatrix(y);
-        return b;
+        Matrix augmentedMatrix = new Matrix(X.getRowsCount(),X.getColsCount()+1);
+        for (int i = 0; i < X.getRowsCount(); i++) {
+            for (int j = 0; j < X.getColsCount(); j++) {
+                augmentedMatrix.setData(i,j,X.getData(i,j));
+            }
+            augmentedMatrix.setData(i,X.getColsCount(),y.getData(i,0));
+        }
+        LinearSystemSolver solver = new LinearSystemSolver();
+        return solver.gaussJordanElimination(augmentedMatrix);
     }
 
-    public static Matrix multipleQuadraticRegression(Matrix inputPoints) {
+    public static LinearSystemSolution multipleQuadraticRegression(Matrix inputPoints) {
         int n = inputPoints.getRowsCount(); //n of points
         int k = inputPoints.getColsCount() - 1; //k of variables
 
@@ -126,7 +129,7 @@ public class Regression {
             augmentedMatrix.setData(i,Xrows,Y.getData(i,0));
         }
 
-        //MATRIX DONE, IMPLEMENT WITH GAUSS
-        return augmentedMatrix;
+        LinearSystemSolver solver = new LinearSystemSolver();
+        return solver.gaussianElimination(augmentedMatrix);
     }
 }

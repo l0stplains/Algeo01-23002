@@ -25,26 +25,52 @@ public class LinearSystemSolverTest {
         });
 
     }
-
-    @Test
-    public void testCramersRule() {
-        Matrix matrix1 = new Matrix(3,3);
-        Matrix constant = new Matrix(1,3);
-        matrix1.inputMatrixFromFile("test/resources/CramersTest.txt");
-        constant.inputMatrixFromFile("test/resources/Constant.txt");
-
-        LinearSystemSolver solver = new LinearSystemSolver();
-        LinearSystemSolution solution = solver.cramersRule(matrix1, constant);
-        double[][] expectedData = {
-                {1.0},
-                {3.0},
-                {-2.0}
-        };
-
-        if(solution instanceof UniqueSolution) {
-            assertArrayEquals(expectedData, ((UniqueSolution) solution).getSolution().getAllData());
+    @Nested
+    @DisplayName("Cramer Test Test")
+    class CramersRuleTests {
+        @ParameterizedTest(name = "Test {index}: {0}")
+        @MethodSource("cramersRuleTestCases")
+        void testCramersRule(String description, Matrix a, Matrix expected) {
+            LinearSystemSolver solver = new LinearSystemSolver();
+            LinearSystemSolution solution = solver.cramersRule(a);
+            Matrix uniqueSolution = ((UniqueSolution) solution).getSolution();
+            assertArrayEquals(expected.getAllData(), uniqueSolution.getAllData(), "Solution Wrong");
         }
-    }
+
+
+        static Stream<Object[]> cramersRuleTestCases() {
+            return Stream.of(
+                    new Object[]{"3x4 (3x3 augmented)",
+                            createMatrix(new double[][]{
+                                    {1, 1, -1, 6},
+                                    {3, -2, 1, -5},
+                                    {1, 3, -2, 14}}),
+                            createMatrix(new double[][]{
+                                    {1.0},
+                                    {3.0},
+                                    {-2.0}})
+                            },
+                    new Object[]{"3x4 (3x3 augmented)",
+                            createMatrix(new double[][]{
+                                    {4, 7, 8, 9},
+                                    {22, 1, 5, 9},
+                                    {1, 8, 8, 1}}),
+                            createMatrix(new double[][]{
+                                    {-2.52},
+                                    {-15.56},
+                                    {16}})
+                            },
+                            new Object[]{"2x3",
+                                    createMatrix(new double[][]{
+                                            {12,-10,46},
+                                            {3,20,-11}}),
+                            createMatrix(new double[][]{
+                                    {3},
+                                    {-1}})
+                            }
+                    );
+            }
+        }
 
     @Test
     public void testInverseMethod(){

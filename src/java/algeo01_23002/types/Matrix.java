@@ -339,7 +339,7 @@ public class Matrix {
               }
             }
             for (int col = 0; col < cols; col++) { //divide all cols in that row with pivot
-                matrix.data[row][col] = Math.round((matrix.data[row][col] / pivot) * 10000.0) / 10000.0;
+                matrix.data[row][col] = matrix.data[row][col] / pivot;
             }
           } else {
             break;
@@ -370,7 +370,7 @@ public class Matrix {
       }
     }
 
-    return matrix;
+    return matrix.getValidatedMatrixPrecision();
   }
 
   public Matrix getReducedRowEchelonForm() {
@@ -399,7 +399,7 @@ public class Matrix {
         }
       }
     }
-    return matrixReduced;
+    return matrixReduced.getValidatedMatrixPrecision();
   }
 
   public Matrix getAdjoint(){

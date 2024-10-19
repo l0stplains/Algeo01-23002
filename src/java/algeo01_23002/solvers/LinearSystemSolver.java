@@ -1,8 +1,5 @@
 package algeo01_23002.solvers;
-import algeo01_23002.types.LinearSystemSolution;
-import algeo01_23002.types.Matrix;
-import algeo01_23002.types.ParametricSolution;
-import algeo01_23002.types.UniqueSolution;
+import algeo01_23002.types.*;
 
 public class LinearSystemSolver {
     private boolean isAllZero(double[] row){
@@ -43,15 +40,40 @@ public class LinearSystemSolver {
         int rows = matrix.getRowsCount();
         int cols = matrix.getColsCount();
 
-        matrix.getRowEchelonForm();
+        matrix = matrix.getRowEchelonForm();
         double[][] data = matrix.getAllData();
 
-        boolean isManySolutions = (isAllZero(data[rows - 1]) && rows < cols) || rows < cols - 1;
+        boolean isNoSolution = false;
+        //get the index of last row that not all zero and count how many zero rows
+        int countZeroRows = 0;
+        int idxlastRowNotZero = rows-1; // this is used as starting row in backward elimination
+        for (int row = rows-1; row >= 0; row--){ //check if zero solution or many solution or not both
+            boolean allZeroCoefficients = true; // Flag to check if all coefficients are zero in this row
+            for (int col = 0; col < cols - 1; col++) { // Check each coefficient in the row
+                if (data[row][col] != 0) {
+                    allZeroCoefficients = false;
+                    break;
+                }
+            }
+
+            // If all coefficients are zero and the constant term is non-zero, it's a no-solution case
+            if (allZeroCoefficients && data[row][cols - 1] != 0) {
+                isNoSolution = true;
+            }
+            if (isAllZero(data[row])){
+                countZeroRows++;
+            } else {
+                idxlastRowNotZero = row;
+                break;
+            }
+        }
+
+        boolean isManySolutions = rows - countZeroRows < cols-1;
         //if last row contains all zero but the rows
         // then there are many solutions
 
 
-        if (!isManySolutions){ //if there is only one solution
+        if (!isManySolutions && !isNoSolution){ //if there is only one solution
 
             double[][] result = new double[1][cols-1]; //initialize array to save the result
 
@@ -68,20 +90,12 @@ public class LinearSystemSolver {
 
             return new UniqueSolution(resultMatrixUniqueSolution);
 
+        } else if (isNoSolution){
+            return new NoSolution();
+
         } else { // if there are many solutions
 
             String[][] resultParametric;
-            //get the index of last row that not all zero and count how many zero rows
-            int countZeroRows = 0;
-            int idxlastRowNotZero = rows-1; // this is used as starting row in backward elimination
-            for (int row = rows-1; row >= 0; row--){
-                if (isAllZero(data[row])){
-                    countZeroRows++;
-                } else {
-                    idxlastRowNotZero = row;
-                    break;
-                }
-            }
 
             //count how many parameter is needed
             int countParameter = (rows - 1) - countZeroRows;
@@ -153,19 +167,45 @@ public class LinearSystemSolver {
         int rows = matrix.getRowsCount();
         int cols = matrix.getColsCount();
 
-        matrix.getRowEchelonForm();
+        matrix = matrix.getReducedRowEchelonForm();
+        matrix.printMatrix();
         double[][] data = matrix.getAllData();
 
-        boolean isManySolutions = (isAllZero(data[rows - 1]) && rows < cols) || rows < cols - 1;
+        boolean isNoSolution = false;
+        //get the index of last row that not all zero and count how many zero rows
+        int countZeroRows = 0;
+        int idxlastRowNotZero = rows-1; // this is used as starting row in backward elimination
+        for (int row = rows-1; row >= 0; row--){ //check if zero solution or many solution or not both
+            boolean allZeroCoefficients = true; // Flag to check if all coefficients are zero in this row
+            for (int col = 0; col < cols - 1; col++) { // Check each coefficient in the row
+                if (data[row][col] != 0) {
+                    allZeroCoefficients = false;
+                    break;
+                }
+            }
+
+            // If all coefficients are zero and the constant term is non-zero, it's a no-solution case
+            if (allZeroCoefficients && data[row][cols - 1] != 0) {
+                isNoSolution = true;
+            }
+            if (isAllZero(data[row])){
+                countZeroRows++;
+            } else {
+                idxlastRowNotZero = row;
+                break;
+            }
+        }
+
+        boolean isManySolutions = rows - countZeroRows < cols-1;
         //if last row contains all zero but the rows
         // then there are many solutions
 
 
-        if (!isManySolutions){ //if there is only one solution
+        if (!isManySolutions && !isNoSolution){ //if there is only one solution
 
             double[][] result = new double[1][cols-1]; //initialize array to save the result
 
-            for(int row=0; row<rows; row++){
+            for(int row=0; row<rows-countZeroRows; row++){
                 result[0][row] = data[row][cols-1];
             }
 
@@ -176,20 +216,12 @@ public class LinearSystemSolver {
             return new UniqueSolution(resultMatrixUniqueSolution);
 
 
+        } else if (isNoSolution) {
+            return new NoSolution();
+
         } else { // if there are many solutions
 
             String[][] resultParametric;
-            //get the index of last row that not all zero and count how many zero rows
-            int countZeroRows = 0;
-            int idxlastRowNotZero = rows-1; // this is used as starting row in backward elimination
-            for (int row = rows-1; row >= 0; row--){
-                if (isAllZero(data[row])){
-                    countZeroRows++;
-                } else {
-                    idxlastRowNotZero = row;
-                    break;
-                }
-            }
 
             //count how many parameter is needed
             int countParameter = (rows - 1) - countZeroRows;

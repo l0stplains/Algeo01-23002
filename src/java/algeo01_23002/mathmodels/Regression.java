@@ -54,6 +54,8 @@ public class Regression {
             }
             augmentedMatrix.setData(i,X.getColsCount(),y.getData(i,0));
         }
+
+//        augmentedMatrix.printMatrix();
         LinearSystemSolver solver = new LinearSystemSolver();
         return solver.gaussJordanElimination(augmentedMatrix);
     }
@@ -128,8 +130,7 @@ public class Regression {
             }
             augmentedMatrix.setData(i,Xrows,Y.getData(i,0));
         }
-
         LinearSystemSolver solver = new LinearSystemSolver();
-        return solver.gaussianElimination(augmentedMatrix);
+        return solver.gaussJordanElimination(augmentedMatrix);
     }
 }

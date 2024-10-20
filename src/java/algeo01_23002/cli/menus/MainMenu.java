@@ -28,16 +28,19 @@ public class MainMenu {
             System.out.println("7.  About the library");
             System.out.println("8.  Help");
             System.out.println("9.  Exit");
-            System.out.print(ARROW +"  Select an option (1-8): " + RESET);
+            System.out.print(ARROW +"  Select an option (1-9): " + RESET);
 
-            int choice = getChoice(1, 8);
+            int choice = getChoice(1, 9);
             switch(choice) {
                 case 1 -> LinearSystemSolverMenu.show();
                 case 2 -> InterpolationMenu.show();
                 case 3 -> RegressionMenu.show();
                 case 4 -> MatrixTransformationMenu.show();
                 case 5 -> MatrixOperationsMenu.show();
-                case 6 -> { isRunning = false; }
+                case 6 -> MatrixPropertiesMenu.show();
+                case 7 -> AboutMenu.show();
+                case 8 -> HelpMenu.show();
+                case 9 -> { isRunning = false; }
             }
         }
     }

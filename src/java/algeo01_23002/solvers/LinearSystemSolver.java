@@ -98,7 +98,7 @@ public class LinearSystemSolver {
             String[][] resultParametric;
 
             //count how many parameter is needed
-            int countParameter = (rows - 1) - countZeroRows;
+            int countParameter = (cols - 1) - (rows - countZeroRows);
 
             //make result array
             //index 0 of result array is used to store constant and the rest is used to store the coefficient of parameter
@@ -152,10 +152,10 @@ public class LinearSystemSolver {
 
             //for parametric coefficient, append result with a character first, then assign it to resultParametric
             for (int i=0; i<resultParametric.length; i++) {
-                int ascii = 113+countParameter;
+                int ascii = 114+countParameter;
                 for (int j = 1; j < resultParametric[0].length; j++) {
                     resultParametric[i][j] = String.valueOf(result[i][j]) + String.valueOf((char) ascii); //append result with ascii character
-                    ascii--;
+                    ascii++;
                 }
 
             }
@@ -168,7 +168,6 @@ public class LinearSystemSolver {
         int cols = matrix.getColsCount();
 
         matrix = matrix.getReducedRowEchelonForm();
-
         double[][] data = matrix.getAllData();
 
         boolean isNoSolution = false;
@@ -223,8 +222,8 @@ public class LinearSystemSolver {
 
             String[][] resultParametric;
 
-            //count how many parameter is needed
-            int countParameter = (rows - 1) - countZeroRows;
+            //count how many parameter is needed (Edited)
+            int countParameter = (cols - 1) - (rows - countZeroRows);
 
             //make result array
             //index 0 of result array is used to store constant and the rest is used to store the coefficient of parameter
@@ -278,10 +277,10 @@ public class LinearSystemSolver {
 
             //for parametric coefficient, append result with a character first, then assign it to resultParametric
             for (int i=0; i<resultParametric.length; i++) {
-                int ascii = 113+countParameter;
+                int ascii = 114+countParameter;
                 for (int j = 1; j < resultParametric[0].length; j++) {
                     resultParametric[i][j] = String.valueOf(result[i][j]) + String.valueOf((char) ascii); //append result with ascii character
-                    ascii--;
+                    ascii++;
                 }
 
             }

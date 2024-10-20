@@ -60,6 +60,18 @@ sourceSets {
     }
 }
 
+tasks.jar {
+    manifest {
+        attributes(
+            "Main-Class" to "algeo01_23002.Main"  // Replace with your main class
+        )
+    }
+    from(configurations.runtimeClasspath.get().map { if (it.isDirectory) it else zipTree(it) })
+    // Handle duplicate files
+    duplicatesStrategy = DuplicatesStrategy.EXCLUDE
+}
+
 application {
     mainClass.set("algeo01_23002.Main")
 }
+

@@ -58,7 +58,16 @@ public class Interpolation {
         return i*j*pow(x,i-1)*pow(y,j-1);
     }
 
-    public static Matrix bicubicSplineInterpolation (){
+    public static double bicubicSplineInterpolation (Matrix YInput, double a, double b){
+        Matrix Y = new Matrix(16,1);
+        int k = 0;
+        for (int i = 0; i < 4; i++) {
+            for (int j = 0; j < 4; j++) {
+                Y.setData(k, 0, YInput.getData(i, j));
+                k++;
+            }
+        }
+
         Matrix X = new Matrix(16,16);
         double[][] data = X.getAllData();
         int x, y;
@@ -98,8 +107,18 @@ public class Interpolation {
 
         }
         X.setAllData(data);
-        X.getInverseWithAdjoint();
-        return X;
+
+        Matrix coeff = X.getInverseWithRowReduction().multiplyByMatrix(Y);
+        double res = 0;
+        k = 0;
+        for (int i=0; i<=3; i++){
+            for (int j=0; j<=3; j++){
+                res += coeff.getData(k,0)*pow(a,i)*pow(b,j);
+                k++;
+            }
+
+        }
+        return res;
     }
 }
 

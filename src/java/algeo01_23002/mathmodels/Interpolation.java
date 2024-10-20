@@ -96,6 +96,7 @@ public class Interpolation {
 
         }
         X.setAllData(data);
+        X.getInverseWithAdjoint();
         return X;
     }
 }

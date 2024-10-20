@@ -1,8 +1,5 @@
 package algeo01_23002.solvers;
-import algeo01_23002.types.LinearSystemSolution;
-import algeo01_23002.types.Matrix;
-import algeo01_23002.types.ParametricSolution;
-import algeo01_23002.types.UniqueSolution;
+import algeo01_23002.types.*;
 
 public class LinearSystemSolver {
     private boolean isAllZero(double[] row){
@@ -43,15 +40,40 @@ public class LinearSystemSolver {
         int rows = matrix.getRowsCount();
         int cols = matrix.getColsCount();
 
-        matrix.getRowEchelonForm();
+        matrix = matrix.getRowEchelonForm();
         double[][] data = matrix.getAllData();
 
-        boolean isManySolutions = (isAllZero(data[rows - 1]) && rows < cols) || rows < cols - 1;
+        boolean isNoSolution = false;
+        //get the index of last row that not all zero and count how many zero rows
+        int countZeroRows = 0;
+        int idxlastRowNotZero = rows-1; // this is used as starting row in backward elimination
+        for (int row = rows-1; row >= 0; row--){ //check if zero solution or many solution or not both
+            boolean allZeroCoefficients = true; // Flag to check if all coefficients are zero in this row
+            for (int col = 0; col < cols - 1; col++) { // Check each coefficient in the row
+                if (data[row][col] != 0) {
+                    allZeroCoefficients = false;
+                    break;
+                }
+            }
+
+            // If all coefficients are zero and the constant term is non-zero, it's a no-solution case
+            if (allZeroCoefficients && data[row][cols - 1] != 0) {
+                isNoSolution = true;
+            }
+            if (isAllZero(data[row])){
+                countZeroRows++;
+            } else {
+                idxlastRowNotZero = row;
+                break;
+            }
+        }
+
+        boolean isManySolutions = rows - countZeroRows < cols-1;
         //if last row contains all zero but the rows
         // then there are many solutions
 
 
-        if (!isManySolutions){ //if there is only one solution
+        if (!isManySolutions && !isNoSolution){ //if there is only one solution
 
             double[][] result = new double[1][cols-1]; //initialize array to save the result
 
@@ -68,20 +90,12 @@ public class LinearSystemSolver {
 
             return new UniqueSolution(resultMatrixUniqueSolution);
 
+        } else if (isNoSolution){
+            return new NoSolution();
+
         } else { // if there are many solutions
 
             String[][] resultParametric;
-            //get the index of last row that not all zero and count how many zero rows
-            int countZeroRows = 0;
-            int idxlastRowNotZero = rows-1; // this is used as starting row in backward elimination
-            for (int row = rows-1; row >= 0; row--){
-                if (isAllZero(data[row])){
-                    countZeroRows++;
-                } else {
-                    idxlastRowNotZero = row;
-                    break;
-                }
-            }
 
             //count how many parameter is needed
             int countParameter = (rows - 1) - countZeroRows;
@@ -118,7 +132,7 @@ public class LinearSystemSolver {
                 result[indexOfLeadingOne][0] = data[row][cols-1];
                 for (int col = indexOfLeadingOne+1; col < cols-1; col++){
 
-                    if (isNULL(result[col])) { //if the result of a variable is null, assign parameter
+                    if (isNULL(result[col]) && parameter < countParameter+1 ) { //if the result of a variable is null, assign parameter
                         result[col][0] = 0;
                         result[col][parameter] = 1;
                         parameter++;
@@ -153,19 +167,45 @@ public class LinearSystemSolver {
         int rows = matrix.getRowsCount();
         int cols = matrix.getColsCount();
 
-        matrix.getRowEchelonForm();
+        matrix = matrix.getReducedRowEchelonForm();
+
         double[][] data = matrix.getAllData();
 
-        boolean isManySolutions = (isAllZero(data[rows - 1]) && rows < cols) || rows < cols - 1;
+        boolean isNoSolution = false;
+        //get the index of last row that not all zero and count how many zero rows
+        int countZeroRows = 0;
+        int idxlastRowNotZero = rows-1; // this is used as starting row in backward elimination
+        for (int row = rows-1; row >= 0; row--){ //check if zero solution or many solution or not both
+            boolean allZeroCoefficients = true; // Flag to check if all coefficients are zero in this row
+            for (int col = 0; col < cols - 1; col++) { // Check each coefficient in the row
+                if (data[row][col] != 0) {
+                    allZeroCoefficients = false;
+                    break;
+                }
+            }
+
+            // If all coefficients are zero and the constant term is non-zero, it's a no-solution case
+            if (allZeroCoefficients && data[row][cols - 1] != 0) {
+                isNoSolution = true;
+            }
+            if (isAllZero(data[row])){
+                countZeroRows++;
+            } else {
+                idxlastRowNotZero = row;
+                break;
+            }
+        }
+
+        boolean isManySolutions = rows - countZeroRows < cols-1;
         //if last row contains all zero but the rows
         // then there are many solutions
 
 
-        if (!isManySolutions){ //if there is only one solution
+        if (!isManySolutions && !isNoSolution){ //if there is only one solution
 
             double[][] result = new double[1][cols-1]; //initialize array to save the result
 
-            for(int row=0; row<rows; row++){
+            for(int row=0; row<rows-countZeroRows; row++){
                 result[0][row] = data[row][cols-1];
             }
 
@@ -176,20 +216,12 @@ public class LinearSystemSolver {
             return new UniqueSolution(resultMatrixUniqueSolution);
 
 
+        } else if (isNoSolution) {
+            return new NoSolution();
+
         } else { // if there are many solutions
 
             String[][] resultParametric;
-            //get the index of last row that not all zero and count how many zero rows
-            int countZeroRows = 0;
-            int idxlastRowNotZero = rows-1; // this is used as starting row in backward elimination
-            for (int row = rows-1; row >= 0; row--){
-                if (isAllZero(data[row])){
-                    countZeroRows++;
-                } else {
-                    idxlastRowNotZero = row;
-                    break;
-                }
-            }
 
             //count how many parameter is needed
             int countParameter = (rows - 1) - countZeroRows;
@@ -226,7 +258,7 @@ public class LinearSystemSolver {
                 result[indexOfLeadingOne][0] = data[row][cols-1];
                 for (int col = indexOfLeadingOne+1; col < cols-1; col++){
 
-                    if (isNULL(result[col])) { //if the result of a variable is null, assign parameter
+                    if (isNULL(result[col]) && parameter < countParameter+1) { //if the result of a variable is null, assign parameter
                         result[col][0] = 0;
                         result[col][parameter] = 1;
                         parameter++;
@@ -257,23 +289,26 @@ public class LinearSystemSolver {
         }
     }
 
-    public LinearSystemSolution cramersRule(Matrix matrix, Matrix constant){
+    public LinearSystemSolution cramersRule(Matrix matrix){
+        Matrix X = new Matrix(matrix.getRowsCount(), matrix.getColsCount()-1);
+        Matrix Y = new Matrix(matrix.getRowsCount(), 1);
 
-        // Cramer's rule can be used IF MATRIX is SQUARE and CONSTANT have same LENGTH as MATRIX
-        if(!(matrix.isSquare() && matrix.getRowsCount() == constant.getColsCount())){
-            throw new IllegalArgumentException("creamersRule() : Solution could not be calculated (dimension incompatible)");
+        for(int i = 0; i < matrix.getColsCount()-1; i++){
+            X.setCol(i, matrix.getCol(i));
         }
-        double actualDeterminant = matrix.getDeterminantWithCofactor(); // Can be change with rowReduction methode
-        if(actualDeterminant == 0){
-            throw new IllegalArgumentException("cramersRule() : Solution could not be calculated");
+        Y.setCol(0, matrix.getCol(matrix.getColsCount()-1));
+
+        double actualDeterminant = X.getDeterminantWithCofactor(); // Can be change with rowReduction methode
+        if(actualDeterminant == 0 || matrix.getColsCount() < 3){
+            throw new IllegalArgumentException("cramersRule() : Solution could not be calculated, Invalid Determinant or Invallid Matrix Dimension");
         }
         double tempDeterminant;
-        Matrix solutions = new Matrix(1, matrix.getColsCount());
+        Matrix solutions = new Matrix(1, X.getRowsCount());
 
-        for(int i = 0; i < constant.getColsCount(); i++){
-            Matrix temp = matrix.getCopy();
-            for(int j = 0; j < matrix.getColsCount(); j++){
-                temp.getAllData()[j][i] = constant.getAllData()[0][j]; // fill the columns with constant
+        for(int i = 0; i < X.getColsCount(); i++){
+            Matrix temp = X.getCopy();
+            for(int j = 0; j < X.getColsCount(); j++){
+                temp.getAllData()[j][i] = Y.getAllData()[j][0]; // fill the columns with constant
             }
             tempDeterminant = temp.getDeterminantWithCofactor();
             solutions.getAllData()[0][i] = tempDeterminant / actualDeterminant;

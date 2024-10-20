@@ -10,5 +10,7 @@ public class Const {
     public static final String YELLOW = "\u001B[33m";
     public static final String CYAN = "\u001B[36m";
     public static final String PURPLE = "\u001B[35m";
+
     public static final String RGB = RED + "R" + GREEN + "G" + BLUE + "B" + RESET;
+    public static final String ARROW = PURPLE + "->" + RESET;
 }

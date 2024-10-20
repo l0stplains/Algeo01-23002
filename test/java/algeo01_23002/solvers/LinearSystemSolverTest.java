@@ -75,22 +75,8 @@ public class LinearSystemSolverTest {
     @Test
     public void testInverseMethod(){
         LinearSystemSolver solver = new LinearSystemSolver();
-        Matrix matrix1 = new Matrix(3,3);
-        Matrix constant = new Matrix(1,3);
-        matrix1.inputMatrixFromFile("test/resources/CramersTest.txt");
-        constant.inputMatrixFromFile("test/resources/Constant.txt");
-
         Matrix coba = new Matrix(3,4);
-
-        for(int i = 0; i < coba.getRowsCount(); i++){
-            for(int j = 0; j < coba.getColsCount(); j++){
-                if(j == coba.getColsCount() - 1){
-                    coba.setData(i, j, constant.getData(0, i));
-                } else {
-                    coba.setData(i, j, matrix1.getData(i, j));
-                }
-            }
-        }
+        coba.inputMatrixFromFile("test/resources/CramersTest.txt");
 
         LinearSystemSolution solution = solver.inverseMethod(coba);
 
@@ -147,11 +133,11 @@ public class LinearSystemSolverTest {
             return Stream.of(
                     new Object[]{"4x6 matrix",
                             createMatrix(new double[][]{{1, 7, -2, 0, -8, -3}, {1, 7, -1, 1, -2, 2}, {2, 14, -4, 1, -13, 3}, {1, 7, -2, 0, -8, -3}}),
-                            new String[][]{{"-11.0", "2.0s", "-7.0r"}, {"0.0", "0.0s", "1.0r"}, {"-4.0", "-3.0s", "0.0r"}, {"9.0", "-3.0s", "0.0r"}, {"0.0", "1.0s", "0.0r"}}
+                            new String[][]{{"-11.0", "2.0t", "-7.0u"}, {"0.0", "0.0t", "1.0u"}, {"-4.0", "-3.0t", "0.0u"}, {"9.0", "-3.0t", "0.0u"}, {"0.0", "1.0t", "0.0u"}}
                     },
                     new Object[]{"4x6 matrix",
                             createMatrix(new double[][]{{1, 7, -2, 0, -8, -3}, {1, 7, -1, 1, -2, 2}, {2, 14, -4, 1, -13, 3}, {1, 7, -2, 0, -8, -3}}),
-                            new String[][]{{"-11.0", "2.0s", "-7.0r"}, {"0.0", "0.0s", "1.0r"}, {"-4.0", "-3.0s", "0.0r"}, {"9.0", "-3.0s", "0.0r"}, {"0.0", "1.0s", "0.0r"}}
+                            new String[][]{{"-11.0", "2.0t", "-7.0u"}, {"0.0", "0.0t", "1.0u"}, {"-4.0", "-3.0t", "0.0u"}, {"9.0", "-3.0t", "0.0u"}, {"0.0", "1.0t", "0.0u"}}
                     }
             );
         }
@@ -223,11 +209,11 @@ public class LinearSystemSolverTest {
             return Stream.of(
                     new Object[]{"4x6 matrix",
                             createMatrix(new double[][]{{1, 7, -2, 0, -8, -3}, {1, 7, -1, 1, -2, 2}, {2, 14, -4, 1, -13, 3}, {1, 7, -2, 0, -8, -3}}),
-                            new String[][]{{"-11.0", "2.0s", "-7.0r"}, {"0.0", "0.0s", "1.0r"}, {"-4.0", "-3.0s", "0.0r"}, {"9.0", "-3.0s", "0.0r"}, {"0.0", "1.0s", "0.0r"}}
+                            new String[][]{{"-11.0", "2.0t", "-7.0u"}, {"0.0", "0.0t", "1.0u"}, {"-4.0", "-3.0t", "0.0u"}, {"9.0", "-3.0t", "0.0u"}, {"0.0", "1.0t", "0.0u"}}
                     },
                     new Object[]{"4x6 matrix",
                             createMatrix(new double[][]{{1, 7, -2, 0, -8, -3}, {1, 7, -1, 1, -2, 2}, {2, 14, -4, 1, -13, 3}, {1, 7, -2, 0, -8, -3}}),
-                            new String[][]{{"-11.0", "2.0s", "-7.0r"}, {"0.0", "0.0s", "1.0r"}, {"-4.0", "-3.0s", "0.0r"}, {"9.0", "-3.0s", "0.0r"}, {"0.0", "1.0s", "0.0r"}}
+                            new String[][]{{"-11.0", "2.0t", "-7.0u"}, {"0.0", "0.0t", "1.0u"}, {"-4.0", "-3.0t", "0.0u"}, {"9.0", "-3.0t", "0.0u"}, {"0.0", "1.0t", "0.0u"}}
                     }
             );
         }

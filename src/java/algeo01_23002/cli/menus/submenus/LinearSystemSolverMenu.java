@@ -26,7 +26,7 @@ public class LinearSystemSolverMenu {
             System.out.println("3.  Cramer's Rule Method");
             System.out.println("4.  Inverse Method");
             System.out.println("5.  Back to main menu");
-            System.out.print(PURPLE + "->  Select an option (1-5): " + RESET);
+            System.out.print(ARROW +"  Select an option (1-5): " + RESET);
 
             int choice = getChoice(1, 5);
             switch (choice){

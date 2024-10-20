@@ -1,5 +1,7 @@
 package algeo01_23002.cli;
 
+import algeo01_23002.types.Matrix;
+
 import java.util.Scanner;
 
 import static algeo01_23002.cli.Const.*;
@@ -39,4 +41,55 @@ public class Utilities {
         }
         return choice;
     }
+
+    public static void printMatrixWithBorder(Matrix matrix) {
+        int rows = matrix.getRowsCount();
+        int cols = matrix.getColsCount();
+
+        double[][] data = matrix.getAllData();
+
+        // Find the maximum length of the matrix element when formatted to two decimal places
+        int maxLength = 0;
+        for (int i = 0; i < rows; i++) {
+            for (int j = 0; j < cols; j++) {
+                String formatted = String.format("%.2f", data[i][j]);
+                if (formatted.length() > maxLength) {
+                    maxLength = formatted.length();
+                }
+            }
+        }
+
+        // Print top-side border
+        System.out.print("  ╔");
+        for (int i = 0; i < (maxLength + 1) * cols; i++) {
+            System.out.print("═");
+        }
+        System.out.println();
+
+        // Print each row of the matrix with left-side border and padding
+        for (int i = 0; i < rows; i++) {
+            System.out.print("  ║ "); // Left-side border
+
+            for (int j = 0; j < cols; j++) {
+                String formatted = String.format("%" + maxLength + ".2f", data[i][j]);
+                System.out.print(formatted + " "); // Print element with padding
+            }
+            System.out.println();
+        }
+    }
+
+    public static Matrix inputMatrixDriver(Matrix matrix) {
+        boolean isValid = false;
+        while(!isValid){
+            try {
+                matrix.inputMatrix();
+            } catch (Exception e) {
+                System.out.println(YELLOW + "!!!  Please input with the right format, rows, and cols: " + RESET);
+                continue;
+            }
+            isValid = true;
+        }
+        return matrix;
+    }
+
 }

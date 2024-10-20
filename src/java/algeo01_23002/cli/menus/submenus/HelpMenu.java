@@ -30,7 +30,7 @@ public class HelpMenu {
                 .append("     3 4\n")
                 .append("   - Matrix elements should be separated by spaces within a row.\n\n")
                 .append(YELLOW + "3. Exiting\n" + RESET)
-                .append("   - Select `8` from the main menu to exit the program.\n\n")
+                .append("   - Select `9` from the main menu to exit the program.\n\n")
                 .append(YELLOW + getCenteredText("PRESS ENTER TO EXIT", WIDTH) + RESET +  "\n")
         );
         System.out.println(message);

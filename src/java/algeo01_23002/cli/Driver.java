@@ -34,7 +34,7 @@ public class Driver {
 
     // Exit Program
     private static void exitProgram() {
-        System.out.println(BLUE + "Thank you for using " + RED + "R" + GREEN + "G" + BLUE + "B " + YELLOW + "Linear Algebra Library" + RESET);
+        System.out.println(CYAN + "Thank you for using " + RED + "R" + GREEN + "G" + BLUE + "B " + YELLOW + "Linear Algebra Library" + RESET);
         System.exit(0);
     }
 

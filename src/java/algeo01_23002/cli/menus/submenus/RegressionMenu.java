@@ -24,7 +24,7 @@ public class RegressionMenu {
             System.out.println("1.  Multiple Linear Regression");
             System.out.println("2.  Multiple Quadratic Regression");
             System.out.println("3.  Back to main menu");
-            System.out.print(PURPLE + "->  Select an option (1-3): " + RESET);
+            System.out.print(ARROW +"  Select an option (1-3): " + RESET);
 
             int choice = getChoice(1, 3);
             switch(choice) {

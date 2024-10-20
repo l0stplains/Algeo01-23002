@@ -24,10 +24,11 @@ public class MainMenu {
             System.out.println("3.  Regression");
             System.out.println("4.  Matrix Transformation");
             System.out.println("5.  Matrix Operations");
-            System.out.println("6.  About the library");
-            System.out.println("7.  Help");
-            System.out.println("8.  Exit");
-            System.out.print(PURPLE + "->  Select an option (1-8): " + RESET);
+            System.out.println("6.  Matrix Properties");
+            System.out.println("7.  About the library");
+            System.out.println("8.  Help");
+            System.out.println("9.  Exit");
+            System.out.print(ARROW +"  Select an option (1-8): " + RESET);
 
             int choice = getChoice(1, 8);
             switch(choice) {

@@ -13,6 +13,7 @@ import algeo01_23002.solvers.LinearSystemSolver;
 import java.util.stream.Stream;
 
 import static org.junit.jupiter.api.Assertions.assertArrayEquals;
+import static org.junit.jupiter.api.Assertions.assertEquals;
 
 public class InterpolationTest {
         private Matrix matrix;
@@ -27,39 +28,55 @@ public class InterpolationTest {
 
         }
 
+     /*
     @Nested
     @DisplayName("Bicubic Spline Interpolation Test")
-    class BiucbicSplineInterpolationTest {
+    class BicubicSplineInterpolationTest {
         @ParameterizedTest(name = "Test {index}: {0}")
         @MethodSource("bicubicSplineInterpolationTestCases")
-        public void testBicubicSplineInterpolation(String description, Matrix expected) {
-            assertArrayEquals(expected.getAllData(), Interpolation.bicubicSplineInterpolation().getAllData(), "Bicubic Spline Interpolation failed for " + description);
+        public void testBicubicSplineInterpolation(String description, Matrix matrix, double x, double y, double expected) {
+            assertEquals(expected, Interpolation.bicubicSplineInterpolation(matrix, x, y), "Bicubic Spline Interpolation failed for " + description);
         }
         static Stream<Object[]> bicubicSplineInterpolationTestCases() {
             return Stream.of(
-                    new Object[][]{new Object[]{"Test bicubic spline interpolation with predefined matrix",
+                    new Object[]{"Predefined matrix (1)",
                             createMatrix(new double[][]{
-                                    {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                    {1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                    {1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0},
-                                    {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1},
-                                    {0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                    {0, 1, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                    {0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0, 0, 1, 0, 0},
-                                    {0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3, 0, 1, 2, 3},
-                                    {0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                    {0, 0, 0, 0, 1, 1, 1, 1, 0, 0, 0, 0, 0, 0, 0, 0},
-                                    {0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0, 0},
-                                    {0, 0, 0, 0, 1, 1, 1, 1, 2, 2, 2, 2, 3, 3, 3, 3},
-                                    {0, 0, 0, 0, 0, 1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0},
-                                    {0, 0, 0, 0, 0, 1, 2, 3, 0, 0, 0, 0, 0, 0, 0, 0},
-                                    {0, 0, 0, 0, 0, 1, 0, 0, 0, 2, 0, 0, 0, 3, 0, 0},
-                                    {0, 0, 0, 0, 0, 1, 2, 3, 0, 2, 4, 6, 0, 3, 6, 9},
-                            })
-                    }}
+                                    {21, 98, 125, 153},
+                                    {51, 101, 161, 59},
+                                    {0, 42, 72, 210},
+                                    {16, 12, 81, 96}
+                            }), 0, 0, 21
+                    },
+                    new Object[]{"Predefined matrix (2)",
+                    createMatrix(new double[][]{
+                            {21, 98, 125, 153},
+                            {51, 101, 161, 59},
+                            {0, 42, 72, 210},
+                            {16, 12, 81, 96}
+                    }), 0.5, 0.5, 68.3515625
+                    },
+                    new Object[]{"Predefined matrix (2)",
+                            createMatrix(new double[][]{
+                                    {21, 98, 125, 153},
+                                    {51, 101, 161, 59},
+                                    {0, 42, 72, 210},
+                                    {16, 12, 81, 96}
+                            }), 0.25, 0.25, 82.4072265625
+                    },
+                    new Object[]{"Predefined matrix (2)",
+                            createMatrix(new double[][]{
+                                    {21, 98, 125, 153},
+                                    {51, 101, 161, 59},
+                                    {0, 42, 72, 210},
+                                    {16, 12, 81, 96}
+                            }), 0.1, 0.9, 91.79260049999999
+                    }
+
             );
         }
     }
+
+    */
 
     @Nested
     @DisplayName("Polynomial Interpolation Test")

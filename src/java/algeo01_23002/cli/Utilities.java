@@ -41,6 +41,24 @@ public class Utilities {
         }
         return choice;
     }
+    
+    public static double getDouble(){
+        double choice;
+        while (true) {
+            try {
+                Scanner scanner = new Scanner(System.in);
+                choice = Double.parseDouble(scanner.nextLine());
+            } catch (NumberFormatException e) {
+                System.out.print(YELLOW + "!!!  Not a valid number! Try again: " + RESET);
+                continue;
+            } catch (Exception e) {
+                System.out.print(RED + "!!!  ERROR! Try again: " + RESET);
+                continue;
+            }
+            break;
+        }
+        return choice;
+    }
 
     public static void printMatrixWithBorder(Matrix matrix) {
         int rows = matrix.getRowsCount();

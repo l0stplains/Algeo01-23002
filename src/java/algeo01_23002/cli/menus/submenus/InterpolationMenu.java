@@ -1,10 +1,15 @@
 package algeo01_23002.cli.menus.submenus;
 
+import algeo01_23002.mathmodels.Interpolation;
+import algeo01_23002.mathmodels.Regression;
+import algeo01_23002.types.*;
+import org.apache.commons.math3.analysis.interpolation.BicubicInterpolator;
+
 import java.util.Scanner;
 
 import static algeo01_23002.cli.Const.*;
-import static algeo01_23002.cli.Utilities.getCenteredText;
-import static algeo01_23002.cli.Utilities.getChoice;
+import static algeo01_23002.cli.Utilities.*;
+import static algeo01_23002.cli.Utilities.printMatrixWithBorder;
 
 public class InterpolationMenu {
 
@@ -27,10 +32,76 @@ public class InterpolationMenu {
 
             int choice = getChoice(1, 3);
             switch(choice) {
-                case 1 -> System.out.println("Polynomial Interpolation");
-                case 2 -> System.out.println("Bicubic Spline Interpolation");
+                case 1 -> polynomialInterpolationDriver();
+                case 2 -> bicubicSplineInterpolationDriver();
                 case 3 -> {isRunning = false;}
             }
         }
+    }
+
+    private static void polynomialInterpolationDriver() {
+        System.out.print("\n" + ARROW + "  Enter number of points: ");
+        int n_points = getChoice(1, 100);
+
+        Matrix x_points = new Matrix(1, n_points);
+        Matrix y_points = new Matrix(1, n_points);
+
+        for(int i = 0; i < n_points; i++) {
+            System.out.print("\n" + ARROW + "  Enter x value for point number " + (i + 1) + " : ");
+            x_points.setData(0, i, getDouble());
+            System.out.print("\n" + ARROW + "  Enter y value for point number " + (i + 1) + " : ");
+            y_points.setData(0, i, getDouble());
+        }
+
+        System.out.print("\nFitting the data...");
+        PolynomialResult result;
+        try {
+            result = Interpolation.polynomialInterpolation(x_points, y_points);
+        } catch (Exception e) {
+            System.out.println(YELLOW + "\nInterpolation can't be performed " + RESET);
+            return;
+        }
+
+        while(true) {
+            System.out.print("\n" + ARROW + "  Enter x value for point to be interpolated : ");
+            double inp = getDouble();
+            double res = result.evaluate(inp);
+            System.out.println(YELLOW + "\nResult: " + RESET);
+            System.out.println(res);
+            System.out.print("\n" + ARROW + "  Do you wish to continue (1 for continue/0 to stop): ");
+            int choice = getChoice(0, 1);
+            if(choice == 0) {
+                break;
+            }
+        }
+
+
+        System.out.println();
+    }
+
+    private static void bicubicSplineInterpolationDriver() {
+        System.out.print("\n" + ARROW + "  Enter number of rows: ");
+        int rows = getChoice(1, 100);
+        System.out.print("\n" + ARROW + "  Enter number of cols: ");
+        int cols = getChoice(1, 100);
+
+        Matrix matrix = new Matrix(rows, cols);
+
+        System.out.println("\n" + ARROW + "  Enter each element of the matrix: ");
+        matrix = inputMatrixDriver(matrix);
+
+        System.out.print("\n" + ARROW + "  Enter x value for point to be interpolated : ");
+        double x = getDouble();
+        System.out.print("\n" + ARROW + "  Enter y value for point to be interpolated : ");
+        double y = getDouble();
+
+
+        System.out.print("\nFitting the data...");
+        double result = Interpolation.bicubicSplineInterpolation(matrix, x, y);
+
+        System.out.println(YELLOW + "\nResult: " + RESET);
+        System.out.println(result);
+
+        System.out.println();
     }
 }

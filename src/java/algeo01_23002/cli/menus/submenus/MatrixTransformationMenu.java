@@ -1,10 +1,11 @@
 package algeo01_23002.cli.menus.submenus;
 
+import algeo01_23002.types.Matrix;
+
 import java.util.Scanner;
 
 import static algeo01_23002.cli.Const.*;
-import static algeo01_23002.cli.Utilities.getCenteredText;
-import static algeo01_23002.cli.Utilities.getChoice;
+import static algeo01_23002.cli.Utilities.*;
 
 public class MatrixTransformationMenu {
 
@@ -31,13 +32,119 @@ public class MatrixTransformationMenu {
 
             int choice = getChoice(1, 6);
             switch (choice){
-                case 1 -> System.out.println("1. Matrix Row Echelon Form");
-                case 2 -> System.out.println("2. Matrix Reduced Row Echelon Form");
-                case 3 -> System.out.println("3. Matrix Adjoint");
-                case 4 -> System.out.println("4. Matrix Inverse with Adjoint");
-                case 5 -> System.out.println("5. Matrix Inverse with Row Reduction");
+                case 1 -> matrixRowEchelonFormDriver();
+                case 2 -> matrixReducedRowEchelonFormDriver();
+                case 3 -> matrixAdjointDriver();
+                case 4 -> matrixInverseWithAdjointDriver();
+                case 5 -> matrixInverseWithRowReductionDriver();
                 case 6 -> { isRunning = false; }
             }
         }
+    }
+
+    private static void matrixRowEchelonFormDriver() {
+        System.out.print("\n" + ARROW + "  Enter number of rows: ");
+        int rows = getChoice(1, 100);
+        System.out.print("\n" + ARROW + "  Enter number of cols: ");
+        int cols = getChoice(1, 100);
+
+        Matrix matrix = new Matrix(rows, cols);
+
+        System.out.println("\n" + ARROW + "  Enter each element of the matrix: ");
+        matrix = inputMatrixDriver(matrix);
+
+        System.out.print("\nTransforming...");
+        Matrix result = matrix.getRowEchelonForm();
+
+        System.out.println(YELLOW + "\nResult: " + RESET);
+        printMatrixWithBorder(result);
+        System.out.println();
+    }
+
+    private static void matrixReducedRowEchelonFormDriver() {
+        System.out.print("\n" + ARROW + "  Enter number of rows: ");
+        int rows = getChoice(1, 100);
+        System.out.print("\n" + ARROW + "  Enter number of cols: ");
+        int cols = getChoice(1, 100);
+
+        Matrix matrix = new Matrix(rows, cols);
+
+        System.out.println("\n" + ARROW + "  Enter each element of the matrix: ");
+        matrix = inputMatrixDriver(matrix);
+
+        System.out.print("\nTransforming...");
+        Matrix result = matrix.getReducedRowEchelonForm();
+
+        System.out.println(YELLOW + "\nResult: " + RESET);
+        printMatrixWithBorder(result);
+        System.out.println();
+    }
+
+    private static void matrixAdjointDriver() {
+        System.out.print("\n" + ARROW + "  Enter number the length of the matrix (square): ");
+        int rows = getChoice(1, 12);
+        int cols = rows;
+
+        Matrix matrix = new Matrix(rows, cols);
+
+        System.out.println("\n" + ARROW + "  Enter each element of the matrix: ");
+        matrix = inputMatrixDriver(matrix);
+
+        System.out.print("\nTransforming...");
+        Matrix result = matrix.getAdjoint();
+
+        System.out.println(YELLOW + "\nResult: " + RESET);
+        printMatrixWithBorder(result);
+        System.out.println();
+    }
+
+    private static void matrixInverseWithAdjointDriver() {
+        System.out.print("\n" + ARROW + "  Enter number the length of the matrix (square): ");
+        int rows = getChoice(1, 12);
+        int cols = rows;
+
+        Matrix matrix = new Matrix(rows, cols);
+
+        System.out.println("\n" + ARROW + "  Enter each element of the matrix: ");
+        matrix = inputMatrixDriver(matrix);
+
+        System.out.print("\nTransforming...");
+        Matrix result;
+        try {
+            result = matrix.getInverseWithAdjoint();
+        } catch (ArithmeticException e) {
+            System.out.println(YELLOW + "\n!!!  Matrix is singular (determinant zero)" + RESET);
+            System.out.println();
+            return;
+        }
+
+        System.out.println(YELLOW + "\nResult: " + RESET);
+        printMatrixWithBorder(result);
+        System.out.println();
+    }
+
+    private static void matrixInverseWithRowReductionDriver() {
+        System.out.print("\n" + ARROW + "  Enter number the length of the matrix (square): ");
+        int rows = getChoice(1, 100);
+        int cols = rows;
+
+        Matrix matrix = new Matrix(rows, cols);
+
+        System.out.println("\n" + ARROW + "  Enter each element of the matrix: ");
+        matrix = inputMatrixDriver(matrix);
+
+        System.out.print("\nTransforming...");
+        Matrix result;
+        try {
+            result = matrix.getInverseWithRowReduction();
+        } catch (ArithmeticException e) {
+            System.out.println(YELLOW + "\n!!!  Matrix is not invertible" + RESET);
+            System.out.println();
+            return;
+        }
+
+        System.out.println(YELLOW + "\nResult: " + RESET);
+        printMatrixWithBorder(result);
+        System.out.println();
     }
 }

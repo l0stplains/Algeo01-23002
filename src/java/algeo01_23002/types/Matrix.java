@@ -403,6 +403,10 @@ public class Matrix {
   }
 
   public Matrix getAdjoint(){
+    if(rows != cols){
+      throw new IllegalArgumentException("getAdjoint() : Matrix is not square");
+    }
+
     Matrix result = new Matrix(rows, cols);
     if(rows == 1 && cols == 1){
       result.setAllData(new double[][]{{1}});

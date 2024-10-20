@@ -53,10 +53,9 @@ public class MatrixOperationsMenu {
         System.out.println("\n" + ARROW + "  Enter each element of the second matrix: ");
         matrix_b = inputMatrixDriver(matrix_b);
 
-
+        System.out.print("\nCalculating...");
         Matrix result = matrix_a.add(matrix_b);
 
-        System.out.print("\nCalculating...");
         System.out.println(YELLOW + "\nResult: " + RESET);
         printMatrixWithBorder(result);
         System.out.println();
@@ -77,9 +76,9 @@ public class MatrixOperationsMenu {
         System.out.println("\n" + ARROW + "  Enter each element of the second matrix: ");
         matrix_b = inputMatrixDriver(matrix_b);
 
+        System.out.print("\nCalculating...");
         Matrix result = matrix_a.subtract(matrix_b);
 
-        System.out.print("\nCalculating...");
         System.out.println(YELLOW + "\nResult: " + RESET);
         printMatrixWithBorder(result);
         System.out.println();
@@ -104,9 +103,9 @@ public class MatrixOperationsMenu {
         System.out.println("\n" + ARROW + "  Enter each element of the second matrix: ");
         matrix_b = inputMatrixDriver(matrix_b);
 
+        System.out.print("\nCalculating...");
         Matrix result = matrix_a.multiplyByMatrix(matrix_b);
 
-        System.out.print("\nCalculating...");
         System.out.println(YELLOW + "\nResult: " + RESET);
         printMatrixWithBorder(result);
         System.out.println();

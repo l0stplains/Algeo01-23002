@@ -1,9 +1,38 @@
 package algeo01_23002.mathmodels;
 import java.lang.Math;
+
+import algeo01_23002.solvers.LinearSystemSolver;
+import algeo01_23002.types.LinearSystemSolution;
 import algeo01_23002.types.Matrix;
+import algeo01_23002.types.UniqueSolution;
+
 public class Interpolation {
 
-    // public static Matrix polynomialInterpolation
+    public static Matrix polynomialInterpolation(Matrix x, Matrix y){
+        if(x.getColsCount() != y.getColsCount()){
+            throw new IllegalArgumentException("polynomialInterpolation() : X and Y is not the same length");
+        }
+        if(x.getRowsCount() != 1 || y.getRowsCount() != 1){
+            throw new IllegalArgumentException("polynomialInterpolation() : Wrong dimensions (must be 1 row only)");
+        }
+
+        Matrix linearSystem = new Matrix(x.getColsCount(), x.getColsCount() + 1);
+
+        for(int i = 0; i < linearSystem.getRowsCount(); i++) {
+            for (int j = 0; j < linearSystem.getColsCount() - 1; j++) {
+                linearSystem.setData(i, j, pow(x.getData(0, i), j));
+
+            }
+            linearSystem.setData(i, linearSystem.getColsCount() - 1, y.getData(0, i));
+        }
+        LinearSystemSolver solver = new LinearSystemSolver();
+        LinearSystemSolution solution = solver.inverseMethod(linearSystem);
+        if(solution instanceof UniqueSolution uniqueSolution){
+            return uniqueSolution.getSolution();
+        } else {
+            throw new ArithmeticException("polynomialInterpolation() : Solution is not unique");
+        }
+    }
     private static double pow (double base, double exponent) {
         if (exponent == 0){
             return 1;

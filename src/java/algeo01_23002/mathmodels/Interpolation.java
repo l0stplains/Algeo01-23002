@@ -4,11 +4,12 @@ import java.lang.Math;
 import algeo01_23002.solvers.LinearSystemSolver;
 import algeo01_23002.types.LinearSystemSolution;
 import algeo01_23002.types.Matrix;
+import algeo01_23002.types.PolynomialResult;
 import algeo01_23002.types.UniqueSolution;
 
 public class Interpolation {
 
-    public static Matrix polynomialInterpolation(Matrix x, Matrix y){
+    public static PolynomialResult polynomialInterpolation(Matrix x, Matrix y){
         if(x.getColsCount() != y.getColsCount()){
             throw new IllegalArgumentException("polynomialInterpolation() : X and Y is not the same length");
         }
@@ -28,7 +29,8 @@ public class Interpolation {
         LinearSystemSolver solver = new LinearSystemSolver();
         LinearSystemSolution solution = solver.inverseMethod(linearSystem);
         if(solution instanceof UniqueSolution uniqueSolution){
-            return uniqueSolution.getSolution();
+            PolynomialResult result = new PolynomialResult(uniqueSolution.getSolution());
+            return result;
         } else {
             throw new ArithmeticException("polynomialInterpolation() : Solution is not unique");
         }

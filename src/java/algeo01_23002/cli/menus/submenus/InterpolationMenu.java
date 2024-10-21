@@ -1,15 +1,12 @@
 package algeo01_23002.cli.menus.submenus;
 
 import algeo01_23002.mathmodels.Interpolation;
-import algeo01_23002.mathmodels.Regression;
 import algeo01_23002.types.*;
-import org.apache.commons.math3.analysis.interpolation.BicubicInterpolator;
 
 import java.util.Scanner;
 
 import static algeo01_23002.cli.Const.*;
 import static algeo01_23002.cli.Utilities.*;
-import static algeo01_23002.cli.Utilities.printMatrixWithBorder;
 
 public class InterpolationMenu {
 

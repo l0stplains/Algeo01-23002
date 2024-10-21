@@ -1,6 +1,9 @@
 package algeo01_23002.solvers;
 import algeo01_23002.types.*;
 
+import static algeo01_23002.cli.Const.RESET;
+import static algeo01_23002.cli.Const.YELLOW;
+
 public class LinearSystemSolver {
     private boolean isAllZero(double[] row){
         int len = row.length;
@@ -159,7 +162,7 @@ public class LinearSystemSolver {
 
             //for parametric coefficient, append result with a character first, then assign it to resultParametric
             for (int i=0; i<resultParametric.length; i++) {
-                int ascii = 114+countParameter;
+                int ascii = 114;
                 for (int j = 1; j < resultParametric[0].length; j++) {
                     resultParametric[i][j] = String.valueOf(result[i][j]) + String.valueOf((char) ascii); //append result with ascii character
                     ascii++;
@@ -294,7 +297,7 @@ public class LinearSystemSolver {
 
             //for parametric coefficient, append result with a character first, then assign it to resultParametric
             for (int i=0; i<resultParametric.length; i++) {
-                int ascii = 114+countParameter;
+                int ascii = 114;
                 for (int j = 1; j < resultParametric[0].length; j++) {
                     resultParametric[i][j] = String.valueOf(result[i][j]) + String.valueOf((char) ascii); //append result with ascii character
                     ascii++;
@@ -349,7 +352,16 @@ public class LinearSystemSolver {
                 }
             }
         }
-        Matrix result = equationVariables.getInverseWithRowReduction().multiplyByMatrix(equationResult);
+
+        Matrix inverseEquationVariables;
+        try {
+            inverseEquationVariables = equationVariables.getInverseWithRowReduction();
+        } catch (ArithmeticException e){
+            return new NoSolution();
+        }
+
+
+        Matrix result = inverseEquationVariables.multiplyByMatrix(equationResult);
 
         return new UniqueSolution(result);
     }

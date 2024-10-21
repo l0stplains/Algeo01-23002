@@ -1,7 +1,6 @@
 package algeo01_23002.cli.menus.submenus;
 
 import algeo01_23002.mathmodels.Regression;
-import algeo01_23002.solvers.LinearSystemSolver;
 import algeo01_23002.types.LinearSystemSolution;
 import algeo01_23002.types.Matrix;
 import algeo01_23002.types.ParametricSolution;

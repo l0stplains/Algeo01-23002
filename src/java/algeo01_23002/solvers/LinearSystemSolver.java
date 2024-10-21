@@ -99,7 +99,6 @@ public class LinearSystemSolver {
 
             //count how many parameter is needed
             int countParameter = (cols - 1) - (rows - countZeroRows);
-
             //make result array
             //index 0 of result array is used to store constant and the rest is used to store the coefficient of parameter
             double[][] result = new double[cols-1][countParameter+1];
@@ -114,33 +113,41 @@ public class LinearSystemSolver {
                 }
             }
 
+            if (countZeroRows == rows){
+                for(int i=0; i<cols-1; i++){
+                    result[i][0] = 0;
+                }
+                for (int i=cols-2; i>=0; i--){
+                    result[i][cols-1-i] = 1;
+                }
+            } else {
+                int parameter = 1; //initiate parameter index
 
-            int parameter = 1; //initiate parameter index
+                //iterate through all rows starting from last row that not all zero
+                for (int row = idxlastRowNotZero; row >= 0; row--) {
+                    //find leading one index
+                    int indexOfLeadingOne = cols;
+                    for (int col = 0; col < cols; col++) {
+                        if (data[row][col] == 1) {
+                            indexOfLeadingOne = col;
+                            break;
+                        }
+                    }
 
-            //iterate through all rows starting from last row that not all zero
-            for (int row = idxlastRowNotZero; row >= 0; row--){
-                //find leading one index
-                int indexOfLeadingOne = cols;
-                for(int col=0; col < cols; col++){
-                    if (data[row][col] == 1){
-                        indexOfLeadingOne = col;
-                        break;
+                    //find solution by iterating through cols in a certain row
+                    result[indexOfLeadingOne][0] = data[row][cols - 1];
+                    for (int col = indexOfLeadingOne + 1; col < cols - 1; col++) {
+
+                        if (isNULL(result[col]) && parameter < countParameter + 1) { //if the result of a variable is null, assign parameter
+                            result[col][0] = 0;
+                            result[col][parameter] = 1;
+                            parameter++;
+                        }
+                        result[indexOfLeadingOne] = substractArray(result[indexOfLeadingOne], multArrayWithConst(result[col], data[row][col]));
                     }
                 }
-
-                //find solution by iterating through cols in a certain row
-                result[indexOfLeadingOne][0] = data[row][cols-1];
-                for (int col = indexOfLeadingOne+1; col < cols-1; col++){
-
-                    if (isNULL(result[col]) && parameter < countParameter+1 ) { //if the result of a variable is null, assign parameter
-                        result[col][0] = 0;
-                        result[col][parameter] = 1;
-                        parameter++;
-                    }
-                    result[indexOfLeadingOne] = substractArray(result[indexOfLeadingOne], multArrayWithConst(result[col], data[row][col]));
-                }
-
             }
+
 
             //move the result to resultParametric that has type String
             resultParametric = new String[cols-1][countParameter+1];
@@ -239,33 +246,43 @@ public class LinearSystemSolver {
                 }
             }
 
-
-            int parameter = 1; //initiate parameter index
-
-            //iterate through all rows starting from last row that not all zero
-            for (int row = idxlastRowNotZero; row >= 0; row--){
-                //find leading one index
-                int indexOfLeadingOne = cols;
-                for(int col=0; col < cols; col++){
-                    if (data[row][col] == 1){
-                        indexOfLeadingOne = col;
-                        break;
-                    }
+            if (countZeroRows == rows){
+                for(int i=0; i<cols-1; i++){
+                    result[i][0] = 0;
                 }
-
-                //find solution by iterating through cols in a certain row
-                result[indexOfLeadingOne][0] = data[row][cols-1];
-                for (int col = indexOfLeadingOne+1; col < cols-1; col++){
-
-                    if (isNULL(result[col]) && parameter < countParameter+1) { //if the result of a variable is null, assign parameter
-                        result[col][0] = 0;
-                        result[col][parameter] = 1;
-                        parameter++;
-                    }
-                    result[indexOfLeadingOne] = substractArray(result[indexOfLeadingOne], multArrayWithConst(result[col], data[row][col]));
+                for (int i=cols-2; i>=0; i--){
+                    result[i][cols-1-i] = 1;
                 }
+            } else {
+                int parameter = 1; //initiate parameter index
+                //iterate through all rows starting from last row that not all zero
+                for (int row = idxlastRowNotZero; row >= 0; row--){
+                    //find leading one index
+                    int indexOfLeadingOne = cols;
+                    for(int col=0; col < cols; col++){
+                        if (data[row][col] == 1){
+                            indexOfLeadingOne = col;
+                            break;
+                        }
+                    }
 
+                    //find solution by iterating through cols in a certain row
+                    result[indexOfLeadingOne][0] = data[row][cols-1];
+                    for (int col = indexOfLeadingOne+1; col < cols-1; col++){
+
+                        if (isNULL(result[col]) && parameter < countParameter+1) { //if the result of a variable is null, assign parameter
+                            result[col][0] = 0;
+                            result[col][parameter] = 1;
+                            parameter++;
+                        }
+                        result[indexOfLeadingOne] = substractArray(result[indexOfLeadingOne], multArrayWithConst(result[col], data[row][col]));
+                    }
+
+                }
             }
+
+
+
 
             //move the result to resultParametric that has type String
             resultParametric = new String[cols-1][countParameter+1];

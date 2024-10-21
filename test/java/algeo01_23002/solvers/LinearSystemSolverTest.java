@@ -138,6 +138,10 @@ public class LinearSystemSolverTest {
                     new Object[]{"4x6 matrix",
                             createMatrix(new double[][]{{1, 7, -2, 0, -8, -3}, {1, 7, -1, 1, -2, 2}, {2, 14, -4, 1, -13, 3}, {1, 7, -2, 0, -8, -3}}),
                             new String[][]{{"-11.0", "2.0t", "-7.0u"}, {"0.0", "0.0t", "1.0u"}, {"-4.0", "-3.0t", "0.0u"}, {"9.0", "-3.0t", "0.0u"}, {"0.0", "1.0t", "0.0u"}}
+                    },
+                    new Object[]{"3x3matrix",
+                            createMatrix(new double[][]{{0,0,0}, {0,0,0}, {0,0,0}}),
+                            new String[][]{{"0.0", "0.0t", "1.0u"},  {"0.0", "1.0t", "0.0u"}}
                     }
             );
         }
@@ -214,6 +218,10 @@ public class LinearSystemSolverTest {
                     new Object[]{"4x6 matrix",
                             createMatrix(new double[][]{{1, 7, -2, 0, -8, -3}, {1, 7, -1, 1, -2, 2}, {2, 14, -4, 1, -13, 3}, {1, 7, -2, 0, -8, -3}}),
                             new String[][]{{"-11.0", "2.0t", "-7.0u"}, {"0.0", "0.0t", "1.0u"}, {"-4.0", "-3.0t", "0.0u"}, {"9.0", "-3.0t", "0.0u"}, {"0.0", "1.0t", "0.0u"}}
+                    },
+                    new Object[]{"3x3matrix",
+                            createMatrix(new double[][]{{0,0,0}, {0,0,0}, {0,0,0}}),
+                            new String[][]{{"0.0", "0.0t", "1.0u"},  {"0.0", "1.0t", "0.0u"}}
                     }
             );
         }

@@ -147,7 +147,7 @@ public class LinearSystemSolverMenu {
     private static void inverseMethodDriver() {
         System.out.print("\n" + ARROW + "  Enter number the length of the matrix (square): ");
         int rows = getChoice(1, 12);
-        int cols = rows;
+        int cols = rows+1;
 
         Matrix matrix = new Matrix(rows, cols);
 

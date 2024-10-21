@@ -349,6 +349,7 @@ public class LinearSystemSolver {
                 }
             }
         }
+        equationVariables.printMatrix();
         Matrix result = equationVariables.getInverseWithRowReduction().multiplyByMatrix(equationResult);
 
         return new UniqueSolution(result);

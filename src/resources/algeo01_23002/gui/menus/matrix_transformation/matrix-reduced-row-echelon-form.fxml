@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import atlantafx.base.controls.Breadcrumbs?>
+<?import atlantafx.base.controls.Message?>
+<?import atlantafx.base.controls.ToggleSwitch?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.mfxcore.controls.Label?>
+<?import io.github.palexdev.mfxcore.controls.Text?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" prefHeight="675.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="algeo01_23002.gui.controllers.matrix_transformation.MatrixReducedRowEchelonFormController">
+   <children>
+      <AnchorPane maxWidth="1.7976931348623157E308" prefHeight="64.0" prefWidth="200.0" VBox.vgrow="NEVER">
+         <children>
+            <Text layoutX="21.0" layoutY="41.0" text="RGB - A Linear Algebra Application" visible="false" AnchorPane.leftAnchor="24.0">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Text>
+            <ToggleSwitch fx:id="themeToggler" labelPosition="RIGHT" layoutX="1039.0" layoutY="18.0" onMouseClicked="#onThemeTogglerClicked" text="Dark Mode" AnchorPane.rightAnchor="24.0" />
+            <Breadcrumbs fx:id="breadCrumbs" layoutX="68.0" layoutY="11.0" maxHeight="-Infinity" maxWidth="-Infinity" onCrumbAction="#onCrumbsAction" prefHeight="48.0" prefWidth="495.0" AnchorPane.leftAnchor="69.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="608.0" prefWidth="1200.0">
+         <children>
+            <Text cssWrappingWidth="600.0" layoutX="99.0" layoutY="92.0" text="The reduced row echelon form is an extension of the row echelon form where the leading entry in each row is 1, and it is the only non-zero entry in its column." AnchorPane.leftAnchor="80.0" />
+            <Text layoutX="99.0" layoutY="49.0" text="Matrix Reduced Row Echelon Form" AnchorPane.leftAnchor="80.0">
+               <font>
+                  <Font name="System Bold" size="32.0" />
+               </font>
+            </Text>
+            <Separator layoutX="96.0" layoutY="51.0" prefHeight="24.0" prefWidth="611.0" AnchorPane.leftAnchor="80.0" />
+            <HBox layoutX="93.0" layoutY="201.0" />
+            <TextArea fx:id="firstMatrixInput" layoutX="79.0" layoutY="172.0" prefHeight="240.0" prefWidth="280.0" promptText="Enter matrix values" AnchorPane.leftAnchor="80.0">
+               <font>
+                  <Font name="JetBrainsMono NFM Regular" size="12.0" />
+               </font></TextArea>
+            <Label layoutX="93.0" layoutY="147.0" text="Matrix" AnchorPane.leftAnchor="94.0" />
+            <TextArea fx:id="resultMatrixOutput" editable="false" layoutX="458.0" layoutY="172.0" prefHeight="240.0" prefWidth="280.0" promptText="Click &quot;Get Result&quot; button" AnchorPane.leftAnchor="458.0">
+               <font>
+                  <Font name="JetBrainsMono NFM Regular" size="12.0" />
+               </font></TextArea>
+            <Label layoutX="472.0" layoutY="147.0" text="Transformation Result" AnchorPane.leftAnchor="472.0" />
+            <Label layoutX="288.0" layoutY="474.0" opacity="0.3" text="*Due to limitations of the &quot;double&quot; data type, precision is limited to two decimal places." AnchorPane.leftAnchor="288.0">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+            </Label>
+            <Message fx:id="messageBox" layoutX="471.0" layoutY="-14.0" prefHeight="80.0" prefWidth="300.0" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+            <MFXButton fx:id="getResultButton" buttonType="RAISED" depthLevel="LEVEL1" layoutX="647.0" layoutY="426.0" text="Get Result" AnchorPane.leftAnchor="647.0" />
+            <Hyperlink fx:id="firstMatrixHyperLink" layoutX="278.0" layoutY="416.0" text="Import from file" visited="true" AnchorPane.leftAnchor="278.0">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+            </Hyperlink>
+            <Hyperlink fx:id="resultMatrixHyperLink" layoutX="458.0" layoutY="416.0" text="Export to file" visible="false" visited="true">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+            </Hyperlink>
+            <Label layoutX="395.0" layoutY="252.0" text="-&gt;">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>

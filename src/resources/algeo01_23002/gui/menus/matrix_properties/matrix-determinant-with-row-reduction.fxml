@@ -14,7 +14,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" prefHeight="675.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="algeo01_23002.gui.controllers.matrix_operators.MatrixAdditionController">
+<VBox alignment="TOP_CENTER" prefHeight="675.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="algeo01_23002.gui.controllers.matrix_properties.MatrixDeterminantWithRowReductionController">
    <children>
       <AnchorPane maxWidth="1.7976931348623157E308" prefHeight="64.0" prefWidth="200.0" VBox.vgrow="NEVER">
          <children>
@@ -29,60 +29,46 @@
       </AnchorPane>
       <AnchorPane prefHeight="608.0" prefWidth="1200.0">
          <children>
-            <Text cssWrappingWidth="680.0" layoutX="99.0" layoutY="92.0" text="Matrix addition is the element-wise sum of two matrices of the same dimensions.&#10;The corresponding elements in each matrix are added together to form a new matrix of the same dimensions." AnchorPane.leftAnchor="80.0" />
-            <Text layoutX="99.0" layoutY="49.0" text="Matrix Addition" AnchorPane.leftAnchor="80.0">
+            <Text cssWrappingWidth="900.0" layoutX="99.0" layoutY="92.0" text="The determinant can be calculated through row reduction by transforming the matrix into an upper triangular matrix using Gaussian elimination. The determinant is then the product of the diagonal elements of the triangular matrix, adjusted by the number of row swaps performed." AnchorPane.leftAnchor="80.0" />
+            <Text layoutX="99.0" layoutY="49.0" text="Matrix Determinant with Row Reduction" AnchorPane.leftAnchor="80.0">
                <font>
                   <Font name="System Bold" size="32.0" />
                </font>
             </Text>
-            <Separator layoutX="96.0" layoutY="51.0" prefHeight="3.0" prefWidth="354.0" AnchorPane.leftAnchor="80.0" />
+            <Separator layoutX="96.0" layoutY="51.0" prefHeight="24.0" prefWidth="611.0" AnchorPane.leftAnchor="80.0" />
             <HBox layoutX="93.0" layoutY="201.0" />
             <TextArea fx:id="firstMatrixInput" layoutX="79.0" layoutY="172.0" prefHeight="240.0" prefWidth="280.0" promptText="Enter matrix values" AnchorPane.leftAnchor="80.0">
                <font>
                   <Font name="JetBrainsMono NFM Regular" size="12.0" />
                </font></TextArea>
-            <Label layoutX="93.0" layoutY="147.0" text="First Matrix" AnchorPane.leftAnchor="94.0" />
-            <TextArea fx:id="secondMatrixInput" layoutX="457.0" layoutY="172.0" prefHeight="240.0" prefWidth="280.0" promptText="Enter matrix values" AnchorPane.leftAnchor="457.0">
+            <Label layoutX="93.0" layoutY="147.0" text="Matrix A" AnchorPane.leftAnchor="94.0" />
+            <TextArea fx:id="resultMatrixOutput" editable="false" layoutX="458.0" layoutY="172.0" prefHeight="240.0" prefWidth="280.0" promptText="Click &quot;Get Result&quot; button" wrapText="true" AnchorPane.leftAnchor="458.0">
                <font>
                   <Font name="JetBrainsMono NFM Regular" size="12.0" />
                </font></TextArea>
-            <Label layoutX="471.0" layoutY="147.0" text="Second Matrix" AnchorPane.leftAnchor="471.0" />
-            <TextArea fx:id="resultMatrixOutput" editable="false" layoutX="835.0" layoutY="172.0" prefHeight="240.0" prefWidth="280.0" promptText="Click &quot;Get Result&quot; button" AnchorPane.leftAnchor="835.0">
-               <font>
-                  <Font name="JetBrainsMono NFM Regular" size="12.0" />
-               </font></TextArea>
-            <Label layoutX="849.0" layoutY="147.0" text="Result Matrix" AnchorPane.leftAnchor="849.0" />
-            <Label layoutX="390.0" layoutY="219.0" text="+" AnchorPane.leftAnchor="388.0">
-               <font>
-                  <Font size="64.0" />
-               </font>
-            </Label>
-            <Label layoutX="767.0" layoutY="219.0" text="=" AnchorPane.leftAnchor="764.0">
-               <font>
-                  <Font size="64.0" />
-               </font>
-            </Label>
-            <Label layoutX="84.0" layoutY="474.0" opacity="0.3" text="*Due to limitations of the &quot;double&quot; data type, precision is limited to two decimal places." AnchorPane.leftAnchor="665.0">
+            <Label layoutX="472.0" layoutY="147.0" text="Determinant Result" AnchorPane.leftAnchor="472.0" />
+            <Label layoutX="288.0" layoutY="474.0" opacity="0.3" text="*Due to limitations of the &quot;double&quot; data type, precision is limited to two decimal places." AnchorPane.leftAnchor="288.0">
                <font>
                   <Font name="System Italic" size="12.0" />
                </font>
             </Label>
             <Message fx:id="messageBox" layoutX="471.0" layoutY="-14.0" prefHeight="80.0" prefWidth="300.0" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
-            <MFXButton fx:id="getResultButton" buttonType="RAISED" depthLevel="LEVEL1" layoutX="84.0" layoutY="426.0" text="Get Result" AnchorPane.leftAnchor="1024.0" />
+            <MFXButton fx:id="getResultButton" buttonType="RAISED" depthLevel="LEVEL1" layoutX="647.0" layoutY="426.0" text="Get Result" AnchorPane.leftAnchor="647.0" />
             <Hyperlink fx:id="firstMatrixHyperLink" layoutX="278.0" layoutY="416.0" text="Import from file" visited="true" AnchorPane.leftAnchor="278.0">
                <font>
                   <Font name="System Italic" size="12.0" />
                </font>
             </Hyperlink>
-            <Hyperlink fx:id="secondMatrixHyperLink" layoutX="655.0" layoutY="416.0" text="Import from file" visited="true" AnchorPane.leftAnchor="655.0">
-               <font>
-                  <Font name="System Italic" size="12.0" />
-               </font></Hyperlink>
-            <Hyperlink fx:id="resultMatrixHyperLink" layoutX="835.0" layoutY="416.0" text="Export to file" visible="false" visited="true">
+            <Hyperlink fx:id="resultMatrixHyperLink" layoutX="458.0" layoutY="416.0" text="Export to file" visible="false" visited="true">
                <font>
                   <Font name="System Italic" size="12.0" />
                </font>
             </Hyperlink>
+            <Label layoutX="393.0" layoutY="246.0" text="|A|">
+               <font>
+                  <Font size="28.0" />
+               </font>
+            </Label>
          </children>
       </AnchorPane>
    </children>

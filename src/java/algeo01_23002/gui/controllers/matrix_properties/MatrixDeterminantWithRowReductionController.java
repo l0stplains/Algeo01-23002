@@ -1,5 +1,6 @@
-package algeo01_23002.gui.controllers.matrix_operators;
+package algeo01_23002.gui.controllers.matrix_properties;
 
+import algeo01_23002.types.Matrix;
 import atlantafx.base.controls.Breadcrumbs;
 import atlantafx.base.controls.Message;
 import atlantafx.base.controls.ToggleSwitch;
@@ -8,9 +9,7 @@ import atlantafx.base.theme.CupertinoLight;
 import atlantafx.base.theme.Styles;
 import atlantafx.base.util.Animations;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import javafx.animation.FadeTransition;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -19,20 +18,17 @@ import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
-import javafx.scene.layout.Background;
-import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import algeo01_23002.types.Matrix;
 import javafx.util.Duration;
-
-import static algeo01_23002.gui.Utilities.*;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-public class MatrixSubtractionController {
+import static algeo01_23002.gui.Utilities.*;
+
+public class MatrixDeterminantWithRowReductionController {
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -54,18 +50,11 @@ public class MatrixSubtractionController {
     Matrix firstMatrix;
 
     @FXML
-    TextArea secondMatrixInput;
-    Matrix secondMatrix;
-
-    @FXML
     TextArea resultMatrixOutput;
     Matrix resultMatrix;
 
     @FXML
     Hyperlink firstMatrixHyperLink;
-
-    @FXML
-    Hyperlink secondMatrixHyperLink;
 
     @FXML
     Hyperlink resultMatrixHyperLink;
@@ -78,7 +67,7 @@ public class MatrixSubtractionController {
             themeToggler.setSelected(true);
         }
 
-        String[] menuItems = {"Home", "Matrix Operations", "Matrix Subtraction"};
+        String[] menuItems = {"Home", "Matrix Properties", "Matrix Determinant with Row Reduction"};
         Breadcrumbs.BreadCrumbItem<String> rootItem = Breadcrumbs.buildTreeModel(
                 menuItems
         );
@@ -109,29 +98,6 @@ public class MatrixSubtractionController {
             }
         });
 
-        secondMatrixHyperLink.setOnAction(event -> {
-            Matrix temp = null;
-            stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
-            FileChooser fileChooser = new FileChooser();
-            fileChooser.setTitle("Open Matrix File");
-            fileChooser.getExtensionFilters().addAll(
-                    new FileChooser.ExtensionFilter("Text Files", "*.txt")
-            );
-            // Show the file chooser
-            File selectedFile = fileChooser.showOpenDialog(stage);
-            if (selectedFile != null) {
-                // Load the matrix from the selected file
-                temp = (loadMatrixFromTxt(selectedFile));
-            }
-            if(temp != null){
-                secondMatrix = temp;
-                secondMatrixInput.setText(outputPaddedMatrix(secondMatrix));
-                messageBox.setVisible(false);
-                secondMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, false);
-            } else {
-                errorNotification("Import from file failed.\nMake sure you choose the right file and data format is correct!");
-            }
-        });
 
         resultMatrixHyperLink.setOnAction(event -> {
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
@@ -159,46 +125,35 @@ public class MatrixSubtractionController {
         Tooltip exampleTooltip = new Tooltip("Example:\n    -0.3 -2 3\n      -1  1 3\n       2  0 1");
         exampleTooltip.setFont(firstMatrixInput.getFont());
         firstMatrixInput.setTooltip(exampleTooltip);
-        secondMatrixInput.setTooltip(exampleTooltip);
 
         getResultButton.setOnMouseClicked(event -> {
             try {
                 if(firstMatrixInput.getText().isEmpty()){
-                    throw new IllegalAccessException("First Matrix is Empty");
+                    throw new IllegalAccessException("Matrix A is Empty");
                 }
-                if(secondMatrixInput.getText().isEmpty()){
-                    throw new IllegalAccessException("Second Matrix is Empty");
-                }
+
                 firstMatrix = new Matrix(1, 1);
                 firstMatrix.inputMatrixFromString(firstMatrixInput.getText());
                 firstMatrixInput.setText(outputPaddedMatrix(firstMatrix));
 
-                secondMatrix = new Matrix(1, 1);
-                secondMatrix.inputMatrixFromString(secondMatrixInput.getText());
-                secondMatrixInput.setText(outputPaddedMatrix(secondMatrix));
-
                 resultMatrixOutput.setText("Calculating...");
-                resultMatrixOutput.setText(outputPaddedMatrix(firstMatrix.subtract(secondMatrix)));
+                double determinant = firstMatrix.getDeterminantWithRowReduction();
+                resultMatrixOutput.setText(determinant + "");
 
                 resultMatrixHyperLink.setVisible(true);
                 messageBox.setVisible(false);
                 firstMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, false);
-                secondMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, false);
             } catch (IllegalArgumentException e){
                 firstMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, true);
-                secondMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, true);
                 if(Objects.equals(resultMatrixOutput.getText(), "Calculating...")){
                     resultMatrixOutput.setText("");
                     resultMatrixHyperLink.setVisible(false);
                 }
                 errorNotification("Please input matrix with the correct size and format");
             } catch (IllegalAccessException e){
-                if(Objects.equals(e.getMessage(), "First Matrix is Empty")) {
+                if(Objects.equals(e.getMessage(), "Matrix A is Empty")) {
                     firstMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, true);
-                    errorNotification("Please input the first matrix first");
-                } else if(Objects.equals(e.getMessage(), "Second Matrix is Empty")) {
-                    secondMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, true);
-                    errorNotification("Please input the second matrix first");
+                    errorNotification("Please input the matrix first");
                 }
             }
 
@@ -210,11 +165,6 @@ public class MatrixSubtractionController {
             }
         });
 
-        secondMatrixInput.focusedProperty().addListener((observable, oldValue, newValue) -> {
-            if (newValue) { // Focus lost
-                secondMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, false);
-            }
-        });
 
     }
 
@@ -237,8 +187,8 @@ public class MatrixSubtractionController {
             scene = new Scene(fxmlLoader.load());
             stage.setScene(scene);
             stage.show();
-        } else if (selectedCrumb.equals("Matrix Operations")) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/algeo01_23002/gui/menus/matrix-operations-menu.fxml"));
+        } else if (selectedCrumb.equals("Matrix Properties")) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/algeo01_23002/gui/menus/matrix-properties-menu.fxml"));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(fxmlLoader.load());
             stage.setScene(scene);
@@ -267,7 +217,6 @@ public class MatrixSubtractionController {
 
         });
     }
-
     private void successNotification(String message) {
         messageBox.setDescription(message);
         messageBox.getStyleClass().removeAll();

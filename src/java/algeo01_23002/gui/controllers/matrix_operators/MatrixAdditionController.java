@@ -249,14 +249,15 @@ public class MatrixAdditionController {
 
     private void errorNotification(String message) {
         messageBox.setDescription(message);
+        messageBox.getStyleClass().removeAll();
         messageBox.getStyleClass().add(Styles.DANGER);
         messageBox.setVisible(true);
-        Animations.slideInDown(messageBox, Duration.millis(500)).playFromStart();
+        Animations.slideInRight(messageBox, Duration.millis(500)).playFromStart();
         var fadeIn = Animations.fadeIn(messageBox, Duration.millis(500));
 
         fadeIn.playFromStart();
         messageBox.setOnClose(event -> {
-            Animations.slideOutUp(messageBox, Duration.millis(500)).playFromStart();
+            Animations.slideOutRight(messageBox, Duration.millis(500)).playFromStart();
             var fadeOut = Animations.fadeOut(messageBox, Duration.millis(500));
             fadeOut.setOnFinished(animationEvent -> {
                 messageBox.setVisible(false);
@@ -268,14 +269,15 @@ public class MatrixAdditionController {
     }
     private void successNotification(String message) {
         messageBox.setDescription(message);
+        messageBox.getStyleClass().removeAll();
         messageBox.getStyleClass().add(Styles.SUCCESS);
         messageBox.setVisible(true);
-        Animations.slideInDown(messageBox, Duration.millis(500)).playFromStart();
+        Animations.slideInRight(messageBox, Duration.millis(500)).playFromStart();
         var fadeIn = Animations.fadeIn(messageBox, Duration.millis(500));
 
         fadeIn.playFromStart();
         messageBox.setOnClose(event -> {
-            Animations.slideOutUp(messageBox, Duration.millis(500)).playFromStart();
+            Animations.slideOutRight(messageBox, Duration.millis(500)).playFromStart();
             var fadeOut = Animations.fadeOut(messageBox, Duration.millis(500));
             fadeOut.setOnFinished(animationEvent -> {
                 messageBox.setVisible(false);

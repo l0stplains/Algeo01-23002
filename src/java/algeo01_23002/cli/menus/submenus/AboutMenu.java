@@ -39,7 +39,7 @@ public class AboutMenu {
                 .append("   - We would like to thank our course instructors and mentors for their guidance.\n")
                 .append("   - Special thanks to the RGB team for collaboration and efforts in building this project.\n\n")
                 .append(CYAN + "╔══════════════════════════════════════════════════════╗\n")
-                .append("║" + RESET + getCenteredText("Created by " + RGB +" Team, 2024", WIDTH + 18) + CYAN + "║\n")
+                .append("║" + RESET + getCenteredText("Created by " + RGB +" Team, 2024", WIDTH + 17) + CYAN + "║\n")
                 .append(CYAN + "╚══════════════════════════════════════════════════════╝\n\n" + RESET)
                 .append(YELLOW + getCenteredText("PRESS ENTER TO EXIT", WIDTH) + RESET +  "\n")
         );

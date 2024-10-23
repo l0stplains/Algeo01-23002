@@ -7,8 +7,8 @@ import algeo01_23002.gui.MainApp;
 public class Main {
 
     public static void main(String[] args) {
-        // MainApp.show();
-        MainDriver.main(args);
+        MainApp.show();
+        // MainDriver.main(args);
     }
 
 }

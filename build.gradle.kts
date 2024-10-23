@@ -44,6 +44,7 @@ dependencies {
 
     implementation("org.controlsfx:controlsfx:11.2.1")
     implementation("io.github.mkpaz:atlantafx-base:2.0.1")
+    implementation("io.github.palexdev:materialfx:11.17.0")
 
     implementation(libs.guava)
 }

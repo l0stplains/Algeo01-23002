@@ -18,7 +18,7 @@
                </font>
             </Text>
             <ToggleSwitch fx:id="themeToggler" labelPosition="RIGHT" layoutX="1039.0" layoutY="18.0" onMouseClicked="#onThemeTogglerClicked" text="Dark Mode" AnchorPane.rightAnchor="24.0" />
-            <Breadcrumbs fx:id="breadCrumbs" layoutX="68.0" layoutY="11.0" maxHeight="-Infinity" maxWidth="-Infinity" onCrumbAction="#onCrumbsAction" prefHeight="48.0" prefWidth="495.0" AnchorPane.leftAnchor="68.0" />
+            <Breadcrumbs fx:id="breadCrumbs" layoutX="68.0" layoutY="11.0" maxHeight="-Infinity" maxWidth="-Infinity" onCrumbAction="#onCrumbsAction" prefHeight="48.0" prefWidth="495.0" AnchorPane.leftAnchor="69.0" />
          </children>
       </AnchorPane>
       <AnchorPane prefHeight="608.0" prefWidth="1200.0">

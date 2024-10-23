@@ -32,7 +32,7 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-public class MatrixAdditionController {
+public class MatrixSubtractionController {
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -78,7 +78,7 @@ public class MatrixAdditionController {
             themeToggler.setSelected(true);
         }
 
-        String[] menuItems = {"Home", "Matrix Operations", "Matrix Addition"};
+        String[] menuItems = {"Home", "Matrix Operations", "Matrix Subtraction"};
         Breadcrumbs.BreadCrumbItem<String> rootItem = Breadcrumbs.buildTreeModel(
                 menuItems
         );
@@ -178,7 +178,7 @@ public class MatrixAdditionController {
                 secondMatrixInput.setText(outputPaddedMatrix(secondMatrix));
 
                 resultMatrixOutput.setText("Calculating...");
-                resultMatrixOutput.setText(outputPaddedMatrix(firstMatrix.add(secondMatrix)));
+                resultMatrixOutput.setText(outputPaddedMatrix(firstMatrix.subtract(secondMatrix)));
 
                 resultMatrixHyperLink.setVisible(true);
                 messageBox.setVisible(false);
@@ -266,6 +266,7 @@ public class MatrixAdditionController {
 
         });
     }
+
     private void successNotification(String message) {
         messageBox.setDescription(message);
         messageBox.getStyleClass().add(Styles.SUCCESS);

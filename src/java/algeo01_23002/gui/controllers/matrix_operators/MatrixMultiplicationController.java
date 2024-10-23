@@ -1,5 +1,6 @@
 package algeo01_23002.gui.controllers.matrix_operators;
 
+import algeo01_23002.types.Matrix;
 import atlantafx.base.controls.Breadcrumbs;
 import atlantafx.base.controls.Message;
 import atlantafx.base.controls.ToggleSwitch;
@@ -8,9 +9,7 @@ import atlantafx.base.theme.CupertinoLight;
 import atlantafx.base.theme.Styles;
 import atlantafx.base.util.Animations;
 import io.github.palexdev.materialfx.controls.MFXButton;
-import javafx.animation.FadeTransition;
 import javafx.application.Application;
-import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -19,20 +18,17 @@ import javafx.scene.Scene;
 import javafx.scene.control.Hyperlink;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.Tooltip;
-import javafx.scene.layout.Background;
-import javafx.scene.text.Font;
 import javafx.stage.FileChooser;
 import javafx.stage.Stage;
-import algeo01_23002.types.Matrix;
 import javafx.util.Duration;
-
-import static algeo01_23002.gui.Utilities.*;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
-public class MatrixAdditionController {
+import static algeo01_23002.gui.Utilities.*;
+
+public class MatrixMultiplicationController {
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -78,7 +74,7 @@ public class MatrixAdditionController {
             themeToggler.setSelected(true);
         }
 
-        String[] menuItems = {"Home", "Matrix Operations", "Matrix Addition"};
+        String[] menuItems = {"Home", "Matrix Operations", "Matrix Multiplication"};
         Breadcrumbs.BreadCrumbItem<String> rootItem = Breadcrumbs.buildTreeModel(
                 menuItems
         );
@@ -155,6 +151,7 @@ public class MatrixAdditionController {
             }
         });
 
+
         // Set a tooltip to show multi-line prompt
         Tooltip exampleTooltip = new Tooltip("Example:\n    -0.3 -2 3\n      -1  1 3\n       2  0 1");
         exampleTooltip.setFont(firstMatrixInput.getFont());
@@ -178,7 +175,7 @@ public class MatrixAdditionController {
                 secondMatrixInput.setText(outputPaddedMatrix(secondMatrix));
 
                 resultMatrixOutput.setText("Calculating...");
-                resultMatrixOutput.setText(outputPaddedMatrix(firstMatrix.add(secondMatrix)));
+                resultMatrixOutput.setText(outputPaddedMatrix(firstMatrix.multiplyByMatrix(secondMatrix)));
 
                 resultMatrixHyperLink.setVisible(true);
                 messageBox.setVisible(false);
@@ -266,6 +263,7 @@ public class MatrixAdditionController {
 
         });
     }
+
     private void successNotification(String message) {
         messageBox.setDescription(message);
         messageBox.getStyleClass().add(Styles.SUCCESS);

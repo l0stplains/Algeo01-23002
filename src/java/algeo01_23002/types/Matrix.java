@@ -652,6 +652,7 @@ public class Matrix {
       scanner.close();
     } catch (FileNotFoundException e) {
       System.err.println("File not found: " + fileName);
+      throw new IllegalArgumentException("File not found");
     }
 
   }

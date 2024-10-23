@@ -1,4 +1,7 @@
 package algeo01_23002.cli;
+import java.io.BufferedWriter;
+import java.io.FileWriter;
+import java.io.IOException;
 
 import algeo01_23002.types.Matrix;
 
@@ -109,5 +112,26 @@ public class Utilities {
         }
         return matrix;
     }
+
+    public static void saveUniqueResultToFile(Matrix matrix){
+        // Create a Scanner object to read input
+        Scanner scanner = new Scanner(System.in);
+        // Prompt the user to enter a string
+        System.out.print("Enter save file name: ");
+        // Read the user's input as a string
+        String filepath = scanner.nextLine();
+        try (BufferedWriter writer = new BufferedWriter(new FileWriter(filepath))) {
+            for (double[] row : matrix.getAllData()) {
+                for (double element : row) {
+                    writer.write(element + " "); // Write each element with a space
+                }
+                writer.newLine(); // Move to the next line after each row
+            }
+            System.out.println("Matrix saved to file: " + filepath);
+        } catch (IOException e) {
+            System.err.println("Error saving matrix to file: " + e.getMessage());
+        }
+    }
+
 
 }

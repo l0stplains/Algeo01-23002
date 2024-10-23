@@ -136,10 +136,7 @@ public class Regression {
             }
             augmentedMatrix.setData(i,Xrows,Y.getData(i,0));
         }
-//        System.out.println("\n");
-//        stored.printMatrix();
-//        System.out.println("\n");
-//        augmentedMatrix.printMatrix();
+
         LinearSystemSolver solver = new LinearSystemSolver();
         return solver.gaussianElimination(augmentedMatrix);
     }

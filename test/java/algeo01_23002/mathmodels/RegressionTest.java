@@ -40,7 +40,7 @@ public class RegressionTest {
         public void testMultipleQuadraticRegression(String description, Matrix matrix, Matrix expected) {
             LinearSystemSolver solver = new LinearSystemSolver();
             LinearSystemSolution actualSolution = Regression.multipleQuadraticRegression(matrix);
-            LinearSystemSolution expectedSolution = solver.gaussJordanElimination(expected);
+            LinearSystemSolution expectedSolution = solver.gaussianElimination(expected);
 
             if (actualSolution instanceof NoSolution) {
                 System.out.println("No solution found");

@@ -44,6 +44,7 @@ public class RegressionMenu {
         int cols = getChoice(1, 100);
 
         int choice;
+        double estimated = 0;
         Matrix matrix = new Matrix(rows, cols);
         Matrix estimateVal = new Matrix(1, cols-1);
 
@@ -57,27 +58,40 @@ public class RegressionMenu {
             System.out.println(YELLOW + "\nResult: " + RESET);
             LinearRegressionResult regressionResult = new LinearRegressionResult(((UniqueSolution) result).getSolution());
             regressionResult.printEquation();
+
+            System.out.println("Do you want to estimate value (1 (yes) / 0 (no))?");
+            choice = getChoice(0, 1);
+            if (choice == 1) {
+                while (true){
+                    System.out.println("Input All X Variabels to Estimate Result");
+                    inputMatrixDriver(estimateVal);
+                    estimated = regressionResult.estimate(estimateVal);
+                    System.out.println(YELLOW + "Result: " + RESET + estimated);
+                    System.out.println("Do you wish to continue? (1 (continue)/ 0 (stop))");
+                    choice = getChoice(0, 1);
+                    if (choice == 0) {
+                        break;
+                    }
+                }
+            }
         }
         else if(result instanceof ParametricSolution) {
             System.out.println(YELLOW + "\nParametric solution found " + RESET);
-            System.out.println(result);
+            System.out.println(printParametricLinearRegression((ParametricSolution) result));
         }
         else {
             System.out.println(YELLOW + "\nRegression can't be performed " + RESET);
         }
-
-        System.out.println("Do you want to estimate value (1 (yes) / 0 (no))?");
-        choice = getChoice(0, 1);
 
         // Save Data
         System.out.println("Do you want to save it to file? (1 (yes) / 0 (no))");
         choice = getChoice(0,1);
         if(choice == 1 && result instanceof UniqueSolution) {
             Matrix solution = ((UniqueSolution) result).getSolution();
-            saveUniqueResultToFile(solution);
+            saveUniqueLinearRegressionResultToFile(solution);
         }
         else if(choice == 1 && result instanceof ParametricSolution) {
-            saveParametricResultToFile((ParametricSolution) result);
+            saveParametricLinearRegressionToFile((ParametricSolution) result);
         }
 
         System.out.println();
@@ -90,6 +104,7 @@ public class RegressionMenu {
         int cols = getChoice(1, 100);
 
         int choice;
+        double estimated = 0;
         Matrix matrix = new Matrix(rows, cols);
         Matrix estimateVal = new Matrix(1, cols-1);
 
@@ -102,14 +117,28 @@ public class RegressionMenu {
         if(result instanceof UniqueSolution) {
             Matrix solution = ((UniqueSolution) result).getSolution();
             System.out.println(YELLOW + "\nResult: " + RESET);
-            printMatrixWithBorder(solution);
-            
-            
-            
-            
+            QuadraticRegressionResult regressionResult = new QuadraticRegressionResult(((UniqueSolution) result).getSolution());
+            regressionResult.printEquation();
+
+            System.out.println("Do you want to estimate value (1 (yes) / 0 (no))?");
+            choice = getChoice(0, 1);
+            if (choice == 1) {
+                while (true){
+                    System.out.println("Input All X Variabels to Estimate Result");
+                    inputMatrixDriver(estimateVal);
+                    estimated = regressionResult.estimate(estimateVal);
+                    System.out.println(YELLOW + "Result: " + RESET + estimated);
+                    System.out.println("Do you wish to continue? (1 (continue)/ 0 (stop))");
+                    choice = getChoice(0, 1);
+                    if (choice == 0) {
+                        break;
+                    }
+                }
+            }
+
         } else if(result instanceof ParametricSolution) {
             System.out.println(YELLOW + "\nParametric solution found " + RESET);
-            System.out.println(result);
+            System.out.println(printParametricQuadraticRegression((ParametricSolution) result));
         }
         else {
             System.out.println(YELLOW + "\nRegression can't be performed " + RESET);
@@ -120,10 +149,10 @@ public class RegressionMenu {
         choice = getChoice(0,1);
         if(choice == 1 && result instanceof UniqueSolution) {
             Matrix solution = ((UniqueSolution) result).getSolution();
-            saveUniqueResultToFile(solution);
+            saveUniqueQuadraticRegressionToFile(solution);
         }
         else if(choice == 1 && result instanceof ParametricSolution) {
-            saveParametricResultToFile((ParametricSolution) result);
+            saveParametricQuadraticRegressionToFile((ParametricSolution) result);
         }
         System.out.println();
     }

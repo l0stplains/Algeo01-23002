@@ -76,12 +76,18 @@ public class InterpolationMenu {
     }
 
     private static void bicubicSplineInterpolationDriver() {
-        System.out.print("\n" + ARROW + "  Enter number of rows: ");
-        int rows = getChoice(1, 100);
-        System.out.print("\n" + ARROW + "  Enter number of cols: ");
-        int cols = getChoice(1, 100);
+        System.out.print("\n" + ARROW + "  Matrix should be 4 x 4: ");
 
-        Matrix matrix = new Matrix(rows, cols);
+        Matrix matrix = new Matrix(4, 4);
+        Matrix input = new Matrix(16, 1);
+
+        int inputRows = 0;
+        for(int i = 0; i < 16; i++) {
+            for(int j = 0; j < 4; j++) {
+                input.setData(inputRows, 0, matrix.getData(i,j));
+                inputRows++;
+            }
+        }
 
         System.out.println("\n" + ARROW + "  Enter each element of the matrix: ");
         inputMatrixDriver(matrix);
@@ -94,12 +100,11 @@ public class InterpolationMenu {
         Matrix Y = new Matrix(1, 2);
         Y.setData(0,0,x); Y.setData(0,1,y);
 
-
         System.out.print("\nFitting the data...");
         double result =0;
         try{
-            matrix = Interpolation.getXInverseBicubicSpline();
-            result = Interpolation.bicubicSplineInterpolation(Y, x, y, matrix);
+            Matrix Xinverse = Interpolation.getXInverseBicubicSpline();
+            result = Interpolation.bicubicSplineInterpolation(Y, x, y, Xinverse);
         } catch (Exception e) {
             System.out.println(YELLOW + "\nInterpolation can't be performed " + RESET);
         }

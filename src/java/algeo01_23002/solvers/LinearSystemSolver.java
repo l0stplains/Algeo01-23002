@@ -72,7 +72,6 @@ public class LinearSystemSolver {
         //if last row contains all zero but the rows
         // then there are many solutions
 
-
         if (!isManySolutions && !isNoSolution){ //if there is only one solution
 
             double[][] result = new double[1][cols-1]; //initialize array to save the result
@@ -159,7 +158,7 @@ public class LinearSystemSolver {
 
             //for parametric coefficient, append result with a character first, then assign it to resultParametric
             for (int i=0; i<resultParametric.length; i++) {
-                int ascii = 114;
+                int ascii = 97;
                 for (int j = 1; j < resultParametric[0].length; j++) {
                     resultParametric[i][j] = String.valueOf(result[i][j]) + String.valueOf((char) ascii); //append result with ascii character
                     ascii++;
@@ -294,7 +293,7 @@ public class LinearSystemSolver {
 
             //for parametric coefficient, append result with a character first, then assign it to resultParametric
             for (int i=0; i<resultParametric.length; i++) {
-                int ascii = 114;
+                int ascii = 97;
                 for (int j = 1; j < resultParametric[0].length; j++) {
                     resultParametric[i][j] = String.valueOf(result[i][j]) + String.valueOf((char) ascii); //append result with ascii character
                     ascii++;

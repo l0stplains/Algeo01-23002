@@ -40,6 +40,35 @@ public class QuadraticRegressionResult {
 		System.out.println(equation.toString());
 	}
 
+	// Method to get the regression equation
+	public String getEquation() {
+		StringBuilder equation = new StringBuilder();
+		equation.append("f(x) = ").append(parameters.getData(0, 0));
+
+		int k = (int) Math.floor(findK(parameters.getColsCount()));
+
+		int varCount = 1;
+
+		// First-order terms (x1, x2, ..., xn)
+		for (int i = 1; i <= k; i++) {
+			equation.append(" + ").append(parameters.getData(0, varCount)).append(" ").append("x").append(i);
+			varCount++;
+		}
+		// Print squared-values and combination (x1^2, x1x2, etc..)
+		for (int i = 1; i <= k; i++) {
+			for (int j = i; j <= k; j++) {
+				if(j == i){
+					equation.append(" + ").append(parameters.getData(0, varCount)).append(" ").append("x").append(i).append("^2");
+					varCount++;
+				} else {
+					equation.append(" + ").append(parameters.getData(0, varCount)).append(" ").append("x").append(i).append("x").append(j);
+					varCount++;
+				}
+			}
+		}
+		return equation.toString();
+	}
+
 	// Method to evaluate the result for new x values
 	public double estimate(Matrix xValues) {
 		int k = (int) Math.floor(findK(parameters.getColsCount()));

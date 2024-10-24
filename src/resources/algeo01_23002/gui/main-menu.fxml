@@ -72,15 +72,16 @@
               </rowConstraints>
                <children>
                   <MFXButton fx:id="linearSystemSolverButton" buttonType="RAISED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onLinearSystemSolverButtonClicked" text="Linear System Solver" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
-                  <MFXButton fx:id="aboutButton" buttonType="RAISED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onAboutButtonClicked" text="About" GridPane.rowIndex="3" />
-                  <MFXButton fx:id="helpButton" buttonType="RAISED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onHelpMenuClicked" text="Help" GridPane.columnIndex="1" GridPane.rowIndex="3" />
                   <MFXButton fx:id="matrixPropertiesButton" buttonType="RAISED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onMatrixPropertiesButtonClicked" text="Matrix Properties" GridPane.columnIndex="1" GridPane.rowIndex="2" />
                   <MFXButton fx:id="matrixTransformationButton" buttonType="RAISED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onMatrixTransformationButtonClicked" text="Matrix Transformation" GridPane.columnIndex="1" GridPane.rowIndex="1" />
                   <MFXButton fx:id="interpolationButton" buttonType="RAISED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onInterpolationMenuClicked" text="Interpolation" GridPane.columnIndex="1" />
                   <MFXButton fx:id="matrixOperationsButton" buttonType="RAISED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onMatrixOperationsButtonClicked" text="Matrix Operations" GridPane.rowIndex="2" />
                   <MFXButton fx:id="regressionButton" buttonType="RAISED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onRegressionButtonClicked" prefHeight="96.0" prefWidth="156.0" text="Regression" GridPane.rowIndex="1" />
+                  <MFXButton fx:id="aboutButton" buttonType="RAISED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onAboutButtonClicked" text="About" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <MFXButton fx:id="imageResizeButton" buttonType="RAISED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onImageResizeMenuClicked" text="Image Resizing" GridPane.rowIndex="3" />
                </children>
             </GridPane>
+            <MFXButton fx:id="helpButton" buttonType="RAISED" layoutX="1065.0" layoutY="490.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onHelpMenuClicked" text="Help" visible="false" />
          </children>
       </AnchorPane>
    </children>

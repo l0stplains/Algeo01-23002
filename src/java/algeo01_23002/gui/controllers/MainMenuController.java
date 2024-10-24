@@ -4,7 +4,6 @@ import atlantafx.base.theme.CupertinoLight;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.application.Application;
 import javafx.event.ActionEvent;
-import javafx.event.EventType;
 import javafx.fxml.FXML;
 import atlantafx.base.controls.ToggleSwitch;
 import javafx.fxml.FXMLLoader;
@@ -128,6 +127,19 @@ public class MainMenuController {
     @FXML
     public void onMatrixPropertiesButtonClicked(ActionEvent event) throws IOException {
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/algeo01_23002/gui/menus/matrix-properties-menu.fxml"));
+        stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
+        width = stage.getWidth();
+        height = stage.getHeight();
+        scene = new Scene(fxmlLoader.load());
+        stage.setWidth(width);
+        stage.setHeight(height);
+        stage.setScene(scene);
+        stage.show();
+    }
+
+    @FXML
+    public void onImageResizeMenuClicked(ActionEvent event) throws IOException {
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/algeo01_23002/gui/menus/image-resizing-menu.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         width = stage.getWidth();
         height = stage.getHeight();

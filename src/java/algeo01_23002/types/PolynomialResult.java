@@ -23,4 +23,14 @@ public class PolynomialResult {
 
         return result;
     }
+
+    public void printEquation() {
+        StringBuilder equation = new StringBuilder();
+
+        equation.append("f(x) = ").append(coefficients.getData(0,0));  // Intercept at index 0
+        for (int i = 1; i < coefficients.getColsCount(); i++) {
+            equation.append(" + ").append(coefficients.getData(0,i)).append("x").append("^").append(i);
+        }
+        System.out.println(equation.toString());
+    }
 }

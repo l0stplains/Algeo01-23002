@@ -56,10 +56,11 @@ public class InterpolationMenu {
             y_points.setData(0, i, augmented.getData(i, 1));
         }
 
-        System.out.print("\nFitting the data...");
+        System.out.println("\nFitting the data...");
         PolynomialResult result;
         try {
             result = Interpolation.polynomialInterpolation(x_points, y_points);
+            result.printEquation();
         } catch (Exception e) {
             System.out.println(YELLOW + "\nInterpolation can't be performed " + RESET);
             return;

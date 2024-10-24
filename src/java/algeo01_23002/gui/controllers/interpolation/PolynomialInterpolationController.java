@@ -207,7 +207,7 @@ public class PolynomialInterpolationController {
                         }
                         PolynomialResult result = Interpolation.polynomialInterpolation(x_points, y_points);
                         resultMatrix = result;
-                        resultMatrixOutput.setText(outputPaddedMatrix(result.getCoefficients()));
+                        resultMatrixOutput.setText(result.getEquation());
                         valueInput.setDisable(false);
                         getPredictionButton.setDisable(false);
 

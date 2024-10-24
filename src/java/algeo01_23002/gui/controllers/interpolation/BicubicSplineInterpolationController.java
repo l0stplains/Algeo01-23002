@@ -138,7 +138,7 @@ public class BicubicSplineInterpolationController {
         });
 
         // Set a tooltip to show multi-line prompt
-        Tooltip exampleTooltip = new Tooltip("Example:\n    -0.3 -2 1 2\n      -1  1 3 4\n       2  0 5 6");
+        Tooltip exampleTooltip = new Tooltip("Example:\n    -0.3 -2 1 2 -1 1 3 4 2 0 5 6");
         exampleTooltip.setFont(firstMatrixInput.getFont());
         firstMatrixInput.setTooltip(exampleTooltip);
 
@@ -151,7 +151,7 @@ public class BicubicSplineInterpolationController {
                 firstMatrix = new Matrix(1, 1);
                 firstMatrix.inputMatrixFromString(firstMatrixInput.getText());
                 firstMatrixInput.setText(outputPaddedMatrix(firstMatrix));
-                if(firstMatrix.getRowsCount() != 4 || firstMatrix.getColsCount() != 4){
+                if(firstMatrix.getRowsCount() != 1 || firstMatrix.getColsCount() != 16){
                     throw new Exception("4x4");
                 }
                 if(valueInput.getText().isEmpty()){
@@ -208,7 +208,7 @@ public class BicubicSplineInterpolationController {
                 valueInput.setText("");
                 valueInput1.setText("");
                 predictionOutput.setText("");
-                errorNotification("Matrix should be 4x4");
+                errorNotification("Matrix should be 1x16");
             }
         });
 

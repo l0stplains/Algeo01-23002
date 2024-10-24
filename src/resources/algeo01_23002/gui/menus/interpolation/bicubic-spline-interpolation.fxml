@@ -4,13 +4,10 @@
 <?import atlantafx.base.controls.Message?>
 <?import atlantafx.base.controls.ToggleSwitch?>
 <?import atlantafx.base.layout.InputGroup?>
-<?import io.github.palexdev.materialfx.controls.MFXButton?>
 <?import io.github.palexdev.mfxcore.controls.Label?>
 <?import io.github.palexdev.mfxcore.controls.Text?>
 <?import javafx.scene.control.Hyperlink?>
 <?import javafx.scene.control.Separator?>
-<?import javafx.scene.control.TextArea?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
@@ -39,52 +36,21 @@
             </Text>
             <Separator layoutX="96.0" layoutY="51.0" prefHeight="24.0" prefWidth="611.0" AnchorPane.leftAnchor="80.0" />
             <HBox layoutX="93.0" layoutY="201.0" />
-            <TextArea fx:id="firstMatrixInput" layoutX="79.0" layoutY="172.0" prefHeight="240.0" prefWidth="280.0" promptText="Enter matrix values" AnchorPane.leftAnchor="80.0">
-               <font>
-                  <Font name="JetBrainsMono NFM Regular" size="12.0" />
-               </font></TextArea>
-            <Label layoutX="93.0" layoutY="147.0" text="4x4 Matrix" AnchorPane.leftAnchor="94.0" />
             <Message fx:id="messageBox" layoutX="471.0" layoutY="-14.0" prefHeight="80.0" prefWidth="300.0" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
-            <Hyperlink fx:id="firstMatrixHyperLink" layoutX="278.0" layoutY="416.0" text="Import from file" visited="true" AnchorPane.leftAnchor="278.0">
-               <font>
-                  <Font name="System Italic" size="12.0" />
-               </font>
-            </Hyperlink>
             <Hyperlink fx:id="resultMatrixHyperLink" layoutX="458.0" layoutY="416.0" text="Export to file" visible="false" visited="true">
                <font>
                   <Font name="System Italic" size="12.0" />
                </font>
             </Hyperlink>
-            <InputGroup layoutX="458.0" layoutY="265.0" prefHeight="35.0" prefWidth="91.0">
-               <children>
-                  <Label text="X" />
-                  <TextField fx:id="valueInput" prefHeight="32.0" prefWidth="62.0">
-                     <font>
-                        <Font name="JetBrainsMono NFM Regular" size="12.0" />
-                     </font>
-                  </TextField>
-               </children>
-            </InputGroup>
+            <InputGroup layoutX="458.0" layoutY="265.0" prefHeight="35.0" prefWidth="91.0" />
             <InputGroup layoutX="918.0" layoutY="377.0" prefHeight="35.0" prefWidth="125.0" />
-            <MFXButton fx:id="getPredictionButton" buttonType="RAISED" depthLevel="LEVEL1" layoutX="691.0" layoutY="312.0" text="Get Interpolated" AnchorPane.leftAnchor="691.0" />
             <InputGroup layoutX="970.0" layoutY="265.0" prefHeight="35.0" prefWidth="145.0" />
-            <Label layoutX="464.0" layoutY="242.0" text="Point" />
-            <Label layoutX="691.0" layoutY="242.0" text="Result" />
-            <InputGroup layoutX="555.0" layoutY="265.0" prefHeight="35.0" prefWidth="91.0">
-               <children>
-                  <Label text="Y" />
-                  <TextField fx:id="valueInput1" prefHeight="32.0" prefWidth="62.0">
-                     <font>
-                        <Font name="JetBrainsMono NFM Regular" size="12.0" />
-                     </font>
-                  </TextField>
-               </children>
-            </InputGroup>
-            <TextField fx:id="predictionOutput" editable="false" layoutX="676.0" layoutY="267.0" prefHeight="32.0" prefWidth="144.0">
+            <InputGroup layoutX="555.0" layoutY="265.0" prefHeight="35.0" prefWidth="91.0" />
+            <Label layoutX="93.0" layoutY="300.0" text="Please use our CLI version to use bicubic spline interpolation">
                <font>
-                  <Font name="JetBrainsMono NFM Regular" size="12.0" />
+                  <Font size="36.0" />
                </font>
-            </TextField>
+            </Label>
          </children>
       </AnchorPane>
    </children>

@@ -316,7 +316,7 @@ public class LinearSystemSolver {
 
         double actualDeterminant = X.getDeterminantWithCofactor(); // Can be change with rowReduction methode
         if(actualDeterminant == 0 || matrix.getColsCount() < 3){
-            throw new IllegalArgumentException("cramersRule() : Solution could not be calculated, Invalid Determinant or Invallid Matrix Dimension");
+            throw new IllegalArgumentException("cramersRule() : Solution could not be calculated, Invalid Determinant or Invalid Matrix Dimension");
         }
         double tempDeterminant;
         Matrix solutions = new Matrix(1, X.getRowsCount());

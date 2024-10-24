@@ -75,7 +75,6 @@ public class Interpolation {
                 x = 1; y = 1;
             }
 
-
             int i = -1, j = -1;
             for(int col = 0; col <=15; col++) {
                 if (col % 4 == 0){
@@ -96,7 +95,6 @@ public class Interpolation {
                 }
 
             }
-
 
         }
         X.setAllData(data);

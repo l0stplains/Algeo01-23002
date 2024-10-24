@@ -10,6 +10,7 @@ import atlantafx.base.util.Animations;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.animation.FadeTransition;
 import javafx.application.Application;
+import javafx.concurrent.Task;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -178,12 +179,44 @@ public class MatrixAdditionController {
                 secondMatrixInput.setText(outputPaddedMatrix(secondMatrix));
 
                 resultMatrixOutput.setText("Calculating...");
-                resultMatrixOutput.setText(outputPaddedMatrix(firstMatrix.add(secondMatrix)));
+                // Create a Task to run the calculation in the background
+                Task<Matrix> additionTask = new Task<>() {
+                    @Override
+                    protected Matrix call() {
+                        return firstMatrix.add(secondMatrix);
+                    }
+                };
 
-                resultMatrixHyperLink.setVisible(true);
-                messageBox.setVisible(false);
-                firstMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, false);
-                secondMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, false);
+                // Define what happens when the task succeeds
+                additionTask.setOnSucceeded(e -> {
+                    resultMatrix = additionTask.getValue();
+                    resultMatrixOutput.setText(outputPaddedMatrix(resultMatrix));
+                    resultMatrixHyperLink.setVisible(true);
+                    messageBox.setVisible(false);
+                    firstMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, false);
+                    secondMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, false);
+                });
+
+                // Define what happens if the task fails
+                additionTask.setOnFailed(e -> {
+                    Throwable exception = additionTask.getException();
+                    try {
+                        throw exception;
+                    } catch (IllegalArgumentException ex){
+                        firstMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, true);
+                        secondMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, true);
+
+                        resultMatrixOutput.setText("");
+                        resultMatrixHyperLink.setVisible(false);
+                        errorNotification("Please input matrix with the correct size and format");
+                    } catch (Throwable ex){
+                        errorNotification("Calculation failed.");
+                    }
+
+                });
+
+                // Start the task in a new thread
+                new Thread(additionTask).start();
             } catch (IllegalArgumentException e){
                 firstMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, true);
                 secondMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, true);

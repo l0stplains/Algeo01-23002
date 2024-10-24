@@ -10,6 +10,7 @@ import atlantafx.base.theme.Styles;
 import atlantafx.base.util.Animations;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.application.Application;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -142,12 +143,43 @@ public class MatrixDeterminantWithCofactorController {
                 }
 
                 resultMatrixOutput.setText("Calculating...");
-                double determinant = firstMatrix.getDeterminantWithCofactor();
-                resultMatrixOutput.setText(determinant + "");
+                // Create a Task to run the determinant calculation in the background
+                Task<Double> determinantTask = new Task<>() {
+                    @Override
+                    protected Double call() throws Exception {
+                        return firstMatrix.getDeterminantWithCofactor();
+                    }
+                };
 
-                resultMatrixHyperLink.setVisible(true);
-                messageBox.setVisible(false);
-                firstMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, false);
+                // Define what happens when the task succeeds
+                determinantTask.setOnSucceeded(e -> {
+                    double determinant = determinantTask.getValue();
+                    resultMatrixOutput.setText(String.valueOf(determinant));  // Update UI with the determinant result
+                    resultMatrixHyperLink.setVisible(true);
+                    messageBox.setVisible(false);
+                    firstMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, false);
+                });
+
+                // Define what happens if the task fails
+                determinantTask.setOnFailed(e -> {
+                    Throwable exception = determinantTask.getException();
+                    try {
+                        throw exception;
+                    } catch (IllegalArgumentException ex){
+                        firstMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, true);
+                        if(Objects.equals(resultMatrixOutput.getText(), "Calculating...")){
+                            resultMatrixOutput.setText("");
+                            resultMatrixHyperLink.setVisible(false);
+                        }
+                        errorNotification("Please input matrix with the correct size and format");
+                    } catch (Throwable ex){
+                        errorNotification("Calculation failed.");
+                    }
+
+                });
+
+                // Start the task in a new thread
+                new Thread(determinantTask).start();
             } catch (IllegalArgumentException e){
                 firstMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, true);
                 if(Objects.equals(resultMatrixOutput.getText(), "Calculating...")){

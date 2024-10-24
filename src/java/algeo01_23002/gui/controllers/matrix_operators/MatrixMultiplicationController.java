@@ -10,6 +10,7 @@ import atlantafx.base.theme.Styles;
 import atlantafx.base.util.Animations;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.application.Application;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -173,21 +174,48 @@ public class MatrixMultiplicationController {
                 secondMatrix = new Matrix(1, 1);
                 secondMatrix.inputMatrixFromString(secondMatrixInput.getText());
                 secondMatrixInput.setText(outputPaddedMatrix(secondMatrix));
-
                 resultMatrixOutput.setText("Calculating...");
-                resultMatrixOutput.setText(outputPaddedMatrix(firstMatrix.multiplyByMatrix(secondMatrix)));
+                // Create a Task to run the calculation in the background
+                Task<Matrix> multiplicationTask = new Task<>() {
+                    @Override
+                    protected Matrix call() {
+                        return firstMatrix.multiplyByMatrix(secondMatrix);
+                    }
+                };
 
-                resultMatrixHyperLink.setVisible(true);
-                messageBox.setVisible(false);
-                firstMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, false);
-                secondMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, false);
+                // Define what happens when the task succeeds
+                multiplicationTask.setOnSucceeded(e -> {
+                    resultMatrix = multiplicationTask.getValue();
+                    resultMatrixOutput.setText(outputPaddedMatrix(resultMatrix));
+                    resultMatrixHyperLink.setVisible(true);
+                    messageBox.setVisible(false);
+                    firstMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, false);
+                    secondMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, false);
+                });
+
+                // Define what happens if the task fails
+                multiplicationTask.setOnFailed(e -> {
+                    Throwable exception = multiplicationTask.getException();
+                    try {
+                        throw exception;
+                    } catch (IllegalArgumentException ex){
+                        firstMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, true);
+                        secondMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, true);
+
+                        resultMatrixOutput.setText("");
+                        resultMatrixHyperLink.setVisible(false);
+                        errorNotification("Please input matrix with the correct size and format");
+                    } catch (Throwable ex){
+                        errorNotification("Calculation failed.");
+                    }
+
+                });
+
+                // Start the task in a new thread
+                new Thread(multiplicationTask).start();
             } catch (IllegalArgumentException e){
                 firstMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, true);
                 secondMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, true);
-                if(Objects.equals(resultMatrixOutput.getText(), "Calculating...")){
-                    resultMatrixOutput.setText("");
-                    resultMatrixHyperLink.setVisible(false);
-                }
                 errorNotification("Please input matrix with the correct size and format");
             } catch (IllegalAccessException e){
                 if(Objects.equals(e.getMessage(), "First Matrix is Empty")) {
@@ -197,6 +225,8 @@ public class MatrixMultiplicationController {
                     secondMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, true);
                     errorNotification("Please input the second matrix first");
                 }
+            } catch (Exception e) {
+                System.out.println(e.getMessage());
             }
 
         });

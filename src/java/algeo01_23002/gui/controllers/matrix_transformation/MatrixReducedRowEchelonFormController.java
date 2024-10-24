@@ -10,6 +10,7 @@ import atlantafx.base.theme.Styles;
 import atlantafx.base.util.Animations;
 import io.github.palexdev.materialfx.controls.MFXButton;
 import javafx.application.Application;
+import javafx.concurrent.Task;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Node;
@@ -136,18 +137,48 @@ public class MatrixReducedRowEchelonFormController {
                 firstMatrix.inputMatrixFromString(firstMatrixInput.getText());
                 firstMatrixInput.setText(outputPaddedMatrix(firstMatrix));
 
-                resultMatrixOutput.setText("Calculating...");
-                resultMatrixOutput.setText(outputPaddedMatrix(firstMatrix.getReducedRowEchelonForm()));
+                resultMatrixOutput.setText("Transforming...");
 
-                resultMatrixHyperLink.setVisible(true);
-                messageBox.setVisible(false);
-                firstMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, false);
+                // Create a Task to run the transformation in the background
+                Task<Matrix> transformationTask = new Task<>() {
+                    @Override
+                    protected Matrix call() throws Exception {
+                        return firstMatrix.getReducedRowEchelonForm();
+                    }
+                };
+
+                // Define what happens when the task succeeds
+                transformationTask.setOnSucceeded(e -> {
+                    resultMatrix = transformationTask.getValue();
+                    resultMatrixOutput.setText(outputPaddedMatrix(resultMatrix));
+                    resultMatrixHyperLink.setVisible(true);
+                    messageBox.setVisible(false);
+                    firstMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, false);
+
+                });
+
+                // Define what happens if the task fails
+                transformationTask.setOnFailed(e -> {
+                    Throwable exception = transformationTask.getException();
+                    try {
+                        throw exception;
+                    } catch (IllegalArgumentException ex){
+                        firstMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, true);
+
+                        resultMatrixOutput.setText("");
+                        resultMatrixHyperLink.setVisible(false);
+                        errorNotification("Please input matrix with the correct size and format");
+                    } catch (Throwable ex){
+                        errorNotification("Transformation failed.");
+                    }
+
+                });
+
+                // Start the task in a new thread
+                new Thread(transformationTask).start();
+
             } catch (IllegalArgumentException e){
                 firstMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, true);
-                if(Objects.equals(resultMatrixOutput.getText(), "Calculating...")){
-                    resultMatrixOutput.setText("");
-                    resultMatrixHyperLink.setVisible(false);
-                }
                 errorNotification("Please input matrix with the correct size and format");
             } catch (IllegalAccessException e){
                 if(Objects.equals(e.getMessage(), "Matrix A is Empty")) {

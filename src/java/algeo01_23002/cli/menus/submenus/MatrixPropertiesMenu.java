@@ -41,16 +41,26 @@ public class MatrixPropertiesMenu {
         int rows = getChoice(1, 12);
         int cols = rows;
 
+        int choice;
         Matrix matrix = new Matrix(rows, cols);
 
-        System.out.println("\n" + ARROW + "  Enter each element of the matrix: ");
-        matrix = inputMatrixDriver(matrix);
+        // Input Matrix from File or From CLI
+        inputMatrixChoiceDriver(matrix);
 
         System.out.print("\nCalculating...");
         double result = matrix.getDeterminantWithCofactor();
 
         System.out.println(YELLOW + "\nResult: " + RESET);
         System.out.println("  " + result);
+
+        // Save Data
+        System.out.println();
+        System.out.println("Do you want to save it to file? (1 (yes) / 0 (no)");
+        choice = getChoice(0,1);
+        if(choice == 1){
+            saveDoubleResultToFile("Determinant with Cofactor: ",result);
+        }
+
         System.out.println();
     }
 
@@ -59,16 +69,26 @@ public class MatrixPropertiesMenu {
         int rows = getChoice(1, 12);
         int cols = rows;
 
+        int choice;
         Matrix matrix = new Matrix(rows, cols);
 
-        System.out.println("\n" + ARROW + "  Enter each element of the matrix: ");
-        matrix = inputMatrixDriver(matrix);
+        // Input Matrix from File or From CLI
+        inputMatrixChoiceDriver(matrix);
 
         System.out.print("\nCalculating...");
         double result = matrix.getDeterminantWithRowReduction();
 
         System.out.println(YELLOW + "\nResult: " + RESET);
         System.out.println("  " + result);
+
+        // Save Data
+        System.out.println();
+        System.out.println("Do you want to save it to file? (1 (yes) / 0 (no)");
+        choice = getChoice(0,1);
+        if(choice == 1){
+            saveDoubleResultToFile("Determinant with Cofactor: ",result);
+        }
+
         System.out.println();
     }
 }

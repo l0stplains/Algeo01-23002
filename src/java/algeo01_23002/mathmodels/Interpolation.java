@@ -104,17 +104,8 @@ public class Interpolation {
     }
 
     public static double bicubicSplineInterpolation (Matrix YInput, double a, double b, Matrix XInverse){
-//        Matrix Y = new Matrix(16,1);
         Matrix Y = YInput;
         int k = 0;
-//        for (int i = 0; i < 4; i++) {
-//            for (int j = 0; j < 4; j++) {
-//                Y.setData(k, 0, YInput.getData(i, j));
-//                k++;
-//            }
-//        }
-
-
         Matrix coeff = XInverse.multiplyByMatrix(Y);
         double res = 0;
         k = 0;

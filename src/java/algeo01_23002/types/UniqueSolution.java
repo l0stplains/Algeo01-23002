@@ -15,6 +15,17 @@ public final class UniqueSolution extends LinearSystemSolution {
 
     @Override
     public String toString() {
-        return "Unique solution: " + Arrays.deepToString(solution.getAllData()); // changed
+        StringBuilder result = new StringBuilder("Unique solution:\n");
+        solution.printMatrix();
+
+        for (int i = 0; i < solution.getColsCount(); i++) {
+            result.append("X").append(i + 1).append(" = ").append(solution.getData(0,i));
+            if (i < solution.getColsCount() - 1) {
+                result.append("\n");
+            }
+        }
+
+        return result.toString();
     }
+
 }

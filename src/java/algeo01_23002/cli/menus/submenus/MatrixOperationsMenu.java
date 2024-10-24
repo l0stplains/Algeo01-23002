@@ -47,17 +47,27 @@ public class MatrixOperationsMenu {
         Matrix matrix_a = new Matrix(rows, cols);
         Matrix matrix_b = new Matrix(rows, cols);
 
-        System.out.println("\n" + ARROW + "  Enter each element of the first matrix: ");
-        matrix_a = inputMatrixDriver(matrix_a);
+        System.out.println("\n" + ARROW + " Fill Element for FIRST Matrix");
+        inputMatrixChoiceDriver(matrix_a);
 
-        System.out.println("\n" + ARROW + "  Enter each element of the second matrix: ");
-        matrix_b = inputMatrixDriver(matrix_b);
+        System.out.println("\n" + ARROW + " Fill Element for SECOND Matrix");
+        inputMatrixChoiceDriver(matrix_b);
 
         System.out.print("\nCalculating...");
         Matrix result = matrix_a.add(matrix_b);
 
         System.out.println(YELLOW + "\nResult: " + RESET);
         printMatrixWithBorder(result);
+
+        // Save Data
+        int choice;
+        System.out.println();
+        System.out.println("Do you want to save it to file? (1 (yes) / 0 (no)");
+        choice = getChoice(0,1);
+        if(choice == 1){
+            saveMatrixResultToFile(result);
+        }
+
         System.out.println();
     }
 
@@ -70,17 +80,26 @@ public class MatrixOperationsMenu {
         Matrix matrix_a = new Matrix(rows, cols);
         Matrix matrix_b = new Matrix(rows, cols);
 
-        System.out.println("\n" + ARROW + "  Enter each element of the first matrix: ");
-        matrix_a = inputMatrixDriver(matrix_a);
+        System.out.println("\n" + ARROW + " Fill Element for FIRST Matrix");
+        inputMatrixChoiceDriver(matrix_a);
 
-        System.out.println("\n" + ARROW + "  Enter each element of the second matrix: ");
-        matrix_b = inputMatrixDriver(matrix_b);
+        System.out.println("\n" + ARROW + " Fill Element for SECOND Matrix");
+        inputMatrixChoiceDriver(matrix_b);
 
         System.out.print("\nCalculating...");
         Matrix result = matrix_a.subtract(matrix_b);
 
         System.out.println(YELLOW + "\nResult: " + RESET);
         printMatrixWithBorder(result);
+
+        // Save Data
+        int choice;
+        System.out.println();
+        System.out.println("Do you want to save it to file? (1 (yes) / 0 (no)");
+        choice = getChoice(0,1);
+        if(choice == 1){
+            saveMatrixResultToFile(result);
+        }
         System.out.println();
     }
 
@@ -97,17 +116,27 @@ public class MatrixOperationsMenu {
         Matrix matrix_a = new Matrix(rows_a, cols_a);
         Matrix matrix_b = new Matrix(rows_b, cols_b);
 
-        System.out.println("\n" + ARROW + "  Enter each element of the first matrix: ");
-        matrix_a = inputMatrixDriver(matrix_a);
+        System.out.println("\n" + ARROW + " Fill Element for FIRST Matrix");
+        inputMatrixChoiceDriver(matrix_a);
 
-        System.out.println("\n" + ARROW + "  Enter each element of the second matrix: ");
-        matrix_b = inputMatrixDriver(matrix_b);
+        System.out.println("\n" + ARROW + " Fill Element for SECOND Matrix");
+        inputMatrixChoiceDriver(matrix_b);
 
         System.out.print("\nCalculating...");
         Matrix result = matrix_a.multiplyByMatrix(matrix_b);
 
         System.out.println(YELLOW + "\nResult: " + RESET);
         printMatrixWithBorder(result);
+
+        // Save Data
+        int choice;
+        System.out.println();
+        System.out.println("Do you want to save it to file? (1 (yes) / 0 (no)");
+        choice = getChoice(0,1);
+        if(choice == 1){
+            saveMatrixResultToFile(result);
+        }
+
         System.out.println();
     }
 

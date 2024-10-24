@@ -72,7 +72,6 @@ public class InterpolationMenu {
             }
         }
 
-
         System.out.println();
     }
 
@@ -85,16 +84,26 @@ public class InterpolationMenu {
         Matrix matrix = new Matrix(rows, cols);
 
         System.out.println("\n" + ARROW + "  Enter each element of the matrix: ");
-        matrix = inputMatrixDriver(matrix);
+        inputMatrixDriver(matrix);
 
         System.out.print("\n" + ARROW + "  Enter x value for point to be interpolated : ");
         double x = getDouble();
         System.out.print("\n" + ARROW + "  Enter y value for point to be interpolated : ");
         double y = getDouble();
 
+        Matrix Y = new Matrix(1, 2);
+        Y.setData(0,0,x); Y.setData(0,1,y);
+
 
         System.out.print("\nFitting the data...");
-        double result = Interpolation.bicubicSplineInterpolation(matrix, x, y);
+        double result =0;
+        try{
+            matrix = Interpolation.getXInverseBicubicSpline();
+            result = Interpolation.bicubicSplineInterpolation(Y, x, y, matrix);
+        } catch (Exception e) {
+            System.out.println(YELLOW + "\nInterpolation can't be performed " + RESET);
+        }
+
 
         System.out.println(YELLOW + "\nResult: " + RESET);
         System.out.println(result);

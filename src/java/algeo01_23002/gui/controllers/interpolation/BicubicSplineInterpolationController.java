@@ -166,7 +166,7 @@ public class BicubicSplineInterpolationController {
                     throw new IllegalArgumentException("X value and Y should be 1");
                 }
                 Matrix value1 = new Matrix(1, 1);
-                value1.inputMatrixFromString(valueInput.getText());
+                value1.inputMatrixFromString(valueInput1.getText());
                 if(value1.getColsCount() != 1 && value1.getRowsCount() != 1){
                     throw new IllegalArgumentException("X value and Y should be 1");
                 }
@@ -199,12 +199,14 @@ public class BicubicSplineInterpolationController {
             } catch (RuntimeException e) {
                 firstMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, true);
                 valueInput.setText("");
+                valueInput1.setText("");
                 predictionOutput.setText("");
                 errorNotification("Interpolation failed.");
             }
             catch (Exception e){
                 firstMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, true);
                 valueInput.setText("");
+                valueInput1.setText("");
                 predictionOutput.setText("");
                 errorNotification("Matrix should be 4x4");
             }

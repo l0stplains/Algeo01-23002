@@ -16,7 +16,7 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-<VBox alignment="TOP_CENTER" prefHeight="675.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="algeo01_23002.gui.controllers.regression.MultipleLinearRegressionController">
+<VBox alignment="TOP_CENTER" prefHeight="675.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="algeo01_23002.gui.controllers.interpolation.BicubicSplineInterpolationController">
    <children>
       <AnchorPane maxWidth="1.7976931348623157E308" prefHeight="64.0" prefWidth="200.0" VBox.vgrow="NEVER">
          <children>
@@ -31,8 +31,8 @@
       </AnchorPane>
       <AnchorPane prefHeight="608.0" prefWidth="1200.0">
          <children>
-            <Text cssWrappingWidth="900.0" layoutX="99.0" layoutY="92.0" text="Multiple linear regression is a statistical technique used to predict the value of a dependent variable based on multiple independent variables. The relationship is modeled as a linear equation where coefficients are estimated to minimize the difference between predicted and actual values." AnchorPane.leftAnchor="80.0" />
-            <Text layoutX="99.0" layoutY="49.0" text="Multiple Linear Regression" AnchorPane.leftAnchor="80.0">
+            <Text cssWrappingWidth="880.0" layoutX="99.0" layoutY="92.0" text="Bicubic spline interpolation is used for smoother, more accurate interpolation of two-dimensional data, such as images. It fits cubic polynomials between data points in two dimensions, resulting in smooth transitions, making it ideal for image scaling and surface approximation." AnchorPane.leftAnchor="80.0" />
+            <Text layoutX="99.0" layoutY="49.0" text="Bicubic Spline Interpolation" AnchorPane.leftAnchor="80.0">
                <font>
                   <Font name="System Bold" size="32.0" />
                </font>
@@ -43,12 +43,12 @@
                <font>
                   <Font name="JetBrainsMono NFM Regular" size="12.0" />
                </font></TextArea>
-            <Label layoutX="93.0" layoutY="147.0" text="Matrix" AnchorPane.leftAnchor="94.0" />
+            <Label layoutX="93.0" layoutY="147.0" text="4x4 Matrix" AnchorPane.leftAnchor="94.0" />
             <TextArea fx:id="resultMatrixOutput" editable="false" layoutX="458.0" layoutY="172.0" prefHeight="240.0" prefWidth="280.0" promptText="Click &quot;Get Result&quot; button" AnchorPane.leftAnchor="458.0">
                <font>
                   <Font name="JetBrainsMono NFM Regular" size="12.0" />
                </font></TextArea>
-            <Label layoutX="472.0" layoutY="147.0" text="Regression Result" AnchorPane.leftAnchor="472.0" />
+            <Label layoutX="472.0" layoutY="147.0" text="Interpolation Result" AnchorPane.leftAnchor="472.0" />
             <Label layoutX="288.0" layoutY="474.0" opacity="0.3" text="*Due to limitations of the &quot;double&quot; data type, precision is limited to two decimal places." AnchorPane.leftAnchor="288.0">
                <font>
                   <Font name="System Italic" size="12.0" />
@@ -91,8 +91,8 @@
                      </font></TextField>
                </children>
             </InputGroup>
-            <Label layoutX="792.0" layoutY="239.0" text="X Values" />
-            <Label layoutX="959.0" layoutY="240.0" text="Prediction" />
+            <Label layoutX="792.0" layoutY="239.0" text="X Value" />
+            <Label layoutX="959.0" layoutY="240.0" text="Interpolated Y " />
          </children>
       </AnchorPane>
    </children>

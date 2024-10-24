@@ -91,7 +91,7 @@
                      </font></TextField>
                </children>
             </InputGroup>
-            <Label layoutX="792.0" layoutY="239.0" text="Value" />
+            <Label layoutX="792.0" layoutY="239.0" text="X Values" />
             <Label layoutX="959.0" layoutY="240.0" text="Prediction" />
          </children>
       </AnchorPane>

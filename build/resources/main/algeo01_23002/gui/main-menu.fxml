@@ -1,0 +1,88 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import atlantafx.base.controls.ToggleSwitch?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.mfxcore.controls.Text?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.ColumnConstraints?>
+<?import javafx.scene.layout.GridPane?>
+<?import javafx.scene.layout.RowConstraints?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.paint.Color?>
+<?import javafx.scene.paint.LinearGradient?>
+<?import javafx.scene.paint.Stop?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" prefHeight="675.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="algeo01_23002.gui.controllers.MainMenuController">
+   <children>
+      <AnchorPane maxWidth="1.7976931348623157E308" prefHeight="64.0" prefWidth="200.0" VBox.vgrow="NEVER">
+         <children>
+            <Text layoutX="21.0" layoutY="41.0" text="RGB - A Linear Algebra Application" visible="false" AnchorPane.leftAnchor="24.0">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Text>
+            <ToggleSwitch fx:id="themeToggler" labelPosition="RIGHT" layoutX="1039.0" layoutY="18.0" onMouseClicked="#onThemeTogglerClicked" text="Dark Mode" AnchorPane.rightAnchor="24.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="608.0" prefWidth="1200.0">
+         <children>
+            <Text layoutX="107.0" layoutY="275.0" text="A Linear Algebra Application" AnchorPane.leftAnchor="80.0">
+               <font>
+                  <Font name="System Bold" size="32.0" />
+               </font>
+            </Text>
+            <Text cssWrappingWidth="450.0" layoutX="107.0" layoutY="314.0" text="Explore essential tools for solving equations, transforming matrices, and much more—all in one intuitive application." AnchorPane.leftAnchor="80.0" />
+            <Text layoutX="107.0" layoutY="225.0" text="RGB" AnchorPane.leftAnchor="80.0">
+               <font>
+                  <Font name="System Bold" size="64.0" />
+               </font>
+               <fill>
+                  <LinearGradient endX="0.8605200945626478" endY="0.4278959810874704" startX="0.15130023640661938" startY="0.43026004728132383">
+                     <stops>
+                        <Stop>
+                           <color>
+                              <Color red="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="0.49330905221803883">
+                           <color>
+                              <Color green="1.0" />
+                           </color>
+                        </Stop>
+                        <Stop offset="1.0">
+                           <color>
+                              <Color blue="1.0" />
+                           </color>
+                        </Stop>
+                     </stops>
+                  </LinearGradient>
+               </fill>
+            </Text>
+            <GridPane hgap="24.0" layoutX="553.0" layoutY="120.0" maxWidth="600.0" prefHeight="336.0" prefWidth="520.0" vgap="24.0" AnchorPane.rightAnchor="80.0">
+              <columnConstraints>
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+                <ColumnConstraints hgrow="SOMETIMES" minWidth="10.0" prefWidth="100.0" />
+              </columnConstraints>
+              <rowConstraints>
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+                  <RowConstraints minHeight="10.0" prefHeight="30.0" vgrow="SOMETIMES" />
+              </rowConstraints>
+               <children>
+                  <MFXButton fx:id="linearSystemSolverButton" buttonType="RAISED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onLinearSystemSolverButtonClicked" text="Linear System Solver" GridPane.halignment="CENTER" GridPane.valignment="CENTER" />
+                  <MFXButton fx:id="matrixPropertiesButton" buttonType="RAISED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onMatrixPropertiesButtonClicked" text="Matrix Properties" GridPane.columnIndex="1" GridPane.rowIndex="2" />
+                  <MFXButton fx:id="matrixTransformationButton" buttonType="RAISED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onMatrixTransformationButtonClicked" text="Matrix Transformation" GridPane.columnIndex="1" GridPane.rowIndex="1" />
+                  <MFXButton fx:id="interpolationButton" buttonType="RAISED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onInterpolationMenuClicked" text="Interpolation" GridPane.columnIndex="1" />
+                  <MFXButton fx:id="matrixOperationsButton" buttonType="RAISED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onMatrixOperationsButtonClicked" text="Matrix Operations" GridPane.rowIndex="2" />
+                  <MFXButton fx:id="regressionButton" buttonType="RAISED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onRegressionButtonClicked" prefHeight="96.0" prefWidth="156.0" text="Regression" GridPane.rowIndex="1" />
+                  <MFXButton fx:id="aboutButton" buttonType="RAISED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onAboutButtonClicked" text="About" GridPane.columnIndex="1" GridPane.rowIndex="3" />
+                  <MFXButton fx:id="imageResizeButton" buttonType="RAISED" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onImageResizeMenuClicked" text="Image Resizing" GridPane.rowIndex="3" />
+               </children>
+            </GridPane>
+            <MFXButton fx:id="helpButton" buttonType="RAISED" layoutX="1065.0" layoutY="490.0" maxHeight="1.7976931348623157E308" maxWidth="1.7976931348623157E308" onAction="#onHelpMenuClicked" text="Help" visible="false" />
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>

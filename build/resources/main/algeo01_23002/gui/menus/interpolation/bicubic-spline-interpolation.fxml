@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import atlantafx.base.controls.Breadcrumbs?>
+<?import atlantafx.base.controls.Message?>
+<?import atlantafx.base.controls.ToggleSwitch?>
+<?import atlantafx.base.layout.InputGroup?>
+<?import io.github.palexdev.mfxcore.controls.Label?>
+<?import io.github.palexdev.mfxcore.controls.Text?>
+<?import javafx.scene.control.Hyperlink?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.HBox?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" prefHeight="675.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="algeo01_23002.gui.controllers.interpolation.BicubicSplineInterpolationController">
+   <children>
+      <AnchorPane maxWidth="1.7976931348623157E308" prefHeight="64.0" prefWidth="200.0" VBox.vgrow="NEVER">
+         <children>
+            <Text layoutX="21.0" layoutY="41.0" text="RGB - A Linear Algebra Application" visible="false" AnchorPane.leftAnchor="24.0">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Text>
+            <ToggleSwitch fx:id="themeToggler" labelPosition="RIGHT" layoutX="1039.0" layoutY="18.0" onMouseClicked="#onThemeTogglerClicked" text="Dark Mode" AnchorPane.rightAnchor="24.0" />
+            <Breadcrumbs fx:id="breadCrumbs" layoutX="68.0" layoutY="11.0" maxHeight="-Infinity" maxWidth="-Infinity" onCrumbAction="#onCrumbsAction" prefHeight="48.0" prefWidth="495.0" AnchorPane.leftAnchor="69.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="608.0" prefWidth="1200.0">
+         <children>
+            <Text cssWrappingWidth="880.0" layoutX="99.0" layoutY="92.0" text="Bicubic spline interpolation is used for smoother, more accurate interpolation of two-dimensional data, such as images. It fits cubic polynomials between data points in two dimensions, resulting in smooth transitions, making it ideal for image scaling and surface approximation." AnchorPane.leftAnchor="80.0" />
+            <Text layoutX="99.0" layoutY="49.0" text="Bicubic Spline Interpolation" AnchorPane.leftAnchor="80.0">
+               <font>
+                  <Font name="System Bold" size="32.0" />
+               </font>
+            </Text>
+            <Separator layoutX="96.0" layoutY="51.0" prefHeight="24.0" prefWidth="611.0" AnchorPane.leftAnchor="80.0" />
+            <HBox layoutX="93.0" layoutY="201.0" />
+            <Message fx:id="messageBox" layoutX="471.0" layoutY="-14.0" prefHeight="80.0" prefWidth="300.0" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+            <Hyperlink fx:id="resultMatrixHyperLink" layoutX="458.0" layoutY="416.0" text="Export to file" visible="false" visited="true">
+               <font>
+                  <Font name="System Italic" size="12.0" />
+               </font>
+            </Hyperlink>
+            <InputGroup layoutX="458.0" layoutY="265.0" prefHeight="35.0" prefWidth="91.0" />
+            <InputGroup layoutX="918.0" layoutY="377.0" prefHeight="35.0" prefWidth="125.0" />
+            <InputGroup layoutX="970.0" layoutY="265.0" prefHeight="35.0" prefWidth="145.0" />
+            <InputGroup layoutX="555.0" layoutY="265.0" prefHeight="35.0" prefWidth="91.0" />
+            <Label layoutX="93.0" layoutY="300.0" text="Please use our CLI version to use bicubic spline interpolation">
+               <font>
+                  <Font size="36.0" />
+               </font>
+            </Label>
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>

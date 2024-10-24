@@ -48,16 +48,26 @@ public class MatrixTransformationMenu {
         System.out.print("\n" + ARROW + "  Enter number of cols: ");
         int cols = getChoice(1, 100);
 
+        int choice;
         Matrix matrix = new Matrix(rows, cols);
 
-        System.out.println("\n" + ARROW + "  Enter each element of the matrix: ");
-        matrix = inputMatrixDriver(matrix);
+        // Input Matrix from File or From CLI
+        inputMatrixChoiceDriver(matrix);
 
         System.out.print("\nTransforming...");
         Matrix result = matrix.getRowEchelonForm();
 
         System.out.println(YELLOW + "\nResult: " + RESET);
         printMatrixWithBorder(result);
+
+        // Save Data
+        System.out.println();
+        System.out.println("Do you want to save it to file? (1 (yes) / 0 (no)");
+        choice = getChoice(0,1);
+        if(choice == 1){
+            saveMatrixResultToFile(result);
+        }
+
         System.out.println();
     }
 
@@ -67,16 +77,26 @@ public class MatrixTransformationMenu {
         System.out.print("\n" + ARROW + "  Enter number of cols: ");
         int cols = getChoice(1, 100);
 
+        int choice;
         Matrix matrix = new Matrix(rows, cols);
 
-        System.out.println("\n" + ARROW + "  Enter each element of the matrix: ");
-        matrix = inputMatrixDriver(matrix);
+        // Input Matrix from File or From CLI
+        inputMatrixChoiceDriver(matrix);
 
         System.out.print("\nTransforming...");
         Matrix result = matrix.getReducedRowEchelonForm();
 
         System.out.println(YELLOW + "\nResult: " + RESET);
         printMatrixWithBorder(result);
+
+        // Save Data
+        System.out.println();
+        System.out.println("Do you want to save it to file? (1 (yes) / 0 (no)");
+        choice = getChoice(0,1);
+        if(choice == 1){
+            saveMatrixResultToFile(result);
+        }
+
         System.out.println();
     }
 
@@ -85,16 +105,26 @@ public class MatrixTransformationMenu {
         int rows = getChoice(1, 12);
         int cols = rows;
 
+        int choice;
         Matrix matrix = new Matrix(rows, cols);
 
-        System.out.println("\n" + ARROW + "  Enter each element of the matrix: ");
-        matrix = inputMatrixDriver(matrix);
+        // Input Matrix from File or From CLI
+        inputMatrixChoiceDriver(matrix);
 
         System.out.print("\nTransforming...");
         Matrix result = matrix.getAdjoint();
 
         System.out.println(YELLOW + "\nResult: " + RESET);
         printMatrixWithBorder(result);
+
+        // Save Data
+        System.out.println();
+        System.out.println("Do you want to save it to file? (1 (yes) / 0 (no)");
+        choice = getChoice(0,1);
+        if(choice == 1){
+            saveMatrixResultToFile(result);
+        }
+
         System.out.println();
     }
 
@@ -103,10 +133,11 @@ public class MatrixTransformationMenu {
         int rows = getChoice(1, 12);
         int cols = rows;
 
+        int choice;
         Matrix matrix = new Matrix(rows, cols);
 
-        System.out.println("\n" + ARROW + "  Enter each element of the matrix: ");
-        matrix = inputMatrixDriver(matrix);
+        // Input Matrix from File or From CLI
+        inputMatrixChoiceDriver(matrix);
 
         System.out.print("\nTransforming...");
         Matrix result;
@@ -120,6 +151,15 @@ public class MatrixTransformationMenu {
 
         System.out.println(YELLOW + "\nResult: " + RESET);
         printMatrixWithBorder(result);
+
+        // Save Data
+        System.out.println();
+        System.out.println("Do you want to save it to file? (1 (yes) / 0 (no)");
+        choice = getChoice(0,1);
+        if(choice == 1){
+            saveMatrixResultToFile(result);
+        }
+
         System.out.println();
     }
 
@@ -128,10 +168,11 @@ public class MatrixTransformationMenu {
         int rows = getChoice(1, 100);
         int cols = rows;
 
+        int choice;
         Matrix matrix = new Matrix(rows, cols);
 
-        System.out.println("\n" + ARROW + "  Enter each element of the matrix: ");
-        matrix = inputMatrixDriver(matrix);
+        // Input Matrix from File or From CLI
+        inputMatrixChoiceDriver(matrix);
 
         System.out.print("\nTransforming...");
         Matrix result;
@@ -145,6 +186,15 @@ public class MatrixTransformationMenu {
 
         System.out.println(YELLOW + "\nResult: " + RESET);
         printMatrixWithBorder(result);
+
+        // Save Data
+        System.out.println();
+        System.out.println("Do you want to save it to file? (1 (yes) / 0 (no)");
+        choice = getChoice(0, 1);
+        if(choice == 1){
+            saveMatrixResultToFile(result);
+        }
+
         System.out.println();
     }
 }

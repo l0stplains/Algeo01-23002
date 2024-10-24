@@ -588,6 +588,36 @@ public class Matrix {
     }
   }
 
+  public void inputMatrixFromString(String input) {
+    // Split the input string into rows based on new lines
+    String[] rowsData = input.trim().split("\n");
+
+    // Determine the number of rows
+    this.rows = rowsData.length;
+    // Determine the number of columns based on the first row
+    this.cols = rowsData[0].trim().split("\\s+").length; // Use regex to split by whitespace
+
+    // Initialize the data matrix
+    double[][] data = new double[rows][cols];
+
+    for (int i = 0; i < rows; i++) {
+      // Split each row into its values using regex to handle multiple spaces
+      String[] rowValues = rowsData[i].trim().split("\\s+");
+      // Check if the number of columns matches
+      if (rowValues.length != cols) {
+        throw new IllegalArgumentException("Input row has incorrect number of columns.");
+      }
+      for (int j = 0; j < cols; j++) {
+        // Parse the double value and assign it to the matrix
+        data[i][j] = Double.parseDouble(rowValues[j]);
+      }
+    }
+
+    // If needed, store the matrix in a class variable
+    this.data = data; // Assuming you have a class variable 'data' to hold the matrix
+  }
+
+
   public void inputMatrixFromFile(String fileName){
     try{
       File file = new File(fileName);
@@ -622,9 +652,13 @@ public class Matrix {
       scanner.close();
     } catch (FileNotFoundException e) {
       System.err.println("File not found: " + fileName);
+      throw new IllegalArgumentException("File not found");
     }
 
   }
+
+
+
 
   @Override
   public boolean equals(Object obj) {

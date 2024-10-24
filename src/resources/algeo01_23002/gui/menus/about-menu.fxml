@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import atlantafx.base.controls.Breadcrumbs?>
+<?import atlantafx.base.controls.ToggleSwitch?>
+<?import io.github.palexdev.mfxcore.controls.Text?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" prefHeight="675.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="algeo01_23002.gui.controllers.AboutMenuController">
+   <children>
+      <AnchorPane maxWidth="1.7976931348623157E308" prefHeight="64.0" prefWidth="200.0" VBox.vgrow="NEVER">
+         <children>
+            <Text layoutX="21.0" layoutY="41.0" text="RGB - A Linear Algebra Application" visible="false" AnchorPane.leftAnchor="24.0">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Text>
+            <ToggleSwitch fx:id="themeToggler" labelPosition="RIGHT" layoutX="1039.0" layoutY="18.0" onMouseClicked="#onThemeTogglerClicked" text="Dark Mode" AnchorPane.rightAnchor="24.0" />
+            <Breadcrumbs fx:id="breadCrumbs" layoutX="68.0" layoutY="11.0" maxHeight="-Infinity" maxWidth="-Infinity" onCrumbAction="#onCrumbsAction" prefHeight="48.0" prefWidth="495.0" AnchorPane.leftAnchor="69.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="608.0" prefWidth="1200.0">
+         <children>
+            <Text cssWrappingWidth="600.0" layoutX="99.0" layoutY="92.0" text="Project Name: RGB - Java Linear Algebra Application&#10;Version: 1.0.0&#10;Authors: Refki Alfarizi, Guntara Hambali, Adhimas Aryo Bimo&#10;&#10;This project is part of our Linear Algebra and Geometry course at Institut Teknologi Bandung.&#10;Our aim is to develop a comprehensive Linear Algebra Library that provides various linear algebra utilities such as linear system solver, regression, interpolation, matrix operations, and many more. This utility simplifies the calculation process by offering a clean and interactive graphical user interface (GUI).&#10;&#10;Milestone: The culmination of our learning in Linear Algebra and Geometry&#10;through the practical implementation of concepts into a usable software tool.&#10;&#10;Key Features:&#10;   - Easy matrix input and operations.&#10;   - Supports a ton of linear algebra utilities.&#10;   - User-friendly GUI for navigation and interaction.&#10;&#10;Acknowledgments:&#10;   - We would like to thank our course instructors and mentors for their guidance.&#10;   - Special thanks to the RGB team for collaboration and efforts in building this project.&#10;" AnchorPane.leftAnchor="80.0" />
+            <Text layoutX="99.0" layoutY="49.0" text="About the Project" AnchorPane.leftAnchor="80.0">
+               <font>
+                  <Font name="System Bold" size="32.0" />
+               </font>
+            </Text>
+            <Separator layoutX="96.0" layoutY="51.0" prefHeight="3.0" prefWidth="354.0" AnchorPane.leftAnchor="80.0" />
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>

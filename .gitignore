@@ -1,9 +1,6 @@
 # Ignore Gradle project-specific cache directory
 .gradle
 
-# Ignore Gradle build output directory
-build
-
 # Ignore VSCode settings
 .vscode
 
@@ -11,3 +8,7 @@ build
 .idea
 
 
+build/generated/
+build/resources/
+build/scripts/
+build/tmp/

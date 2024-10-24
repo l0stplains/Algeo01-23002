@@ -51,26 +51,40 @@ public class LinearSystemSolverMenu {
         System.out.print("\n" + ARROW + "  Enter number of cols: ");
         int cols = getChoice(1, 100);
 
+        int choice;
         Matrix matrix = new Matrix(rows, cols);
 
-        System.out.println("\n" + ARROW + "  Enter each element of the matrix: ");
-        matrix = inputMatrixDriver(matrix);
+        // Input Matrix from File or From CLI
+        inputMatrixChoiceDriver(matrix);
 
         System.out.print("\nFitting the data...");
 
         LinearSystemSolver solver = new LinearSystemSolver();
         LinearSystemSolution result = solver.gaussianElimination(matrix);
 
+        //Print File
         if(result instanceof UniqueSolution) {
-            Matrix solution = ((UniqueSolution) result).getSolution();
             System.out.println(YELLOW + "\nResult: " + RESET);
-            printMatrixWithBorder(solution);
+            System.out.println(YELLOW + result + RESET);
+
         } else if(result instanceof ParametricSolution) {
             System.out.println(YELLOW + "\nParametric solution found " + RESET);
             System.out.println(result);
         }
         else {
             System.out.println(YELLOW + "\nGaussian Elimination can't be performed " + RESET);
+            System.out.println(YELLOW + result + RESET);
+        }
+
+        // Save File
+        System.out.println("Do you want to save it to file? (1 (yes) / 0 (no))");
+        choice = getChoice(0,1);
+        if(choice == 1 && result instanceof UniqueSolution) {
+            Matrix solution = ((UniqueSolution) result).getSolution();
+            saveUniqueResultToFile(solution);
+        }
+        else if(choice == 1 && result instanceof ParametricSolution) {
+            saveParametricResultToFile((ParametricSolution) result);
         }
 
         System.out.println();
@@ -82,26 +96,39 @@ public class LinearSystemSolverMenu {
         System.out.print("\n" + ARROW + "  Enter number of cols: ");
         int cols = getChoice(1, 100);
 
+        int choice;
         Matrix matrix = new Matrix(rows, cols);
 
-        System.out.println("\n" + ARROW + "  Enter each element of the matrix: ");
-        matrix = inputMatrixDriver(matrix);
+        // Input Matrix from File or From CLI
+        inputMatrixChoiceDriver(matrix);
 
         System.out.print("\nFitting the data...");
 
         LinearSystemSolver solver = new LinearSystemSolver();
         LinearSystemSolution result = solver.gaussJordanElimination(matrix);
 
+        //Print Data
         if(result instanceof UniqueSolution) {
-            Matrix solution = ((UniqueSolution) result).getSolution();
             System.out.println(YELLOW + "\nResult: " + RESET);
-            printMatrixWithBorder(solution);
+            System.out.println(YELLOW + result + RESET);
+
         } else if(result instanceof ParametricSolution) {
             System.out.println(YELLOW + "\nParametric solution found " + RESET);
             System.out.println(result);
         }
         else {
             System.out.println(YELLOW + "\nGauss-Jordan Elimination can't be performed " + RESET);
+        }
+
+        // Save File
+        System.out.println("Do you want to save it to file? (1 (yes) / 0 (no))");
+        choice = getChoice(0,1);
+        if(choice == 1 && result instanceof UniqueSolution) {
+            Matrix solution = ((UniqueSolution) result).getSolution();
+            saveUniqueResultToFile(solution);
+        }
+        else if(choice == 1 && result instanceof ParametricSolution) {
+            saveParametricResultToFile((ParametricSolution) result);
         }
 
         System.out.println();
@@ -113,10 +140,11 @@ public class LinearSystemSolverMenu {
         System.out.print("\n" + ARROW + "  Enter number of cols: ");
         int cols = getChoice(1, 100);
 
+        int choice;
         Matrix matrix = new Matrix(rows, cols);
 
-        System.out.println("\n" + ARROW + "  Enter each element of the matrix: ");
-        matrix = inputMatrixDriver(matrix);
+        // Input Matrix from File or From CLI
+        inputMatrixChoiceDriver(matrix);
 
         System.out.print("\nFitting the data...");
 
@@ -129,10 +157,12 @@ public class LinearSystemSolverMenu {
             System.out.println();
             return;
         }
+
+        //Print Data
         if(result instanceof UniqueSolution) {
-            Matrix solution = ((UniqueSolution) result).getSolution();
             System.out.println(YELLOW + "\nResult: " + RESET);
-            printMatrixWithBorder(solution);
+            System.out.println(YELLOW + result + RESET);
+
         } else if(result instanceof ParametricSolution) {
             System.out.println(YELLOW + "\nParametric solution found " + RESET);
             System.out.println(result);
@@ -141,23 +171,37 @@ public class LinearSystemSolverMenu {
             System.out.println(YELLOW + "\nCramer's Rule Method can't be performed " + RESET);
         }
 
+        // Save Data
+        System.out.println("Do you want to save it to file? (1 (yes) / 0 (no))");
+        choice = getChoice(0,1);
+        if(choice == 1 && result instanceof UniqueSolution) {
+            Matrix solution = ((UniqueSolution) result).getSolution();
+            saveUniqueResultToFile(solution);
+        }
+        else if(choice == 1 && result instanceof ParametricSolution) {
+            saveParametricResultToFile((ParametricSolution) result);
+        }
+
         System.out.println();
     }
 
     private static void inverseMethodDriver() {
-        System.out.print("\n" + ARROW + "  Enter number the length of the matrix (square): ");
+        System.out.print("\n" + ARROW + "  Enter number the length of the matrix (n x n+1): ");
         int rows = getChoice(1, 12);
-        int cols = rows;
+        int cols = rows+1;
 
+        int choice;
         Matrix matrix = new Matrix(rows, cols);
 
-        System.out.println("\n" + ARROW + "  Enter each element of the matrix: ");
-        matrix = inputMatrixDriver(matrix);
+        // Input Matrix from File or From CLI
+        inputMatrixChoiceDriver(matrix);
 
         System.out.print("\nFitting the data...");
 
         LinearSystemSolver solver = new LinearSystemSolver();
         LinearSystemSolution result;
+
+        //Print Data;
         try {
             result = solver.inverseMethod(matrix);
         } catch (IllegalArgumentException e) {
@@ -166,15 +210,26 @@ public class LinearSystemSolverMenu {
             return;
         }
         if(result instanceof UniqueSolution) {
-            Matrix solution = ((UniqueSolution) result).getSolution();
             System.out.println(YELLOW + "\nResult: " + RESET);
-            printMatrixWithBorder(solution);
+            System.out.println(YELLOW + result + RESET);
+
         } else if(result instanceof ParametricSolution) {
             System.out.println(YELLOW + "\nParametric solution found " + RESET);
             System.out.println(result);
         }
         else {
             System.out.println(YELLOW + "\nInverse Method can't be performed " + RESET);
+        }
+
+        // Save Data
+        System.out.println("Do you want to save it to file? (1 (yes) / 0 (no))");
+        choice = getChoice(0,1);
+        if(choice == 1 && result instanceof UniqueSolution) {
+            Matrix solution = ((UniqueSolution) result).getSolution();
+            saveUniqueResultToFile(solution);
+        }
+        else if(choice == 1 && result instanceof ParametricSolution) {
+            saveParametricResultToFile((ParametricSolution) result);
         }
 
         System.out.println();

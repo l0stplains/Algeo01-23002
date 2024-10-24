@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import atlantafx.base.controls.Breadcrumbs?>
+<?import atlantafx.base.controls.Message?>
+<?import atlantafx.base.controls.ToggleSwitch?>
+<?import atlantafx.base.layout.InputGroup?>
+<?import io.github.palexdev.materialfx.controls.MFXButton?>
+<?import io.github.palexdev.materialfx.controls.MFXProgressSpinner?>
+<?import io.github.palexdev.mfxcore.controls.Text?>
+<?import javafx.geometry.Rectangle2D?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.image.ImageView?>
+<?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.shape.Rectangle?>
+<?import javafx.scene.text.Font?>
+
+<VBox alignment="TOP_CENTER" prefHeight="675.0" prefWidth="1200.0" xmlns="http://javafx.com/javafx/23" xmlns:fx="http://javafx.com/fxml/1" fx:controller="algeo01_23002.gui.controllers.ImageResizingController">
+   <children>
+      <AnchorPane maxWidth="1.7976931348623157E308" prefHeight="64.0" prefWidth="200.0" VBox.vgrow="NEVER">
+         <children>
+            <Text layoutX="21.0" layoutY="41.0" text="RGB - A Linear Algebra Application" visible="false" AnchorPane.leftAnchor="24.0">
+               <font>
+                  <Font name="System Bold" size="24.0" />
+               </font>
+            </Text>
+            <ToggleSwitch fx:id="themeToggler" labelPosition="RIGHT" layoutX="1039.0" layoutY="18.0" onMouseClicked="#onThemeTogglerClicked" text="Dark Mode" AnchorPane.rightAnchor="24.0" />
+            <Breadcrumbs fx:id="breadCrumbs" layoutX="68.0" layoutY="11.0" maxHeight="-Infinity" maxWidth="-Infinity" onCrumbAction="#onCrumbsAction" prefHeight="48.0" prefWidth="495.0" AnchorPane.leftAnchor="69.0" />
+         </children>
+      </AnchorPane>
+      <AnchorPane prefHeight="608.0" prefWidth="1200.0">
+         <children>
+            <MFXProgressSpinner fx:id="loadingSpinner" visible="false" AnchorPane.leftAnchor="895.0" AnchorPane.topAnchor="240.0" />
+            <Message fx:id="messageBox" prefHeight="80.0" prefWidth="300.0" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
+            <Text layoutX="99.0" layoutY="49.0" text="Image Resizing" AnchorPane.leftAnchor="80.0">
+               <font>
+                  <Font name="System Bold" size="32.0" />
+               </font>
+            </Text>
+            <Separator layoutX="96.0" layoutY="51.0" prefHeight="3.0" prefWidth="354.0" AnchorPane.leftAnchor="80.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#8f8f8f0d" height="225.0" layoutX="80.0" layoutY="125.0" opacity="0.5" stroke="#bebebe" strokeType="OUTSIDE" width="400.0" AnchorPane.leftAnchor="79.0" AnchorPane.topAnchor="151.0" />
+            <VBox alignment="CENTER" layoutX="80.0" layoutY="151.0" prefHeight="225.0" prefWidth="400.0" AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="152.0">
+               <children>
+                  <ImageView fx:id="originalImageView" fitHeight="225.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
+                     <viewport>
+                        <Rectangle2D />
+                     </viewport>
+                  </ImageView>
+               </children>
+            </VBox>
+            <MFXButton fx:id="uploadImageButton" layoutX="216.0" layoutY="401.0" prefHeight="48.0" prefWidth="128.0" text="Upload Image" AnchorPane.leftAnchor="216.0" AnchorPane.topAnchor="400.0" />
+            <Rectangle arcHeight="5.0" arcWidth="5.0" fill="#8f8f8f0d" height="225.0" layoutX="90.0" layoutY="135.0" opacity="0.5" stroke="#bebebe" strokeType="OUTSIDE" width="400.0" AnchorPane.leftAnchor="719.0" AnchorPane.topAnchor="151.0" />
+            <VBox alignment="CENTER" layoutX="90.0" layoutY="161.0" prefHeight="225.0" prefWidth="400.0" AnchorPane.leftAnchor="720.0" AnchorPane.topAnchor="152.0">
+               <children>
+                  <ImageView fx:id="processedImageView" fitHeight="225.0" fitWidth="400.0" pickOnBounds="true" preserveRatio="true">
+                     <viewport>
+                        <Rectangle2D />
+                     </viewport>
+                  </ImageView>
+               </children>
+            </VBox>
+            <MFXButton fx:id="saveImageButton" disable="true" layoutX="216.0" layoutY="401.0" prefHeight="48.0" prefWidth="128.0" text="Save Image" AnchorPane.leftAnchor="856.0" AnchorPane.topAnchor="400.0" />
+            <MFXButton fx:id="scaleImageButton" disable="true" layoutX="544.0" layoutY="290.0" prefHeight="50.0" prefWidth="120.0" text="Scale" />
+            <Text cssWrappingWidth="800.0" layoutX="80.0" layoutY="90.0" text="Resizes an image by estimating pixel values using nearby pixels using Bicubic Spline Interpolation.&#10;Producing smoother results compared to simpler methods." AnchorPane.leftAnchor="80.0" AnchorPane.topAnchor="77.0" />
+            <InputGroup fx:id="yInputGroup" layoutX="544.0" layoutY="240.0" prefHeight="32.0" prefWidth="120.0" />
+            <InputGroup alignment="CENTER" layoutX="544.0" layoutY="200.0" prefHeight="32.0" prefWidth="120.0" fx:id="xInputGroup" />
+         </children>
+      </AnchorPane>
+   </children>
+</VBox>

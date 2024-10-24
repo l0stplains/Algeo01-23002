@@ -1,9 +1,6 @@
 package algeo01_23002.solvers;
 import algeo01_23002.types.*;
 
-import static algeo01_23002.cli.Const.RESET;
-import static algeo01_23002.cli.Const.YELLOW;
-
 public class LinearSystemSolver {
     private boolean isAllZero(double[] row){
         int len = row.length;
@@ -74,7 +71,6 @@ public class LinearSystemSolver {
         boolean isManySolutions = rows - countZeroRows < cols-1;
         //if last row contains all zero but the rows
         // then there are many solutions
-
 
         if (!isManySolutions && !isNoSolution){ //if there is only one solution
 
@@ -151,6 +147,10 @@ public class LinearSystemSolver {
                 }
             }
 
+            if (isNULL(result[0])){
+                result[0][0] = 0;
+                result[0][countParameter] = 1;
+            }
 
             //move the result to resultParametric that has type String
             resultParametric = new String[cols-1][countParameter+1];
@@ -162,7 +162,7 @@ public class LinearSystemSolver {
 
             //for parametric coefficient, append result with a character first, then assign it to resultParametric
             for (int i=0; i<resultParametric.length; i++) {
-                int ascii = 114;
+                int ascii = 97;
                 for (int j = 1; j < resultParametric[0].length; j++) {
                     resultParametric[i][j] = String.valueOf(result[i][j]) + String.valueOf((char) ascii); //append result with ascii character
                     ascii++;
@@ -285,7 +285,10 @@ public class LinearSystemSolver {
             }
 
 
-
+            if (isNULL(result[0])){
+                result[0][0] = 0;
+                result[0][countParameter] = 1;
+            }
 
             //move the result to resultParametric that has type String
             resultParametric = new String[cols-1][countParameter+1];
@@ -297,7 +300,7 @@ public class LinearSystemSolver {
 
             //for parametric coefficient, append result with a character first, then assign it to resultParametric
             for (int i=0; i<resultParametric.length; i++) {
-                int ascii = 114;
+                int ascii = 97;
                 for (int j = 1; j < resultParametric[0].length; j++) {
                     resultParametric[i][j] = String.valueOf(result[i][j]) + String.valueOf((char) ascii); //append result with ascii character
                     ascii++;
@@ -319,7 +322,7 @@ public class LinearSystemSolver {
 
         double actualDeterminant = X.getDeterminantWithCofactor(); // Can be change with rowReduction methode
         if(actualDeterminant == 0 || matrix.getColsCount() < 3){
-            throw new IllegalArgumentException("cramersRule() : Solution could not be calculated, Invalid Determinant or Invallid Matrix Dimension");
+            throw new IllegalArgumentException("cramersRule() : Solution could not be calculated, Invalid Determinant or Invalid Matrix Dimension");
         }
         double tempDeterminant;
         Matrix solutions = new Matrix(1, X.getRowsCount());
@@ -332,7 +335,7 @@ public class LinearSystemSolver {
             tempDeterminant = temp.getDeterminantWithCofactor();
             solutions.getAllData()[0][i] = tempDeterminant / actualDeterminant;
         }
-        return new UniqueSolution(solutions.transpose());
+        return new UniqueSolution(solutions);
     }
 
     public LinearSystemSolution inverseMethod(Matrix matrix){
@@ -352,17 +355,8 @@ public class LinearSystemSolver {
                 }
             }
         }
+        Matrix result = equationVariables.getInverseWithRowReduction().multiplyByMatrix(equationResult);
 
-        Matrix inverseEquationVariables;
-        try {
-            inverseEquationVariables = equationVariables.getInverseWithRowReduction();
-        } catch (ArithmeticException e){
-            return new NoSolution();
-        }
-
-
-        Matrix result = inverseEquationVariables.multiplyByMatrix(equationResult);
-
-        return new UniqueSolution(result);
+        return new UniqueSolution(result.transpose());
     }
 }

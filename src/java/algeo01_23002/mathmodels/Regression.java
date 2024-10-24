@@ -70,8 +70,7 @@ public class Regression {
         Matrix Y = new Matrix(Xrows, 1);
 
         double val, storedVal = 0;
-
-        for (int i = 0; i < Xrows; i++) {
+        for (int i = 0; i < k + 1; i++) {
             val = 0;
             for (int r = 0; r < n; r++) {
                 if (i == 0) {
@@ -80,19 +79,26 @@ public class Regression {
                 } else if (i < k + 1) { // linear variable
                     val += inputPoints.getData(r, (i - 1) % k);
                     storedVal = inputPoints.getData(r, (i - 1) % k);
-                } else if (i > k && i < 2 * k + 1) { //quadratic variable
-                    val += inputPoints.getData(r, (i - 1) % k) * inputPoints.getData(r, (i - 1) % k);
-                    storedVal = inputPoints.getData(r, (i - 1) % k) * inputPoints.getData(r, (i - 1) % k);
-                } else { // interaction variable
-                    for (int v = (i - 1) % k + 1; v < k; v++) {
-                        val += inputPoints.getData(r, (i - 1) % k) * inputPoints.getData(r, ((i - 1) % k) + v);
-                        storedVal = inputPoints.getData(r, (i - 1) % k) * inputPoints.getData(r, ((i - 1) % k) + v);
-                    }
                 }
-                X.setData(0, i, val);
                 stored.setData(r, i, storedVal);
+                X.setData(0, i, val);
             }
             X.setData(i, 0, X.getData(0, i));
+        }
+
+        int Idx = k + 1;
+        for(int w = 0; w < k; w++){
+            for(int v = w; v < k; v++){
+                val = 0;
+                for(int r =0; r < n; r++){
+                    val += inputPoints.getData(r,w) * inputPoints.getData(r,v);
+                    storedVal = inputPoints.getData(r,w) * inputPoints.getData(r,v);
+                    stored.setData(r, Idx, storedVal);
+                }
+                X.setData(0, Idx, val);
+                X.setData(Idx, 0, X.getData(0, Idx));
+                Idx++;
+            }
         }
 
         // Sum for X values
@@ -130,7 +136,8 @@ public class Regression {
             }
             augmentedMatrix.setData(i,Xrows,Y.getData(i,0));
         }
+
         LinearSystemSolver solver = new LinearSystemSolver();
-        return solver.gaussJordanElimination(augmentedMatrix);
+        return solver.gaussianElimination(augmentedMatrix);
     }
 }

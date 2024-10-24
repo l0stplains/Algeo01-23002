@@ -147,6 +147,10 @@ public class LinearSystemSolver {
                 }
             }
 
+            if (isNULL(result[0])){
+                result[0][0] = 0;
+                result[0][countParameter] = 1;
+            }
 
             //move the result to resultParametric that has type String
             resultParametric = new String[cols-1][countParameter+1];
@@ -281,7 +285,10 @@ public class LinearSystemSolver {
             }
 
 
-
+            if (isNULL(result[0])){
+                result[0][0] = 0;
+                result[0][countParameter] = 1;
+            }
 
             //move the result to resultParametric that has type String
             resultParametric = new String[cols-1][countParameter+1];

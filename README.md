@@ -20,7 +20,7 @@
 You can now run the application in two modes: via **Command-Line Interface (CLI)** or **Graphical User Interface (GUI)**.
 
 #### **1. Command-Line Interface (CLI) Mode**
-1. **Download the JAR file** from the [releases page](https://github.com/l0stplains/Algeo01-23002/releases/download/v0.1.0/Algeo01-23002.jar).
+1. **Download the JAR file** from the [releases page](https://github.com/l0stplains/Algeo01-23002/releases/download/v1/Algeo01-23002.jar).
 2. Open a terminal and navigate to the directory containing the downloaded JAR.
 3. Run the following command to start the application in CLI mode:
    ```bash

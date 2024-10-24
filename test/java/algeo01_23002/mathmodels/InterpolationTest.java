@@ -35,7 +35,8 @@ public class InterpolationTest {
         @ParameterizedTest(name = "Test {index}: {0}")
         @MethodSource("bicubicSplineInterpolationTestCases")
         public void testBicubicSplineInterpolation(String description, Matrix matrix, double x, double y, double expected) {
-            assertEquals(expected, Interpolation.bicubicSplineInterpolation(matrix, x, y),0.6, "Bicubic Spline Interpolation failed for " + description);
+            Matrix XInverse = Interpolation.getXInverseBicubicSpline();
+            assertEquals(expected, Interpolation.bicubicSplineInterpolation(matrix, x, y, XInverse),0.6, "Bicubic Spline Interpolation failed for " + description);
         }
         static Stream<Object[]> bicubicSplineInterpolationTestCases() {
             return Stream.of(

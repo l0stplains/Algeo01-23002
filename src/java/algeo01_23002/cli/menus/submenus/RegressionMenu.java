@@ -45,6 +45,7 @@ public class RegressionMenu {
 
         int choice;
         Matrix matrix = new Matrix(rows, cols);
+        Matrix estimateVal = new Matrix(1, cols-1);
 
         inputMatrixChoiceDriver(matrix);
 
@@ -64,6 +65,9 @@ public class RegressionMenu {
         else {
             System.out.println(YELLOW + "\nRegression can't be performed " + RESET);
         }
+
+        System.out.println("Do you want to estimate value (1 (yes) / 0 (no))?");
+        choice = getChoice(0, 1);
 
         // Save Data
         System.out.println("Do you want to save it to file? (1 (yes) / 0 (no))");
@@ -87,6 +91,7 @@ public class RegressionMenu {
 
         int choice;
         Matrix matrix = new Matrix(rows, cols);
+        Matrix estimateVal = new Matrix(1, cols-1);
 
         inputMatrixChoiceDriver(matrix);
 
@@ -98,6 +103,10 @@ public class RegressionMenu {
             Matrix solution = ((UniqueSolution) result).getSolution();
             System.out.println(YELLOW + "\nResult: " + RESET);
             printMatrixWithBorder(solution);
+            
+            
+            
+            
         } else if(result instanceof ParametricSolution) {
             System.out.println(YELLOW + "\nParametric solution found " + RESET);
             System.out.println(result);

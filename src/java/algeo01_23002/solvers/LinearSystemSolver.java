@@ -159,7 +159,7 @@ public class LinearSystemSolver {
 
             //for parametric coefficient, append result with a character first, then assign it to resultParametric
             for (int i=0; i<resultParametric.length; i++) {
-                int ascii = 114+countParameter;
+                int ascii = 114;
                 for (int j = 1; j < resultParametric[0].length; j++) {
                     resultParametric[i][j] = String.valueOf(result[i][j]) + String.valueOf((char) ascii); //append result with ascii character
                     ascii++;
@@ -294,7 +294,7 @@ public class LinearSystemSolver {
 
             //for parametric coefficient, append result with a character first, then assign it to resultParametric
             for (int i=0; i<resultParametric.length; i++) {
-                int ascii = 114+countParameter;
+                int ascii = 114;
                 for (int j = 1; j < resultParametric[0].length; j++) {
                     resultParametric[i][j] = String.valueOf(result[i][j]) + String.valueOf((char) ascii); //append result with ascii character
                     ascii++;

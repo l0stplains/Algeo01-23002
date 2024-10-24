@@ -1,11 +1,11 @@
 package algeo01_23002.types;
 
 public class LinearRegressionResult {
-	private final Matrix parameters; // First index is the intercept, others are coefficients
+	private final Matrix parameters;
 
 	// Constructor
 	public LinearRegressionResult(Matrix parameters) {
-		this.parameters = parameters;  // Store both intercept and coefficients
+		this.parameters = parameters;
 	}
 
 	// Method to print the regression equation
@@ -24,9 +24,9 @@ public class LinearRegressionResult {
 			throw new IllegalArgumentException("Number of x values must match the number of coefficients");
 		}
 
-		double result = parameters.getData(0,0); // Start with the intercept
+		double result = parameters.getData(0,0);
 		for (int i = 0; i < xValues.length; i++) {
-			result += parameters.getData(0,i+1)* xValues[i];  // Coefficients start from index 1
+			result += parameters.getData(0,i+1)* xValues[i];
 		}
 
 		return result;

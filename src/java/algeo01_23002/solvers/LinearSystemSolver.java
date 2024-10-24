@@ -328,7 +328,7 @@ public class LinearSystemSolver {
             tempDeterminant = temp.getDeterminantWithCofactor();
             solutions.getAllData()[0][i] = tempDeterminant / actualDeterminant;
         }
-        return new UniqueSolution(solutions.transpose());
+        return new UniqueSolution(solutions);
     }
 
     public LinearSystemSolution inverseMethod(Matrix matrix){
@@ -350,6 +350,6 @@ public class LinearSystemSolver {
         }
         Matrix result = equationVariables.getInverseWithRowReduction().multiplyByMatrix(equationResult);
 
-        return new UniqueSolution(result);
+        return new UniqueSolution(result.transpose());
     }
 }

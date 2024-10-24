@@ -179,7 +179,7 @@ public class MultipleQuadraticRegressionController {
                 resultMatrixOutput.setText("Calculating...");
 
                 // Create a Task to run the transformation in the background
-                Task<Integer> transformationTask = new Task<>() {
+                Task<Integer> regressionTask = new Task<>() {
                     @Override
                     protected Integer call() throws Exception {
                         LinearSystemSolution solution = Regression.multipleQuadraticRegression(firstMatrix);
@@ -204,7 +204,7 @@ public class MultipleQuadraticRegressionController {
                 };
 
                 // Define what happens when the task succeeds
-                transformationTask.setOnSucceeded(e -> {
+                regressionTask.setOnSucceeded(e -> {
 
                     resultMatrixHyperLink.setVisible(true);
                     messageBox.setVisible(false);
@@ -213,8 +213,8 @@ public class MultipleQuadraticRegressionController {
                 });
 
                 // Define what happens if the task fails
-                transformationTask.setOnFailed(e -> {
-                    Throwable exception = transformationTask.getException();
+                regressionTask.setOnFailed(e -> {
+                    Throwable exception = regressionTask.getException();
                     try {
                         throw exception;
                     } catch (IllegalArgumentException ex){
@@ -228,13 +228,19 @@ public class MultipleQuadraticRegressionController {
                         predictionOutput.setText("");
                         errorNotification("Please input matrix with the correct size and format");
                     } catch (Throwable ex){
+                        resultMatrixOutput.setText("");
+                        resultMatrixHyperLink.setVisible(false);
+                        valueInput.setDisable(true);
+                        getPredictionButton.setDisable(true);
+                        valueInput.setText("");
+                        predictionOutput.setText("");
                         errorNotification("Regression failed.");
                     }
 
                 });
 
                 // Start the task in a new thread
-                new Thread(transformationTask).start();
+                new Thread(regressionTask).start();
 
             } catch (IllegalArgumentException e){
                 firstMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, true);

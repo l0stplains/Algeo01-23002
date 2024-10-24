@@ -1,7 +1,7 @@
-package algeo01_23002.gui.controllers.regression;
+package algeo01_23002.gui.controllers.interpolation;
 
+import algeo01_23002.mathmodels.Interpolation;
 import algeo01_23002.mathmodels.Regression;
-import static algeo01_23002.cli.Utilities.printParametricLinearRegression;
 import algeo01_23002.types.*;
 import atlantafx.base.controls.Breadcrumbs;
 import atlantafx.base.controls.Message;
@@ -30,9 +30,10 @@ import java.io.File;
 import java.io.IOException;
 import java.util.Objects;
 
+import static algeo01_23002.cli.Utilities.printParametricLinearRegression;
 import static algeo01_23002.gui.Utilities.*;
 
-public class MultipleLinearRegressionController {
+public class PolynomialInterpolationController {
     private Stage stage;
     private Scene scene;
     private Parent root;
@@ -55,7 +56,7 @@ public class MultipleLinearRegressionController {
 
     @FXML
     TextArea resultMatrixOutput;
-    Matrix resultMatrix;
+    PolynomialResult resultMatrix;
 
     @FXML
     TextField valueInput;
@@ -81,7 +82,7 @@ public class MultipleLinearRegressionController {
             themeToggler.setSelected(true);
         }
 
-        String[] menuItems = {"Home", "Regression", "Multiple Linear Regression"};
+        String[] menuItems = {"Home", "Interpolation", "Polynomial Interpolation"};
         Breadcrumbs.BreadCrumbItem<String> rootItem = Breadcrumbs.buildTreeModel(
                 menuItems
         );
@@ -136,32 +137,34 @@ public class MultipleLinearRegressionController {
         });
 
         // Set a tooltip to show multi-line prompt
-        Tooltip exampleTooltip = new Tooltip("Example:\n    -0.3 -2 3\n      -1  1 3\n       2  0 1");
+        Tooltip exampleTooltip = new Tooltip("Example:\n    -0.3 -2\n      -1  1\n       2  0");
         exampleTooltip.setFont(firstMatrixInput.getFont());
         firstMatrixInput.setTooltip(exampleTooltip);
 
-        Tooltip exampleValueTooltip = new Tooltip("Example:\n  1 0.2 -3");
+        Tooltip exampleValueTooltip = new Tooltip("Example:\n  3");
         exampleValueTooltip.setFont(firstMatrixInput.getFont());
         valueInput.setTooltip(exampleValueTooltip);
 
         getPredictionButton.setOnMouseClicked(event -> {
             try {
                 if(valueInput.getText().isEmpty()){
-                    throw new IllegalAccessException("X values is Empty");
+                    throw new IllegalAccessException("X value is Empty");
                 }
-                LinearRegressionResult result = new LinearRegressionResult(resultMatrix);
                 Matrix value = new Matrix(1, 1);
                 value.inputMatrixFromString(valueInput.getText());
-                predictionOutput.setText(result.estimate(value) + "");
+                if(value.getColsCount() != 1 && value.getRowsCount() != 1){
+                    throw new IllegalArgumentException("X value and Y should be 1");
+                }
+                predictionOutput.setText(resultMatrix.evaluate(value.getData(0,0)) + "");
                 messageBox.setVisible(false);
                 valueInput.pseudoClassStateChanged(Styles.STATE_DANGER, false);
             } catch (IllegalArgumentException e){
                 valueInput.pseudoClassStateChanged(Styles.STATE_DANGER, true);
-                errorNotification("Number of x values must match the number of coefficients");
+                errorNotification("Number of x value must be 1");
             } catch (IllegalAccessException e){
-                if(Objects.equals(e.getMessage(), "X values is Empty")) {
+                if(Objects.equals(e.getMessage(), "X value is Empty")) {
                     valueInput.pseudoClassStateChanged(Styles.STATE_DANGER, true);
-                    errorNotification("Please input the x values first");
+                    errorNotification("Please input the x value first");
                 }
             }
         });
@@ -176,35 +179,45 @@ public class MultipleLinearRegressionController {
                 firstMatrix.inputMatrixFromString(firstMatrixInput.getText());
                 firstMatrixInput.setText(outputPaddedMatrix(firstMatrix));
 
+                if(firstMatrix.getColsCount() != 2 || firstMatrix.getRowsCount() < 2){
+                    throw new IllegalArgumentException("Cols should be 2");
+                }
+
                 resultMatrixOutput.setText("Calculating...");
 
                 // Create a Task to run the transformation in the background
-                Task<Integer> regressionTask = new Task<>() {
+                Task<Integer> interpolationTask = new Task<>() {
                     @Override
                     protected Integer call() throws Exception {
-                        LinearSystemSolution solution = Regression.multipleLinearRegression(firstMatrix);
-                        if(solution instanceof UniqueSolution){
-                            LinearRegressionResult result = new LinearRegressionResult(((UniqueSolution) solution).getSolution());
-                            resultMatrixOutput.setText(result.getEquation());
-                            resultMatrix = result.getParameters();
-                            valueInput.setDisable(false);
-                            getPredictionButton.setDisable(false);
-                        } else if (solution instanceof ParametricSolution){
-                            ParametricSolution parametricSolution = (ParametricSolution) solution;
-                            resultMatrixOutput.setText(printParametricLinearRegression(parametricSolution));
-                            valueInput.setDisable(true);
-                            getPredictionButton.setDisable(true);
-                            valueInput.setText("");
-                            predictionOutput.setText("");
-                        } else {
-                            errorNotification("Regression can't be performed.");
+                        int n_points = firstMatrix.getRowsCount();
+                        if(n_points < 2){
+                            throw new IllegalAccessException("Matrix is not the right size");
                         }
-                        return 1;
+                        Matrix x_points = new Matrix(1, n_points);
+                        Matrix y_points = new Matrix(1, n_points);
+
+                        // Input for X
+                        for(int i = 0; i < n_points; i++) {
+                            x_points.setData(0, i, firstMatrix.getData(i, 0));
+                        }
+
+                        // Input for Y
+                        for(int i = 0; i < n_points; i++) {
+                            y_points.setData(0, i, firstMatrix.getData(i, 1));
+                        }
+                        PolynomialResult result = Interpolation.polynomialInterpolation(x_points, y_points);
+                        resultMatrix = result;
+                        resultMatrixOutput.setText(outputPaddedMatrix(result.getCoefficients()));
+                        valueInput.setDisable(false);
+                        getPredictionButton.setDisable(false);
+
+                        return 0;
+
                     }
                 };
 
                 // Define what happens when the task succeeds
-                regressionTask.setOnSucceeded(e -> {
+                interpolationTask.setOnSucceeded(e -> {
 
                     resultMatrixHyperLink.setVisible(true);
                     messageBox.setVisible(false);
@@ -213,13 +226,12 @@ public class MultipleLinearRegressionController {
                 });
 
                 // Define what happens if the task fails
-                regressionTask.setOnFailed(e -> {
-                    Throwable exception = regressionTask.getException();
+                interpolationTask.setOnFailed(e -> {
+                    Throwable exception = interpolationTask.getException();
                     try {
                         throw exception;
                     } catch (IllegalArgumentException ex){
                         firstMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, true);
-
                         resultMatrixOutput.setText("");
                         resultMatrixHyperLink.setVisible(false);
                         valueInput.setDisable(true);
@@ -229,28 +241,27 @@ public class MultipleLinearRegressionController {
                         errorNotification("Please input matrix with the correct size and format");
                     } catch (Throwable ex){
                         firstMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, true);
-
                         resultMatrixOutput.setText("");
                         resultMatrixHyperLink.setVisible(false);
                         valueInput.setDisable(true);
                         getPredictionButton.setDisable(true);
                         valueInput.setText("");
                         predictionOutput.setText("");
-                        errorNotification("Regression failed.");
+                        errorNotification("Interpolation failed.");
                     }
 
                 });
 
                 // Start the task in a new thread
-                new Thread(regressionTask).start();
+                new Thread(interpolationTask).start();
 
             } catch (IllegalArgumentException e){
                 firstMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, true);
-                errorNotification("Please input matrix with the correct size and format");
+                errorNotification("Please input points with the correct size and format");
             } catch (IllegalAccessException e){
                 if(Objects.equals(e.getMessage(), "Matrix A is Empty")) {
                     firstMatrixInput.pseudoClassStateChanged(Styles.STATE_DANGER, true);
-                    errorNotification("Please input the matrix first");
+                    errorNotification("Please input the points first");
                 }
             }
 
@@ -287,8 +298,8 @@ public class MultipleLinearRegressionController {
             scene = new Scene(fxmlLoader.load());
             stage.setScene(scene);
             stage.show();
-        } else if (selectedCrumb.equals("Regression")) {
-            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/algeo01_23002/gui/menus/regression-menu.fxml"));
+        } else if (selectedCrumb.equals("Interpolation")) {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/algeo01_23002/gui/menus/interpolation-menu.fxml"));
             stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
             scene = new Scene(fxmlLoader.load());
             stage.setScene(scene);

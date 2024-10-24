@@ -44,18 +44,7 @@
                   <Font name="JetBrainsMono NFM Regular" size="12.0" />
                </font></TextArea>
             <Label layoutX="93.0" layoutY="147.0" text="4x4 Matrix" AnchorPane.leftAnchor="94.0" />
-            <TextArea fx:id="resultMatrixOutput" editable="false" layoutX="458.0" layoutY="172.0" prefHeight="240.0" prefWidth="280.0" promptText="Click &quot;Get Result&quot; button" AnchorPane.leftAnchor="458.0">
-               <font>
-                  <Font name="JetBrainsMono NFM Regular" size="12.0" />
-               </font></TextArea>
-            <Label layoutX="472.0" layoutY="147.0" text="Interpolation Result" AnchorPane.leftAnchor="472.0" />
-            <Label layoutX="288.0" layoutY="474.0" opacity="0.3" text="*Due to limitations of the &quot;double&quot; data type, precision is limited to two decimal places." AnchorPane.leftAnchor="288.0">
-               <font>
-                  <Font name="System Italic" size="12.0" />
-               </font>
-            </Label>
             <Message fx:id="messageBox" layoutX="471.0" layoutY="-14.0" prefHeight="80.0" prefWidth="300.0" visible="false" AnchorPane.bottomAnchor="14.0" AnchorPane.rightAnchor="14.0" />
-            <MFXButton fx:id="getResultButton" buttonType="RAISED" depthLevel="LEVEL1" layoutX="647.0" layoutY="426.0" text="Get Result" AnchorPane.leftAnchor="647.0" />
             <Hyperlink fx:id="firstMatrixHyperLink" layoutX="278.0" layoutY="416.0" text="Import from file" visited="true" AnchorPane.leftAnchor="278.0">
                <font>
                   <Font name="System Italic" size="12.0" />
@@ -66,33 +55,36 @@
                   <Font name="System Italic" size="12.0" />
                </font>
             </Hyperlink>
-            <Label layoutX="395.0" layoutY="252.0" text="-&gt;">
-               <font>
-                  <Font size="28.0" />
-               </font>
-            </Label>
-            <InputGroup layoutX="780.0" layoutY="265.0" prefHeight="35.0" prefWidth="157.0">
+            <InputGroup layoutX="458.0" layoutY="265.0" prefHeight="35.0" prefWidth="91.0">
                <children>
                   <Label text="X" />
-                  <TextField fx:id="valueInput" disable="true" prefHeight="32.0" prefWidth="135.0">
+                  <TextField fx:id="valueInput" prefHeight="32.0" prefWidth="62.0">
                      <font>
                         <Font name="JetBrainsMono NFM Regular" size="12.0" />
-                     </font></TextField>
+                     </font>
+                  </TextField>
                </children>
             </InputGroup>
             <InputGroup layoutX="918.0" layoutY="377.0" prefHeight="35.0" prefWidth="125.0" />
-            <MFXButton fx:id="getPredictionButton" buttonType="RAISED" depthLevel="LEVEL1" disable="true" layoutX="983.0" layoutY="314.0" text="Get Prediction" AnchorPane.leftAnchor="983.0" />
-            <InputGroup layoutX="945.0" layoutY="265.0" prefHeight="35.0" prefWidth="157.0">
+            <MFXButton fx:id="getPredictionButton" buttonType="RAISED" depthLevel="LEVEL1" layoutX="691.0" layoutY="312.0" text="Get Interpolated" AnchorPane.leftAnchor="691.0" />
+            <InputGroup layoutX="970.0" layoutY="265.0" prefHeight="35.0" prefWidth="145.0" />
+            <Label layoutX="464.0" layoutY="242.0" text="Point" />
+            <Label layoutX="691.0" layoutY="242.0" text="Result" />
+            <InputGroup layoutX="555.0" layoutY="265.0" prefHeight="35.0" prefWidth="91.0">
                <children>
                   <Label text="Y" />
-                  <TextField fx:id="predictionOutput" editable="false" prefHeight="32.0" prefWidth="144.0">
+                  <TextField fx:id="valueInput1" prefHeight="32.0" prefWidth="62.0">
                      <font>
                         <Font name="JetBrainsMono NFM Regular" size="12.0" />
-                     </font></TextField>
+                     </font>
+                  </TextField>
                </children>
             </InputGroup>
-            <Label layoutX="792.0" layoutY="239.0" text="X Value" />
-            <Label layoutX="959.0" layoutY="240.0" text="Interpolated Y " />
+            <TextField fx:id="predictionOutput" editable="false" layoutX="676.0" layoutY="267.0" prefHeight="32.0" prefWidth="144.0">
+               <font>
+                  <Font name="JetBrainsMono NFM Regular" size="12.0" />
+               </font>
+            </TextField>
          </children>
       </AnchorPane>
    </children>

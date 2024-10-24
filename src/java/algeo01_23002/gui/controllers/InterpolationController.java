@@ -75,7 +75,7 @@ public class InterpolationController {
         stage.show();
     }
     public void onBicubicSplineInterpolationClicked(ActionEvent event) throws IOException {
-        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/algeo01_23002/gui/menus/help-menu.fxml"));
+        FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/algeo01_23002/gui/menus/interpolation/bicubic-spline-interpolation.fxml"));
         stage = (Stage) ((Node) event.getSource()).getScene().getWindow();
         scene = new Scene(fxmlLoader.load());
         stage.setScene(scene);

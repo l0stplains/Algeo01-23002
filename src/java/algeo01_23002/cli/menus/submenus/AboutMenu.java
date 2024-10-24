@@ -19,7 +19,7 @@ public class AboutMenu {
                 .append("║" + getCenteredText("ABOUT THE PROJECT", WIDTH - 2) + "║\n")
                 .append("╚══════════════════════════════════════════════════════╝\n" + RESET)
                 .append(YELLOW + "Project Name: " + RGB + " - Java Linear Algebra Library" + "\n")
-                .append(YELLOW + "Version: " + RESET + "0.1.0\n")
+                .append(YELLOW + "Version: " + RESET + "1.0.0\n")
                 .append(YELLOW + "Authors: " + RED + "R" + RESET + "efki Alfarizi, " + GREEN + "G" + RESET + "untara Hambali, "+ "Adhimas Aryo " + BLUE + "B" + RESET + "imo" +  "\n\n")
                 .append(CYAN + "════════════════════════════════════════════════════════\n")
                 .append(getCenteredText(RGB + " Team's Milestone Project", WIDTH + 20) + "\n")

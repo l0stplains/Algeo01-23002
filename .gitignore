@@ -8,3 +8,7 @@
 .idea
 
 
+build/generated/
+build/resources/
+build/scripts/
+build/tmp/

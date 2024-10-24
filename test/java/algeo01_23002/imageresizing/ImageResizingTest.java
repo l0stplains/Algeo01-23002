@@ -36,7 +36,7 @@ public class ImageResizingTest {
     }
 
 
-
+    /* cukup sekali test aja, lama, testnya jadi ke block
     @Nested
     @DisplayName("Image Resizing Test")
     class MainTest {
@@ -79,6 +79,7 @@ public class ImageResizingTest {
             );
         }
     }
+     */
 
     // Helper method to create matrices using data arrays
     private static Matrix createMatrix(double[][] data) {

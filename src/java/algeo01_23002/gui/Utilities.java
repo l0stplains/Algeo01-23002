@@ -26,7 +26,7 @@ public class Utilities {
         // Find the maximum length of each column when formatted to two decimal places
         for (int j = 0; j < cols; j++) {
             for (int i = 0; i < rows; i++) {
-                String formatted = String.format("%.2f", data[i][j]);
+                String formatted = String.format("%.8f", data[i][j]);
                 if (formatted.length() > maxLengths[j]) {
                     maxLengths[j] = formatted.length();
                 }
@@ -37,7 +37,7 @@ public class Utilities {
         for (int i = 0; i < rows; i++) {
             for (int j = 0; j < cols; j++) {
                 // Use the maxLength for the current column
-                String formatted = String.format(Locale.US, "%" + maxLengths[j] + ".2f", data[i][j]);
+                String formatted = String.format(Locale.US, "%" + maxLengths[j] + ".8f", data[i][j]);
                 sb.append(formatted + " "); // Print element with padding
             }
             if (i != rows - 1) {
